@@ -167,8 +167,6 @@ $aggQuery->composite(function (AggregationsBuilder $builder) {
 
 Just like Eloquent ElasticQuery has its own query log, but you need to enable it manually
 Each message contains `indexName`, `query` and `timestamp`
-Пакет поддерживает запись в журнал выполняемых запросов. Каждая запись содержит имя индекса `indexName`, содержимое
-запроса `query` и время регистрации `timestamp` с точностью до микросекунд.
 
 ```php
 ElasticQuery::enableQueryLog();
