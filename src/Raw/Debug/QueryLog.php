@@ -16,7 +16,7 @@ class QueryLog
 
     public function log(string $indexName, array $query): void
     {
-        // Используем метку времени, чтобы исключить влияние setTestNow
+        // Here we use timestamp to disable influence of setTestNow
         $timestamp = Date::createFromTimestamp(microtime());
 
         $record = new QueryLogRecord($indexName, $query, $timestamp);

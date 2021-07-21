@@ -24,7 +24,7 @@ class AggregationQueryTest extends ElasticTestCase
     public function testGet(): void
     {
         $this->testing
-            ->where('package', 'бутылка')
+            ->where('package', 'bottle')
             ->terms('codes', 'code')
             ->nested(
                 'offers',
@@ -43,7 +43,7 @@ class AggregationQueryTest extends ElasticTestCase
     public function testComposite(): void
     {
         $this->testing->composite(function (AggregationsBuilder $builder) {
-            $builder->where('package', 'бутылка')
+            $builder->where('package', 'bottle')
                 ->terms('codes', 'code');
         });
 

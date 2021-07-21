@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# В данном хуке выполняется приведение код-стайла в соответствие с конфигом .php_cs
-
 EXECUTABLE_NAME=php-cs-fixer
 EXECUTABLE_COMMAND=fix
 CONFIG_FILE=.php_cs

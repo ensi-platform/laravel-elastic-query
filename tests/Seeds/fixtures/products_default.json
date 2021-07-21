@@ -2,12 +2,12 @@
   "1": {
     "product_id": 1,
     "active": true,
-    "name": "Телевизор",
+    "name": "TV station",
     "code": "tv",
     "rating": 7,
     "package": null,
-    "description": "Изображение на экране телевизора поражает своей реалистичностью, высокой детализацией и глубоким цветом.",
-    "tags": ["видео"],
+    "description": "TV station description",
+    "tags": ["video"],
     "offers": [
       {"seller_id": 10, "active": true, "price": 20000.0},
       {"seller_id": 15, "active": true, "price": 21000.0},
@@ -17,12 +17,12 @@
   "150": {
     "product_id": 150,
     "active": true,
-    "name": "Вода природная TASSAY негазированная, 2 шт. по 5 л",
+    "name": "TASSAY water",
     "code": "water",
     "rating": 10,
-    "package": "бутылка",
-    "description": "TASSAY - природная питьевая вода из глубинного подземного источника в предгорьях Тянь-Шаня, защищенного от техногенного воздействия самой природой.",
-    "tags": ["напитки", "вода"],
+    "package": "bottle",
+    "description": "TASSAY description water",
+    "tags": ["drinks", "watter"],
     "offers": [
       {"seller_id": 10, "active": false, "price": 168.0},
       {"seller_id": 15, "active": true, "price": 210.0},
@@ -32,11 +32,11 @@
   "319": {
     "product_id": 319,
     "active": false,
-    "name": "Перчатки кожаные",
+    "name": "Leather gloes",
     "code": "gloves",
     "rating": 0,
-    "description": "Ткань Marmot MemBrain обеспечивает водонепроницаемость, воздухопроницаемость и защиту от ветра. Легкий и компактный утеплитель.",
-    "tags": ["одежда", "перчатки"],
+    "description": "L gloves descriptions",
+    "tags": ["clothes", "gloves"],
     "offers": [
       {"seller_id": 10, "active": false, "price": 980.0},
       {"seller_id": 15, "active": false, "price": 980.0},
@@ -46,12 +46,12 @@
   "328": {
     "product_id": 328,
     "active": true,
-    "name": "4K UHD Телевизор Philips 43PUS7805/60 43",
+    "name": "4K UHD TV Philips 43PUS7805/60 43",
     "code": "4k-uhd-televizor-philips-43pus7805-60-43-196797693",
     "rating": 5,
     "package": null,
-    "description": "С Philips Ambilight каждый момент становится ближе. Интеллектуальные светодиоды по краям телевизора реагируют на происходящее на экране и изменяют цвет для еще большего эффекта погружения.",
-    "tags": ["видео"],
+    "description": "Nice tv",
+    "tags": ["video"],
     "offers": [
       {"seller_id": 90, "active": true, "price": 41999.0},
       {"seller_id": 20, "active": true, "price": 28990.0}
@@ -60,12 +60,12 @@
   "405": {
     "product_id": 405,
     "active": true,
-    "name": "Минеральная вода San Pellegrino, газированная, 1 л х 6 шт",
+    "name": "San Pellegrino, 1 l x 6 pieces",
     "code": "voda-san-pellegrino-mineralnaya-gazirovannaya",
     "rating": 8,
-    "package": "бутылка",
-    "description": "S.Pellegrino - минеральная вода натуральной газации, которая добывается из термальных источников, расположенных а предгорье Альп на севере Италии.",
-    "tags": ["напитки", "вода"],
+    "package": "bottle",
+    "description": "S.Pellegrino from Dolomites",
+    "tags": ["drinks", "water"],
     "offers": [
       {"seller_id": 10, "active": false, "price": 611.0},
       {"seller_id": 15, "active": false, "price": 620.0}
@@ -74,11 +74,11 @@
   "471": {
     "product_id": 471,
     "active": true,
-    "name": "Перчатки VITTOVAR",
+    "name": "Gloves VITTOVAR",
     "code": "perchatki-s-zashchitoy",
     "rating": 3,
-    "description": "Поверхность с уникальной дышащей технологией. Защита-амортизация на костяшках пальцев.",
-    "tags": ["одежда", "перчатки"],
+    "description": "VITTOVAR description",
+    "tags": ["clothes", "gloves"],
     "offers": [
     ]
   }

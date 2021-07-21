@@ -5,14 +5,14 @@ namespace Greensight\LaravelElasticQuery\Raw\Contracts;
 interface SearchIndex
 {
     /**
-     * Возвращает имя поля, содержащего уникальные значения в пределах индекса.
+     * Returns the name of attribute with unique values in index scope.
      *
      * @return string
      */
     public function tiebreaker(): string;
 
     /**
-     * Выполняет поисковый запрос.
+     * Perform search query.
      *
      * @param array $dsl
      * @return array

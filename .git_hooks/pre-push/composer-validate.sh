@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# В данном хуке выполняется валидация composer.json перед коммитом
+# validate composer 
 
 ESC_SEQ="\x1b["
 COL_RESET=$ESC_SEQ"39;49;00m"

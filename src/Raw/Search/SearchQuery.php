@@ -67,7 +67,7 @@ class SearchQuery implements SortableQuery
         $current = Cursor::decode($cursor) ?? Cursor::BOF();
 
         if (!$sorts->matchCursor($current)) {
-            throw new InvalidArgumentException('Курсор не относится к текущей сортировке');
+            throw new InvalidArgumentException('Cursor is not suitable for current sort');
         }
 
         $response = $this->execute($sorts, $size, cursor: $current);

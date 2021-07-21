@@ -28,7 +28,7 @@ class SortCollection implements DSLAware
     public function add(Sort $sort): void
     {
         $field = $sort->field();
-        Assert::false($this->items->has($field), "По полю \"$field\" уже задана сортировка");
+        Assert::false($this->items->has($field), "Field \"$field\" is already sorted");
 
         $this->items->put($field, $sort);
     }
@@ -80,7 +80,7 @@ class SortCollection implements DSLAware
         $values = $hit['sort'] ?? [];
 
         if (count($values) !== $this->items->count()) {
-            throw new InvalidArgumentException('Количество полей сортировки не совпадает с курсором');
+            throw new InvalidArgumentException('Sort fields count do not match cursor');
         }
 
         return new Cursor(
