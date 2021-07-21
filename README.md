@@ -1,0 +1,205 @@
+# Laravel Elastic Query
+
+Working with Elasticsearch in an Eloquent-like fashion.
+
+## Installation
+
+You can install the package via composer:
+
+1. `composer require greensight/laravel-elastic-query`
+2. Set `ELASTICSEARCH_HOSTS` in your `.env` file. `,` can be used as a delimeter.
+
+## Basic usage
+
+Let's create and index class. It's someting like Eloquent model.
+
+```php
+use Greensight\LaravelElasticQuery\ElasticIndex;
+
+class ProductsIndex extends ElasticIndex
+{
+    protected string $name = 'test_products';
+    protected string $tiebreaker = 'product_id';
+}
+```
+
+You should set a unique in document attribute name in `$tiebreaker`. It is used as an additional sort in `search_after`
+
+Now we can get some documents
+
+```php
+$searchQuery = ProductsIndex::query();
+
+$hits = $searchQuery
+             ->where('rating', '>=', 5)
+             ->whereDoesntHave('offers', fn(BoolQuery $query) => $query->where('seller_id', 10)->where('active', false))
+             ->sortBy('rating', 'desc')
+             ->sortByNested('offers', fn(SortableQuery $query) => $query->where('active', true)->sortBy('price', mode: 'min'))
+             ->take(25)
+             ->get();
+```
+
+### Filtering
+
+```php
+$searchQuery->where('field', 'value');
+$searchQuery->where('field', '>', 'value');
+$searchQuery->whereNot('field', 'value'); // equals `where('field', '!=', 'value')`
+```
+
+List of supported operators: `=, !=, >, <, >=, <=`.
+
+```php
+$searchQuery->whereHas('nested_field', fn(BoolQuery $subQuery) => $subQuery->where('field_in_nested', 'value'));
+$searchQuery->whereDoesntHave(
+    'nested_field',
+    function (BoolQuery $subQuery) {
+        $subQuery->whereHas('nested_field', fn(BoolQuery $subQuery2) => $subQuery2->whereNot('field', 'value'));
+    }
+);
+```
+
+`nested_field` must have `nested` type.
+Subqueries cannot use fields of main document only subdocument.
+
+### Sorting
+
+```php
+$searchQuery->sortBy('field', 'desc', 'max'); // field is from main document
+$searchQuery->sortByNested(
+    'nested_field',
+    fn(SortableQuery $subQuery) => $subQuery->where('field_in_nested', 'value')->sortBy('field')
+);
+```
+
+Second attribute is a direction. It supports `asc` and `desc` values. Defaults to `asc`.
+Third attribute - sorting type. List of supporting types: `min, max, avg, sum, median`. Defaults to `min`.
+
+There are also dedicated sort methods for each sort type.
+
+```php
+$searchQuery->minSortBy('field', 'asc');
+$searchQuery->maxSortBy('field', 'asc');
+$searchQuery->avgSortBy('field', 'asc');
+$searchQuery->sumSortBy('field', 'asc');
+$searchQuery->medianSortBy('field', 'asc');
+```
+
+### Pagination
+
+Доступны два режима пагинации. В первом задается количество документов на страницу и смещение от начала выборки.
+В результате помимо коллекции загруженных документов `hits`, будут содержаться текущая позиция `size/offset` и общее
+количество документов, доступных для запроса `total`.
+#### Offset Pagination
+
+```php
+$page = $searchQuery->paginate(15, 45);
+```
+
+Offset pagination returns total documents count as `total` and current position as `size/offset`.
+
+#### Cursor pagination
+
+```php
+$page = $searchQuery->cursorPaginate(10);
+$pageNext = $searchQuery->cursorPaginate(10, $page->next);
+```
+
+ `current`, `next`, `previous` is returned in this case instead of `total`, `size` and `offset`.
+ You can check Laravel docs for more info about cursor pagination.
+
+## Nesting and Aggregation
+
+Выборка сводных данных по документам индекса выполняется с помощью агрегированного запроса.
+
+```php
+// Создание запроса для индекса
+$aggQuery = ProductsIndex::aggregate();
+
+/** @var \Illuminate\Support\Collection $aggs */
+$aggs = $aggQuery
+            ->where('active', true)
+            ->terms('codes', 'code')
+            ->nested(
+                'offers',
+                fn(AggregationsBuilder $builder) => $builder->where('seller_id', 10)->minmax('price', 'price')
+            );
+```
+
+Результаты запроса возвращаются в виде коллекции агрегатов. Для каждого агрегата отдельный результат, соответствующего
+типа. В качестве ключей коллекции используются имена агрегатов, как они были заданы при создании.
+В приведенном примере `$aggs` будет содержать экземпляр `MinMax` для ключа `price` и `BucketCollection` для ключа `codes`.
+Имена агрегатов должны быть уникальны для всего запроса, не только текущего уровня.
+
+На всех уровнях доступно задание фильтров `where*`. Условия отбора будут действовать для текущего и всех нижележащих
+уровней. Но надо учитывать контекст фильтра. В `nested` агрегате можно фильтровать только по полям вложенного документа.
+
+### Aggregate types
+
+Получение вариантов значения атрибута.
+
+```php
+$aggQuery->terms('agg_name', 'field');
+```
+
+Вычисление минимального и максимального значения атрибута. В основном имеет смысл для числовых атрибутов и дат.
+
+```php
+$aggQuery->minmax('agg_name', 'field');
+```
+
+Для получения сводной информации по атрибутам вложенных документов применяется специальный вид агрегата.
+
+```php
+$aggQuery->nested('nested_field', function (AggregationsBuilder $builder) {
+    $builder->terms('name', 'field_in_nested');
+});
+```
+
+На уровне `AggregationsQuery` доступен виртуальный агрегат `composite`. Он позволяет задавать дополнительные условия
+отбора документов для одного или нескольких агрегатов.
+
+```php
+$aggQuery->composite(function (AggregationsBuilder $builder) {
+    $builder->where('field', 'value')
+        ->whereHas('nested_field', fn(BoolQuery $query) => $query->where('field_in_nested', 'value2'))
+        ->terms('field1', 'agg_name1')
+        ->minmax('field2', 'agg_name2');
+});
+```
+
+## Query Log
+
+Just like Eloquent ElasticQuery has its own query log, but you need to enable it manually
+Each message contains `indexName`, `query` and `timestamp`
+Пакет поддерживает запись в журнал выполняемых запросов. Каждая запись содержит имя индекса `indexName`, содержимое
+запроса `query` и время регистрации `timestamp` с точностью до микросекунд.
+
+```php
+ElasticQuery::enableQueryLog();
+
+/** @var \Illuminate\Support\Collection|Greensight\LaravelElasticQuery\Raw\Debug\QueryLogRecord[] $records */
+$records = ElasticQuery::getQueryLog();
+
+ElasticQuery::disableQueryLog();
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+
+### Testing
+
+1. composer install
+2. npm i
+3. Start Elasticsearch in your preferred way.
+4. Copy `phpunit.xml.dist` to `phpunit.xml` and set correct env variables there
+6. composer test
+
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
