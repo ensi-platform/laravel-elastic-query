@@ -87,9 +87,6 @@ $searchQuery->medianSortBy('field', 'asc');
 
 ### Pagination
 
-Доступны два режима пагинации. В первом задается количество документов на страницу и смещение от начала выборки.
-В результате помимо коллекции загруженных документов `hits`, будут содержаться текущая позиция `size/offset` и общее
-количество документов, доступных для запроса `total`.
 #### Offset Pagination
 
 ```php
@@ -108,12 +105,11 @@ $pageNext = $searchQuery->cursorPaginate(10, $page->next);
  `current`, `next`, `previous` is returned in this case instead of `total`, `size` and `offset`.
  You can check Laravel docs for more info about cursor pagination.
 
-## Nesting and Aggregation
+## Aggregation
 
-Выборка сводных данных по документам индекса выполняется с помощью агрегированного запроса.
+Aggregaction queries can be created like this
 
 ```php
-// Создание запроса для индекса
 $aggQuery = ProductsIndex::aggregate();
 
 /** @var \Illuminate\Support\Collection $aggs */
@@ -124,31 +120,31 @@ $aggs = $aggQuery
                 'offers',
                 fn(AggregationsBuilder $builder) => $builder->where('seller_id', 10)->minmax('price', 'price')
             );
+
+$aggs
+            
 ```
 
-Результаты запроса возвращаются в виде коллекции агрегатов. Для каждого агрегата отдельный результат, соответствующего
-типа. В качестве ключей коллекции используются имена агрегатов, как они были заданы при создании.
-В приведенном примере `$aggs` будет содержать экземпляр `MinMax` для ключа `price` и `BucketCollection` для ключа `codes`.
-Имена агрегатов должны быть уникальны для всего запроса, не только текущего уровня.
+Type of `$aggs->price` is `MinMax`.
+Type of `$aggs->codes` is `BucketCollection`.
+Aggregate names must be unique for whole query.
 
-На всех уровнях доступно задание фильтров `where*`. Условия отбора будут действовать для текущего и всех нижележащих
-уровней. Но надо учитывать контекст фильтра. В `nested` агрегате можно фильтровать только по полям вложенного документа.
 
 ### Aggregate types
 
-Получение вариантов значения атрибута.
+Get all variants of attribute values:
 
 ```php
 $aggQuery->terms('agg_name', 'field');
 ```
 
-Вычисление минимального и максимального значения атрибута. В основном имеет смысл для числовых атрибутов и дат.
+Get min and max attribute values. E.g for date:
 
 ```php
 $aggQuery->minmax('agg_name', 'field');
 ```
 
-Для получения сводной информации по атрибутам вложенных документов применяется специальный вид агрегата.
+Aggregation plays nice with nested documents.
 
 ```php
 $aggQuery->nested('nested_field', function (AggregationsBuilder $builder) {
@@ -156,8 +152,7 @@ $aggQuery->nested('nested_field', function (AggregationsBuilder $builder) {
 });
 ```
 
-На уровне `AggregationsQuery` доступен виртуальный агрегат `composite`. Он позволяет задавать дополнительные условия
-отбора документов для одного или нескольких агрегатов.
+There is also a special virtual `composite` aggregate on the root level. You can set special conditions using it.
 
 ```php
 $aggQuery->composite(function (AggregationsBuilder $builder) {
