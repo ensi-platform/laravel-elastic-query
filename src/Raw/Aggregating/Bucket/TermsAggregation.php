@@ -2,8 +2,8 @@
 
 namespace Greensight\LaravelElasticQuery\Raw\Aggregating\Bucket;
 
-use Greensight\LaravelElasticQuery\Raw\Aggregating\Bucket;
 use Greensight\LaravelElasticQuery\Raw\Aggregating\BucketCollection;
+use Greensight\LaravelElasticQuery\Raw\Aggregating\Result;
 use Greensight\LaravelElasticQuery\Raw\Contracts\Aggregation;
 use Webmozart\Assert\Assert;
 
@@ -34,7 +34,7 @@ class TermsAggregation implements Aggregation
     public function parseResults(array $response): array
     {
         $buckets = array_map(
-            fn (array $bucket) => new Bucket($bucket['key'], (int)$bucket['doc_count']),
+            fn (array $bucket) => Result::parseBucket($bucket),
             $response[$this->name]['buckets'] ?? []
         );
 

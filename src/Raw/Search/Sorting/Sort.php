@@ -3,19 +3,21 @@
 namespace Greensight\LaravelElasticQuery\Raw\Search\Sorting;
 
 use Greensight\LaravelElasticQuery\Raw\Contracts\DSLAware;
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortMode;
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortOrder;
 use Webmozart\Assert\Assert;
 
 class Sort implements DSLAware
 {
     public function __construct(
         private string $field,
-        private string $order = 'asc',
+        private string $order = SortOrder::ASC,
         private ?string $mode = null,
         private ?NestedSort $nested = null
     ) {
         Assert::stringNotEmpty(trim($field));
-        Assert::oneOf($order, ['asc', 'desc']);
-        Assert::nullOrOneOf($mode, ['min', 'max', 'sum', 'avg', 'median']);
+        Assert::oneOf($order, SortOrder::cases());
+        Assert::nullOrOneOf($mode, SortMode::cases());
     }
 
     public function field(): string
@@ -35,7 +37,7 @@ class Sort implements DSLAware
             $details['nested'] = $this->nested->toDSL();
         }
 
-        if ($this->order !== 'asc') {
+        if ($this->order !== SortOrder::ASC) {
             $details['missing'] = '_first';
         }
 
@@ -50,14 +52,14 @@ class Sort implements DSLAware
 
     public function __toString(): string
     {
-        $order = $this->order === 'asc' ? '+' : '-';
+        $order = $this->order === SortOrder::ASC ? '+' : '-';
 
         return "{$order}$this->field";
     }
 
     public function invert(): static
     {
-        $order = $this->order === 'asc' ? 'desc' : 'asc';
+        $order = $this->order === SortOrder::ASC ? SortOrder::DESC : SortOrder::ASC;
 
         return new static($this->field, $order, $this->mode, $this->nested);
     }

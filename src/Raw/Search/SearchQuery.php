@@ -7,6 +7,7 @@ use Greensight\LaravelElasticQuery\Raw\Concerns\DecoratesBoolQuery;
 use Greensight\LaravelElasticQuery\Raw\Concerns\ExtendsSort;
 use Greensight\LaravelElasticQuery\Raw\Contracts\SearchIndex;
 use Greensight\LaravelElasticQuery\Raw\Contracts\SortableQuery;
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortOrder;
 use Greensight\LaravelElasticQuery\Raw\Filtering\BoolQueryBuilder;
 use Greensight\LaravelElasticQuery\Raw\Search\Sorting\SortBuilder;
 use Greensight\LaravelElasticQuery\Raw\Search\Sorting\SortCollection;
@@ -140,7 +141,7 @@ class SearchQuery implements SortableQuery
     //endregion
 
     //region Customization
-    public function sortBy(string $field, string $order = 'asc', ?string $mode = null): static
+    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null): static
     {
         (new SortBuilder($this->sorts))->sortBy($field, $order, $mode);
 

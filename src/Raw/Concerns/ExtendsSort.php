@@ -2,35 +2,38 @@
 
 namespace Greensight\LaravelElasticQuery\Raw\Concerns;
 
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortMode;
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortOrder;
+
 /**
  * @psalm-require-implements \Greensight\LaravelElasticQuery\Raw\Contracts\SortableQuery
  *
- * @method static sortBy(string $field, string $order = 'asc', ?string $mode = null)
+ * @method static sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null)
  */
 trait ExtendsSort
 {
-    public function minSortBy(string $field, string $order = 'asc'): static
+    public function minSortBy(string $field, string $order = SortOrder::ASC): static
     {
-        return $this->sortBy($field, $order, 'min');
+        return $this->sortBy($field, $order, SortMode::MIN);
     }
 
-    public function maxSortBy(string $field, string $order = 'asc'): static
+    public function maxSortBy(string $field, string $order = SortOrder::ASC): static
     {
-        return $this->sortBy($field, $order, 'max');
+        return $this->sortBy($field, $order, SortMode::MAX);
     }
 
-    public function avgSortBy(string $field, string $order = 'asc'): static
+    public function avgSortBy(string $field, string $order = SortOrder::ASC): static
     {
-        return $this->sortBy($field, $order, 'avg');
+        return $this->sortBy($field, $order, SortMode::AVG);
     }
 
-    public function sumSortBy(string $field, string $order = 'asc'): static
+    public function sumSortBy(string $field, string $order = SortOrder::ASC): static
     {
-        return $this->sortBy($field, $order, 'sum');
+        return $this->sortBy($field, $order, SortMode::SUM);
     }
 
-    public function medianSortBy(string $field, string $order = 'asc'): static
+    public function medianSortBy(string $field, string $order = SortOrder::ASC): static
     {
-        return $this->sortBy($field, $order, 'median');
+        return $this->sortBy($field, $order, SortMode::MEDIAN);
     }
 }

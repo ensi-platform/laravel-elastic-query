@@ -5,19 +5,15 @@ namespace Greensight\LaravelElasticQuery\Raw\Filtering\Criterias;
 use Greensight\LaravelElasticQuery\Raw\Contracts\Criteria;
 use Webmozart\Assert\Assert;
 
-class Term implements Criteria
+class Exists implements Criteria
 {
-    private mixed $value;
-
-    public function __construct(private string $field, mixed $value)
+    public function __construct(private string $field)
     {
         Assert::stringNotEmpty(trim($field));
-
-        $this->value = is_array($value) ? head($value) : $value;
     }
 
     public function toDSL(): array
     {
-        return ['term' => [$this->field => $this->value]];
+        return ['exists' => ['field' => $this->field]];
     }
 }

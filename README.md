@@ -50,6 +50,16 @@ $searchQuery->whereNot('field', 'value'); // equals `where('field', '!=', 'value
 List of supported operators: `=, !=, >, <, >=, <=`.
 
 ```php
+$searchQuery->whereIn('field', ['value1', 'value2']);
+$searchQuery->whereNotIn('field', ['value1', 'value2']);
+```
+
+```php
+$searchQuery->whereNull('field');
+$searchQuery->whereNotNull('field');
+```
+
+```php
 $searchQuery->whereHas('nested_field', fn(BoolQuery $subQuery) => $subQuery->where('field_in_nested', 'value'));
 $searchQuery->whereDoesntHave(
     'nested_field',

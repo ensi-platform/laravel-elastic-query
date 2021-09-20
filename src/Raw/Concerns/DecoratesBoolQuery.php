@@ -4,6 +4,7 @@ namespace Greensight\LaravelElasticQuery\Raw\Concerns;
 
 use Closure;
 use Greensight\LaravelElasticQuery\Raw\Filtering\BoolQueryBuilder;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
 trait DecoratesBoolQuery
@@ -34,6 +35,34 @@ trait DecoratesBoolQuery
     }
 
     public function whereDoesntHave(string $nested, Closure $filter): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereIn(string $field, array|Arrayable $values): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereNotIn(string $field, array|Arrayable $values): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereNull(string $field): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereNotNull(string $field): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
