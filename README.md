@@ -43,11 +43,9 @@ $hits = $searchQuery
 
 ```php
 $searchQuery->where('field', 'value');
-$searchQuery->where('field', '>', 'value');
+$searchQuery->where('field', '>', 'value'); // supported operators: `=` `!=` `>` `<` `>=` `<=`
 $searchQuery->whereNot('field', 'value'); // equals `where('field', '!=', 'value')`
 ```
-
-List of supported operators: `=, !=, >, <, >=, <=`.
 
 ```php
 $searchQuery->whereIn('field', ['value1', 'value2']);
