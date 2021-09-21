@@ -3,7 +3,7 @@
 namespace Greensight\LaravelElasticQuery;
 
 use Elasticsearch\ClientBuilder;
-use Greensight\LaravelElasticQuery\Raw\ElasticClient;
+use Greensight\LaravelElasticQuery\ElasticClient;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

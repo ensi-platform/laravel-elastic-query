@@ -2,8 +2,8 @@
 
 namespace Greensight\LaravelElasticQuery;
 
-use Greensight\LaravelElasticQuery\Raw\Concerns\InteractsWithIndex;
-use Greensight\LaravelElasticQuery\Raw\Contracts\SearchIndex;
+use Greensight\LaravelElasticQuery\Concerns\InteractsWithIndex;
+use Greensight\LaravelElasticQuery\Contracts\SearchIndex;
 
 abstract class ElasticIndex implements SearchIndex
 {

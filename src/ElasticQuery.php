@@ -2,8 +2,8 @@
 
 namespace Greensight\LaravelElasticQuery;
 
-use Greensight\LaravelElasticQuery\Raw\Debug\QueryLogRecord;
-use Greensight\LaravelElasticQuery\Raw\ElasticClient;
+use Greensight\LaravelElasticQuery\Debug\QueryLogRecord;
+use Greensight\LaravelElasticQuery\ElasticClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 

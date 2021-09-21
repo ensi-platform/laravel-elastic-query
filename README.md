@@ -179,7 +179,7 @@ Each message contains `indexName`, `query` and `timestamp`
 ```php
 ElasticQuery::enableQueryLog();
 
-/** @var \Illuminate\Support\Collection|Greensight\LaravelElasticQuery\Raw\Debug\QueryLogRecord[] $records */
+/** @var \Illuminate\Support\Collection|Greensight\LaravelElasticQuery\Debug\QueryLogRecord[] $records */
 $records = ElasticQuery::getQueryLog();
 
 ElasticQuery::disableQueryLog();
