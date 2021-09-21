@@ -13,7 +13,7 @@ class Term implements Criteria
     {
         Assert::stringNotEmpty(trim($field));
 
-        $this->value = is_array($value) ? head($value) : $value;
+        $this->value = is_array($value) ? reset($value) : $value;
     }
 
     public function toDSL(): array

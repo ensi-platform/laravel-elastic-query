@@ -31,8 +31,8 @@ class MinMaxAggregation implements Aggregation
     public function parseResults(array $response): array
     {
         return [$this->name => new MinMax(
-            Result::parseValue($response["{$this->name}_min"]),
-            Result::parseValue($response["{$this->name}_max"]),
+            Result::parseValue($response["{$this->name}_min"]) ?? 0,
+            Result::parseValue($response["{$this->name}_max"]) ?? 0,
         )];
     }
 }
