@@ -80,7 +80,7 @@ $searchQuery->sortByNested(
 );
 ```
 
-Second attribute is a direction. It supports `asc` and `desc` values. Defaults to `asc`.
+Second attribute is a direction. It supports `asc` and `desc` values. Defaults to `asc`.  
 Third attribute - sorting type. List of supporting types: `min, max, avg, sum, median`. Defaults to `min`.
 
 There are also dedicated sort methods for each sort type.
