@@ -6,9 +6,12 @@ use Closure;
 use Greensight\LaravelElasticQuery\Raw\Concerns\SupportsPath;
 use Greensight\LaravelElasticQuery\Raw\Contracts\BoolQuery;
 use Greensight\LaravelElasticQuery\Raw\Contracts\Criteria;
+use Greensight\LaravelElasticQuery\Raw\Filtering\Criterias\Exists;
 use Greensight\LaravelElasticQuery\Raw\Filtering\Criterias\Nested;
 use Greensight\LaravelElasticQuery\Raw\Filtering\Criterias\RangeBound;
 use Greensight\LaravelElasticQuery\Raw\Filtering\Criterias\Term;
+use Greensight\LaravelElasticQuery\Raw\Filtering\Criterias\Terms;
+use Illuminate\Contracts\Support\Arrayable;
 use stdClass;
 
 class BoolQueryBuilder implements BoolQuery, Criteria
@@ -98,6 +101,20 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
+    public function whereIn(string $field, array|Arrayable $values): static
+    {
+        $this->filter->add(new Terms($this->absolutePath($field), $values));
+
+        return $this;
+    }
+
+    public function whereNotIn(string $field, array|Arrayable $values): static
+    {
+        $this->mustNot->add(new Terms($this->absolutePath($field), $values));
+
+        return $this;
+    }
+
     public function whereHas(string $nested, Closure $filter): static
     {
         return $this->addNestedCriteria($nested, $filter, $this->filter);
@@ -106,6 +123,20 @@ class BoolQueryBuilder implements BoolQuery, Criteria
     public function whereDoesntHave(string $nested, Closure $filter): static
     {
         return $this->addNestedCriteria($nested, $filter, $this->mustNot);
+    }
+
+    public function whereNull(string $field): static
+    {
+        $this->mustNot->add(new Exists($this->absolutePath($field)));
+
+        return $this;
+    }
+
+    public function whereNotNull(string $field): static
+    {
+        $this->filter->add(new Exists($this->absolutePath($field)));
+
+        return $this;
     }
 
     protected function addNestedCriteria(string $nested, Closure $filter, CriteriaCollection $target): static

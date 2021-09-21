@@ -7,6 +7,7 @@ use Greensight\LaravelElasticQuery\Raw\Concerns\DecoratesBoolQuery;
 use Greensight\LaravelElasticQuery\Raw\Concerns\ExtendsSort;
 use Greensight\LaravelElasticQuery\Raw\Concerns\SupportsPath;
 use Greensight\LaravelElasticQuery\Raw\Contracts\SortableQuery;
+use Greensight\LaravelElasticQuery\Raw\Contracts\SortOrder;
 use Greensight\LaravelElasticQuery\Raw\Filtering\BoolQueryBuilder;
 use Illuminate\Support\Collection;
 
@@ -25,7 +26,7 @@ class SortBuilder implements SortableQuery
         $this->levels = new Collection();
     }
 
-    public function sortBy(string $field, string $order = 'asc', ?string $mode = null): static
+    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null): static
     {
         $path = $this->absolutePath($field);
 

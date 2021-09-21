@@ -3,6 +3,7 @@
 namespace Greensight\LaravelElasticQuery\Raw\Aggregating\Metrics;
 
 use Greensight\LaravelElasticQuery\Raw\Aggregating\MinMax;
+use Greensight\LaravelElasticQuery\Raw\Aggregating\Result;
 use Greensight\LaravelElasticQuery\Raw\Contracts\Aggregation;
 use Webmozart\Assert\Assert;
 
@@ -30,8 +31,8 @@ class MinMaxAggregation implements Aggregation
     public function parseResults(array $response): array
     {
         return [$this->name => new MinMax(
-            $response["{$this->name}_min"]['value'] ?? 0,
-            $response["{$this->name}_max"]['value'] ?? 0,
+            Result::parseValue($response["{$this->name}_min"]) ?? 0,
+            Result::parseValue($response["{$this->name}_max"]) ?? 0,
         )];
     }
 }
