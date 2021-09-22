@@ -1,0 +1,16 @@
+<?php
+
+namespace Greensight\LaravelElasticQuery\Search;
+
+use Illuminate\Support\Collection;
+
+class Page
+{
+    public function __construct(
+        public int $size,
+        public Collection $hits,
+        public int $offset = 0,
+        public int $total = 0
+    ) {
+    }
+}

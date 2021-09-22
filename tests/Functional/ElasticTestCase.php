@@ -5,8 +5,8 @@ namespace Greensight\LaravelElasticQuery\Tests\Functional;
 use Greensight\LaravelElasticQuery\ElasticIndex;
 use Greensight\LaravelElasticQuery\ElasticQuery;
 use Greensight\LaravelElasticQuery\ElasticQueryServiceProvider;
-use Greensight\LaravelElasticQuery\Raw\Aggregating\AggregationsQuery;
-use Greensight\LaravelElasticQuery\Raw\Search\SearchQuery;
+use Greensight\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Greensight\LaravelElasticQuery\Search\SearchQuery;
 use Orchestra\Testbench\TestCase;
 
 class ElasticTestCase extends TestCase
