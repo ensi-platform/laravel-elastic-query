@@ -39,7 +39,7 @@ class SeedRunner
     private static function createInstance(): self
     {
         $client = ClientBuilder::create()
-            ->setHosts(config('ensi-elastic-query.connection.hosts'))
+            ->setHosts(config('laravel-elastic-query.connection.hosts'))
             ->build();
 
         return new self($client);
