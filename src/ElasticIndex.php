@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery;
+namespace Ensi\LaravelElasticQuery;
 
-use Greensight\LaravelElasticQuery\Concerns\InteractsWithIndex;
-use Greensight\LaravelElasticQuery\Contracts\SearchIndex;
+use Ensi\LaravelElasticQuery\Concerns\InteractsWithIndex;
+use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 
 abstract class ElasticIndex implements SearchIndex
 {

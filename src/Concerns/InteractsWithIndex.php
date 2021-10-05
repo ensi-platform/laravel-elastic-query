@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Concerns;
+namespace Ensi\LaravelElasticQuery\Concerns;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationsQuery;
-use Greensight\LaravelElasticQuery\Contracts\SearchIndex;
-use Greensight\LaravelElasticQuery\ElasticClient;
-use Greensight\LaravelElasticQuery\Search\SearchQuery;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
+use Ensi\LaravelElasticQuery\ElasticClient;
+use Ensi\LaravelElasticQuery\Search\SearchQuery;
 
 trait InteractsWithIndex
 {

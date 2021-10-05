@@ -1,8 +1,8 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Search;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Search;
 
-use Greensight\LaravelElasticQuery\Search\Cursor;
+use Ensi\LaravelElasticQuery\Search\Cursor;
 
 class PaginationTest extends SearchTestCase
 {

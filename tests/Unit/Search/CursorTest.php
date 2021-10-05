@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Search;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Search;
 
-use Greensight\LaravelElasticQuery\Search\Cursor;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Search\Cursor;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 
 class CursorTest extends UnitTestCase
 {

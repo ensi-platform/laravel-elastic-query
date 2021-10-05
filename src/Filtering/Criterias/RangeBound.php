@@ -1,8 +1,8 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Filtering\Criterias;
+namespace Ensi\LaravelElasticQuery\Filtering\Criterias;
 
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Webmozart\Assert\Assert;
 
 class RangeBound implements Criteria

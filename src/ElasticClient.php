@@ -1,10 +1,10 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery;
+namespace Ensi\LaravelElasticQuery;
 
 use Elasticsearch\Client;
-use Greensight\LaravelElasticQuery\Debug\QueryLog;
-use Greensight\LaravelElasticQuery\Debug\QueryLogRecord;
+use Ensi\LaravelElasticQuery\Debug\QueryLog;
+use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
 use Illuminate\Support\Collection;
 
 class ElasticClient

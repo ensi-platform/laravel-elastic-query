@@ -1,10 +1,10 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating\Metrics;
+namespace Ensi\LaravelElasticQuery\Aggregating\Metrics;
 
-use Greensight\LaravelElasticQuery\Aggregating\MinMax;
-use Greensight\LaravelElasticQuery\Aggregating\Result;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Aggregating\MinMax;
+use Ensi\LaravelElasticQuery\Aggregating\Result;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Webmozart\Assert\Assert;
 
 class MinMaxAggregation implements Aggregation

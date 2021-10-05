@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Aggregating;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Aggregating;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationCollection;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 use InvalidArgumentException;
 use Mockery;
 

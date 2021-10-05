@@ -1,8 +1,8 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Search;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Search;
 
-use Greensight\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 
 class FilteringTest extends SearchTestCase
 {

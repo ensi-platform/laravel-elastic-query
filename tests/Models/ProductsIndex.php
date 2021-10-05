@@ -1,8 +1,8 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Models;
+namespace Ensi\LaravelElasticQuery\Tests\Models;
 
-use Greensight\LaravelElasticQuery\ElasticIndex;
+use Ensi\LaravelElasticQuery\ElasticIndex;
 
 class ProductsIndex extends ElasticIndex
 {

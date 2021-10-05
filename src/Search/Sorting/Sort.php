@@ -1,10 +1,10 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
-use Greensight\LaravelElasticQuery\Contracts\SortMode;
-use Greensight\LaravelElasticQuery\Contracts\SortOrder;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\SortMode;
+use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Webmozart\Assert\Assert;
 
 class Sort implements DSLAware

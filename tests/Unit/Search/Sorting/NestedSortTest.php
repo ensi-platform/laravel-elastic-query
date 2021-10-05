@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
-use Greensight\LaravelElasticQuery\Search\Sorting\NestedSort;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Search\Sorting\NestedSort;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 
 class NestedSortTest extends UnitTestCase
 {

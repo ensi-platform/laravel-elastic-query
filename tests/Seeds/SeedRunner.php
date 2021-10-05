@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Seeds;
+namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;

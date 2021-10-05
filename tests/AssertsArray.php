@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests;
+namespace Ensi\LaravelElasticQuery\Tests;
 
 use Illuminate\Testing\AssertableJsonString;
 

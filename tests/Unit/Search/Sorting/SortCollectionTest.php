@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Search\Cursor;
-use Greensight\LaravelElasticQuery\Search\Sorting\Sort;
-use Greensight\LaravelElasticQuery\Search\Sorting\SortCollection;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Search\Cursor;
+use Ensi\LaravelElasticQuery\Search\Sorting\Sort;
+use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 use InvalidArgumentException;
 
 class SortCollectionTest extends UnitTestCase

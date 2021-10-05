@@ -6,7 +6,7 @@ Working with Elasticsearch in an Eloquent-like fashion.
 
 You can install the package via composer:
 
-1. `composer require greensight/laravel-elastic-query`
+1. `composer require ensi/laravel-elastic-query`
 2. Set `ELASTICSEARCH_HOSTS` in your `.env` file. `,` can be used as a delimeter.
 
 ## Basic usage
@@ -14,7 +14,7 @@ You can install the package via composer:
 Let's create and index class. It's someting like Eloquent model.
 
 ```php
-use Greensight\LaravelElasticQuery\ElasticIndex;
+use Ensi\LaravelElasticQuery\ElasticIndex;
 
 class ProductsIndex extends ElasticIndex
 {
@@ -179,7 +179,7 @@ Each message contains `indexName`, `query` and `timestamp`
 ```php
 ElasticQuery::enableQueryLog();
 
-/** @var \Illuminate\Support\Collection|Greensight\LaravelElasticQuery\Debug\QueryLogRecord[] $records */
+/** @var \Illuminate\Support\Collection|Ensi\LaravelElasticQuery\Debug\QueryLogRecord[] $records */
 $records = ElasticQuery::getQueryLog();
 
 ElasticQuery::disableQueryLog();

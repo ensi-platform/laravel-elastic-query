@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating;
+namespace Ensi\LaravelElasticQuery\Aggregating;
 
 use Closure;
-use Greensight\LaravelElasticQuery\Concerns\ConstructsAggregations;
-use Greensight\LaravelElasticQuery\Contracts\AggregationsBuilder;
-use Greensight\LaravelElasticQuery\Contracts\SearchIndex;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Concerns\ConstructsAggregations;
+use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Illuminate\Support\Collection;
 
 class AggregationsQuery implements AggregationsBuilder

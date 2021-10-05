@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Debug;
+namespace Ensi\LaravelElasticQuery\Debug;
 
 use Carbon\CarbonInterface;
 

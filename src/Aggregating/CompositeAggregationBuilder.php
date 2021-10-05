@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating;
+namespace Ensi\LaravelElasticQuery\Aggregating;
 
-use Greensight\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
-use Greensight\LaravelElasticQuery\Concerns\ConstructsAggregations;
-use Greensight\LaravelElasticQuery\Contracts\AggregationsBuilder;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
+use Ensi\LaravelElasticQuery\Concerns\ConstructsAggregations;
+use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 
 class CompositeAggregationBuilder implements AggregationsBuilder
 {

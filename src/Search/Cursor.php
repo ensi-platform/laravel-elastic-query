@@ -1,8 +1,8 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search;
+namespace Ensi\LaravelElasticQuery\Search;
 
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 
 class Cursor implements DSLAware
 {

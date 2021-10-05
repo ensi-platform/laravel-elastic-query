@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 
 class NestedSort implements DSLAware
 {

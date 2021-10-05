@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search;
+namespace Ensi\LaravelElasticQuery\Search;
 
 use Illuminate\Support\Collection;
 

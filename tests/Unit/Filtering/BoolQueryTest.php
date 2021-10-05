@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Filtering;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Filtering;
 
-use Greensight\LaravelElasticQuery\Contracts\BoolQuery;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 use stdClass;
 
 class BoolQueryTest extends UnitTestCase

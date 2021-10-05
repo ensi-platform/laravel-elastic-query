@@ -1,5 +1,5 @@
 {
-    "name": "greensight/laravel-elastic-query",
+    "name": "ensi/laravel-elastic-query",
     "description": "",
     "keywords": [
         "elasticsearch",
@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Greensight\\LaravelElasticQuery\\": "src"
+            "Ensi\\LaravelElasticQuery\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Greensight\\LaravelElasticQuery\\Tests\\": "tests"
+            "Ensi\\LaravelElasticQuery\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -47,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Greensight\\LaravelElasticQuery\\ElasticQueryServiceProvider"
+                "Ensi\\LaravelElasticQuery\\ElasticQueryServiceProvider"
             ],
             "aliases": {
-                "ElasticQuery": "Greensight\\LaravelElasticQuery\\ElasticQuery"
+                "ElasticQuery": "Ensi\\LaravelElasticQuery\\ElasticQuery"
             }
         }
     }

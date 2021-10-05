@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Concerns;
+namespace Ensi\LaravelElasticQuery\Concerns;
 
 trait SupportsPath
 {

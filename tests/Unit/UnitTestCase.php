@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit;
+namespace Ensi\LaravelElasticQuery\Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 

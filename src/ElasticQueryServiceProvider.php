@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery;
+namespace Ensi\LaravelElasticQuery;
 
 use Elasticsearch\ClientBuilder;
-use Greensight\LaravelElasticQuery\ElasticClient;
+use Ensi\LaravelElasticQuery\ElasticClient;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

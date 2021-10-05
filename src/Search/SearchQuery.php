@@ -1,16 +1,16 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search;
+namespace Ensi\LaravelElasticQuery\Search;
 
 use Closure;
-use Greensight\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
-use Greensight\LaravelElasticQuery\Concerns\ExtendsSort;
-use Greensight\LaravelElasticQuery\Contracts\SearchIndex;
-use Greensight\LaravelElasticQuery\Contracts\SortableQuery;
-use Greensight\LaravelElasticQuery\Contracts\SortOrder;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
-use Greensight\LaravelElasticQuery\Search\Sorting\SortBuilder;
-use Greensight\LaravelElasticQuery\Search\Sorting\SortCollection;
+use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
+use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
+use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
+use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
+use Ensi\LaravelElasticQuery\Contracts\SortOrder;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Search\Sorting\SortBuilder;
+use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;

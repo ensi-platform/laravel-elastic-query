@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Concerns;
+namespace Ensi\LaravelElasticQuery\Concerns;
 
-use Greensight\LaravelElasticQuery\Contracts\SortMode;
-use Greensight\LaravelElasticQuery\Contracts\SortOrder;
+use Ensi\LaravelElasticQuery\Contracts\SortMode;
+use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 
 /**
- * @psalm-require-implements \Greensight\LaravelElasticQuery\Contracts\SortableQuery
+ * @psalm-require-implements \Ensi\LaravelElasticQuery\Contracts\SortableQuery
  *
  * @method static sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null)
  */

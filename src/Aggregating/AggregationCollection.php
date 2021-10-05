@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating;
+namespace Ensi\LaravelElasticQuery\Aggregating;
 
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 

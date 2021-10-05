@@ -1,14 +1,14 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Concerns;
+namespace Ensi\LaravelElasticQuery\Concerns;
 
 use Closure;
-use Greensight\LaravelElasticQuery\Aggregating\AggregationCollection;
-use Greensight\LaravelElasticQuery\Aggregating\Bucket\NestedAggregation;
-use Greensight\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
-use Greensight\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
-use Greensight\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\NestedAggregation;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
+use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
+use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 
 trait ConstructsAggregations
 {

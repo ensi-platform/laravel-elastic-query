@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
-use Greensight\LaravelElasticQuery\Search\Cursor;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Search\Cursor;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;

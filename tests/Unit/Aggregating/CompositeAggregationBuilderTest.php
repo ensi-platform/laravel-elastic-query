@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Aggregating;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Aggregating;
 
-use Greensight\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
-use Greensight\LaravelElasticQuery\Contracts\AggregationsBuilder;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
+use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 
 class CompositeAggregationBuilderTest extends UnitTestCase
 {

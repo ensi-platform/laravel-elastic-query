@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Filtering;
+namespace Ensi\LaravelElasticQuery\Filtering;
 
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
-use Greensight\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Illuminate\Support\Collection;
 
 class CriteriaCollection implements DSLAware

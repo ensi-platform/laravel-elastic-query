@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Contracts;
+namespace Ensi\LaravelElasticQuery\Contracts;
 
 use Closure;
 use Illuminate\Contracts\Support\Arrayable;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Search;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Search;
 
-use Greensight\LaravelElasticQuery\Contracts\BoolQuery;
-use Greensight\LaravelElasticQuery\Contracts\SortableQuery;
+use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 
 class SearchQueryTest extends SearchTestCase
 {

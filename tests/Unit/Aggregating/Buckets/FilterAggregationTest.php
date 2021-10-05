@@ -1,13 +1,13 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Aggregating\Buckets;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Aggregating\Buckets;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationCollection;
-use Greensight\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 use Mockery;
 use Mockery\LegacyMockInterface;
 use Mockery\MockInterface;

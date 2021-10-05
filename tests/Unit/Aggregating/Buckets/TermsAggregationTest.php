@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Aggregating\Buckets;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Aggregating\Buckets;
 
-use Greensight\LaravelElasticQuery\Aggregating\Bucket;
-use Greensight\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
-use Greensight\LaravelElasticQuery\Aggregating\BucketCollection;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
+use Ensi\LaravelElasticQuery\Aggregating\BucketCollection;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 
 class TermsAggregationTest extends UnitTestCase
 {

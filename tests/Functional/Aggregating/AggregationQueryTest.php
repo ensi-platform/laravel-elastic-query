@@ -1,13 +1,13 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Aggregating;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Aggregating;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationsQuery;
-use Greensight\LaravelElasticQuery\Aggregating\MinMax;
-use Greensight\LaravelElasticQuery\Contracts\AggregationsBuilder;
-use Greensight\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
-use Greensight\LaravelElasticQuery\Tests\Models\ProductsIndex;
-use Greensight\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Ensi\LaravelElasticQuery\Aggregating\MinMax;
+use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
+use Ensi\LaravelElasticQuery\Tests\Models\ProductsIndex;
+use Ensi\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
 
 class AggregationQueryTest extends ElasticTestCase
 {

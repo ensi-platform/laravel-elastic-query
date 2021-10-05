@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery;
+namespace Ensi\LaravelElasticQuery;
 
-use Greensight\LaravelElasticQuery\Debug\QueryLogRecord;
-use Greensight\LaravelElasticQuery\ElasticClient;
+use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
+use Ensi\LaravelElasticQuery\ElasticClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 

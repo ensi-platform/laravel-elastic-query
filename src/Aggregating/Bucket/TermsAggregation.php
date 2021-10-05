@@ -1,10 +1,10 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating\Bucket;
+namespace Ensi\LaravelElasticQuery\Aggregating\Bucket;
 
-use Greensight\LaravelElasticQuery\Aggregating\BucketCollection;
-use Greensight\LaravelElasticQuery\Aggregating\Result;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Aggregating\BucketCollection;
+use Ensi\LaravelElasticQuery\Aggregating\Result;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Webmozart\Assert\Assert;
 
 class TermsAggregation implements Aggregation

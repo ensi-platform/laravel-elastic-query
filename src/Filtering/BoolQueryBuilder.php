@@ -1,16 +1,16 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Filtering;
+namespace Ensi\LaravelElasticQuery\Filtering;
 
 use Closure;
-use Greensight\LaravelElasticQuery\Concerns\SupportsPath;
-use Greensight\LaravelElasticQuery\Contracts\BoolQuery;
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
-use Greensight\LaravelElasticQuery\Filtering\Criterias\Exists;
-use Greensight\LaravelElasticQuery\Filtering\Criterias\Nested;
-use Greensight\LaravelElasticQuery\Filtering\Criterias\RangeBound;
-use Greensight\LaravelElasticQuery\Filtering\Criterias\Term;
-use Greensight\LaravelElasticQuery\Filtering\Criterias\Terms;
+use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
+use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\RangeBound;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Term;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Terms;
 use Illuminate\Contracts\Support\Arrayable;
 use stdClass;
 

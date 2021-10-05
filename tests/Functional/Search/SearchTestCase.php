@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Search;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Search;
 
-use Greensight\LaravelElasticQuery\Search\SearchQuery;
-use Greensight\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
-use Greensight\LaravelElasticQuery\Tests\Models\ProductsIndex;
-use Greensight\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
+use Ensi\LaravelElasticQuery\Search\SearchQuery;
+use Ensi\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
+use Ensi\LaravelElasticQuery\Tests\Models\ProductsIndex;
+use Ensi\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
 
 class SearchTestCase extends ElasticTestCase
 {

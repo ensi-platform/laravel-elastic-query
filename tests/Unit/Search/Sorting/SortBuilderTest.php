@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Unit\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Tests\Unit\Search\Sorting;
 
-use Greensight\LaravelElasticQuery\Contracts\SortableQuery;
-use Greensight\LaravelElasticQuery\Search\Sorting\SortBuilder as SortBuilderImpl;
-use Greensight\LaravelElasticQuery\Search\Sorting\SortCollection;
-use Greensight\LaravelElasticQuery\Tests\AssertsArray;
-use Greensight\LaravelElasticQuery\Tests\Unit\UnitTestCase;
+use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
+use Ensi\LaravelElasticQuery\Search\Sorting\SortBuilder as SortBuilderImpl;
+use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
+use Ensi\LaravelElasticQuery\Tests\AssertsArray;
+use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 
 class SortBuilderTest extends UnitTestCase
 {

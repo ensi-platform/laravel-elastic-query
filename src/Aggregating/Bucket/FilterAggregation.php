@@ -1,10 +1,10 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating\Bucket;
+namespace Ensi\LaravelElasticQuery\Aggregating\Bucket;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationCollection;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
-use Greensight\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Webmozart\Assert\Assert;
 
 class FilterAggregation implements Aggregation

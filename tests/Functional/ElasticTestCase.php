@@ -1,12 +1,12 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional;
+namespace Ensi\LaravelElasticQuery\Tests\Functional;
 
-use Greensight\LaravelElasticQuery\ElasticIndex;
-use Greensight\LaravelElasticQuery\ElasticQuery;
-use Greensight\LaravelElasticQuery\ElasticQueryServiceProvider;
-use Greensight\LaravelElasticQuery\Aggregating\AggregationsQuery;
-use Greensight\LaravelElasticQuery\Search\SearchQuery;
+use Ensi\LaravelElasticQuery\ElasticIndex;
+use Ensi\LaravelElasticQuery\ElasticQuery;
+use Ensi\LaravelElasticQuery\ElasticQueryServiceProvider;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Ensi\LaravelElasticQuery\Search\SearchQuery;
 use Orchestra\Testbench\TestCase;
 
 class ElasticTestCase extends TestCase

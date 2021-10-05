@@ -1,11 +1,11 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Tests\Functional\Debug;
+namespace Ensi\LaravelElasticQuery\Tests\Functional\Debug;
 
-use Greensight\LaravelElasticQuery\ElasticQuery;
-use Greensight\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
-use Greensight\LaravelElasticQuery\Tests\Models\ProductsIndex;
-use Greensight\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
+use Ensi\LaravelElasticQuery\ElasticQuery;
+use Ensi\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
+use Ensi\LaravelElasticQuery\Tests\Models\ProductsIndex;
+use Ensi\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
 
 class QueryLogTest extends ElasticTestCase
 {

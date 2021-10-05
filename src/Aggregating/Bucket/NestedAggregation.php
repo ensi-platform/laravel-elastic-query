@@ -1,9 +1,9 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating\Bucket;
+namespace Ensi\LaravelElasticQuery\Aggregating\Bucket;
 
-use Greensight\LaravelElasticQuery\Aggregating\AggregationCollection;
-use Greensight\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Webmozart\Assert\Assert;
 
 class NestedAggregation implements Aggregation

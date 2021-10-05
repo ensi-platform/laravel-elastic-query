@@ -1,14 +1,14 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Search\Sorting;
+namespace Ensi\LaravelElasticQuery\Search\Sorting;
 
 use Closure;
-use Greensight\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
-use Greensight\LaravelElasticQuery\Concerns\ExtendsSort;
-use Greensight\LaravelElasticQuery\Concerns\SupportsPath;
-use Greensight\LaravelElasticQuery\Contracts\SortableQuery;
-use Greensight\LaravelElasticQuery\Contracts\SortOrder;
-use Greensight\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
+use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
+use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
+use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
+use Ensi\LaravelElasticQuery\Contracts\SortOrder;
+use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Illuminate\Support\Collection;
 
 class SortBuilder implements SortableQuery

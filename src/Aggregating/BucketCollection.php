@@ -1,6 +1,6 @@
 <?php
 
-namespace Greensight\LaravelElasticQuery\Aggregating;
+namespace Ensi\LaravelElasticQuery\Aggregating;
 
 use Illuminate\Support\Collection;
 
