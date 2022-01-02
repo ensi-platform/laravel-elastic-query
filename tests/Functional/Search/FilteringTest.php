@@ -61,6 +61,13 @@ class FilteringTest extends SearchTestCase
         $this->assertDocumentIds([319, 471]);
     }
 
+    public function whereMatchOperatorAnd(): void
+    {
+        $this->testing->whereMatch('search_name', 'leather gloves', 'and');
+
+        $this->assertDocumentIds([319]);
+    }
+
     public function testWhereMultiMatch(): void
     {
         $this->testing->whereMultiMatch(['search_name', 'description'], 'nice gloves');

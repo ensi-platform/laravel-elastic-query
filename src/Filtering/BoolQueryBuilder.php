@@ -141,9 +141,9 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
-    public function whereMatch(string $field, string $query): static
+    public function whereMatch(string $field, string $query, string $operator = 'or'): static
     {
-        $this->must->add(new OneMatch($this->absolutePath($field), $query));
+        $this->must->add(new OneMatch($this->absolutePath($field), $query, $operator));
 
         return $this;
     }

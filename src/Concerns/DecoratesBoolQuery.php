@@ -69,7 +69,7 @@ trait DecoratesBoolQuery
         return $this;
     }
 
-    public function whereMatch(string $field, string $query): static
+    public function whereMatch(string $field, string $query, string $operator = 'or'): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
