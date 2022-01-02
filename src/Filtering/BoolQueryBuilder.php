@@ -7,7 +7,9 @@ use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
 use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\OneMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\RangeBound;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Term;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Terms;
@@ -135,6 +137,25 @@ class BoolQueryBuilder implements BoolQuery, Criteria
     public function whereNotNull(string $field): static
     {
         $this->filter->add(new Exists($this->absolutePath($field)));
+
+        return $this;
+    }
+
+    public function whereMatch(string $field, string $query): static
+    {
+        $this->must->add(new OneMatch($this->absolutePath($field), $query));
+
+        return $this;
+    }
+
+    public function whereMultiMatch(array $fields, string $query, ?string $type = null): static
+    {
+        $fields = array_map(
+            fn (string $field) => $this->absolutePath($field),
+            $fields
+        );
+
+        $this->must->add(new MultiMatch($fields, $query, $type));
 
         return $this;
     }

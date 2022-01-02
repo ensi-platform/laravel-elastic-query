@@ -29,4 +29,13 @@ class SearchTestCase extends ElasticTestCase
 
         $this->assertEqualsCanonicalizing($expected, $actual);
     }
+
+    protected function assertDocumentOrder(array $ids): void
+    {
+        $actual = $this->testing->get()
+            ->pluck('_id')
+            ->all();
+
+        $this->assertEquals($ids, $actual);
+    }
 }

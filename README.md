@@ -70,6 +70,16 @@ $searchQuery->whereDoesntHave(
 `nested_field` must have `nested` type.
 Subqueries cannot use fields of main document only subdocument.
 
+### Full text search
+
+```php
+$searchQuery->whereMatch('field_one', 'query string');
+$searchQuery->whereMultiMatch(['field_one^3', 'field_two'], 'query string', MatchType::MOST_FIELDS);
+$searchQuery->whereMultiMatch([], 'query string');  // search by all text fields
+```
+
+`field_one` and `field_two` must be of text type. If no type is given, the `MatchType::BEST_FIELDS` is used.
+
 ### Sorting
 
 ```php
