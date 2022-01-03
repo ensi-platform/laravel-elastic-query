@@ -68,13 +68,4 @@ class SearchQueryTest extends SearchTestCase
     }
 
     //endregion
-
-    protected function assertDocumentOrder(array $ids): void
-    {
-        $actual = $this->testing->get()
-            ->pluck('_id')
-            ->all();
-
-        $this->assertEquals($ids, $actual);
-    }
 }

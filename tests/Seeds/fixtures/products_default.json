@@ -32,7 +32,7 @@
   "319": {
     "product_id": 319,
     "active": false,
-    "name": "Leather gloes",
+    "name": "Leather gloves",
     "code": "gloves",
     "rating": 0,
     "description": "L gloves descriptions",
@@ -64,7 +64,7 @@
     "code": "voda-san-pellegrino-mineralnaya-gazirovannaya",
     "rating": 8,
     "package": "bottle",
-    "description": "S.Pellegrino from Dolomites",
+    "description": "S.Pellegrino from Dolomites. Pure water.",
     "tags": ["drinks", "water"],
     "offers": [
       {"seller_id": 10, "active": false, "price": 611.0},
