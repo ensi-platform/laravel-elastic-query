@@ -11,9 +11,14 @@ abstract class IndexSeeder
     protected array $settings = [];
     protected array $fixtures = [];
 
-    protected bool $recreate = false;
+    protected bool $recreate;
 
     protected ?Client $client;
+
+    public function __construct()
+    {
+        $this->recreate = config('tests.recreate_index', true);
+    }
 
     public function setClient(Client $client): void
     {
@@ -78,6 +83,8 @@ abstract class IndexSeeder
         foreach ($this->fixtures as $fixture) {
             $this->loadFixture($baseDir.$fixture);
         }
+
+        sleep(1);
     }
 
     protected function loadFixture(string $path): void
