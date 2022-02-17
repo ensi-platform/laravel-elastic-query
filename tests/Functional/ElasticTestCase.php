@@ -2,10 +2,10 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Functional;
 
+use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
 use Ensi\LaravelElasticQuery\ElasticIndex;
 use Ensi\LaravelElasticQuery\ElasticQuery;
 use Ensi\LaravelElasticQuery\ElasticQueryServiceProvider;
-use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
 use Ensi\LaravelElasticQuery\Search\SearchQuery;
 use Orchestra\Testbench\TestCase;
 

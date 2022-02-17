@@ -3,7 +3,6 @@
 namespace Ensi\LaravelElasticQuery;
 
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
-use Ensi\LaravelElasticQuery\ElasticClient;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 
