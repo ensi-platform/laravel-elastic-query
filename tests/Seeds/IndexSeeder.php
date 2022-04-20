@@ -80,18 +80,23 @@ abstract class IndexSeeder
     {
         $baseDir = __DIR__.'/fixtures/';
 
-        foreach ($this->fixtures as $fixture) {
-            $this->loadFixture($baseDir.$fixture);
-        }
+        $hasChanges = collect($this->fixtures)
+            ->reduce(
+                fn (bool $carry, string $fixture) => $this->loadFixture($baseDir.$fixture) || $carry,
+                false
+            );
 
-        sleep(1);
+        if ($hasChanges) {
+            $this->client->indices()->refresh(['index' => $this->indexName]);
+        }
     }
 
-    protected function loadFixture(string $path): void
+    protected function loadFixture(string $path): bool
     {
         $documents = json_decode(file_get_contents($path), true);
+
         if (empty($documents)) {
-            return;
+            return false;
         }
 
         $body = collect($documents)
@@ -99,6 +104,8 @@ abstract class IndexSeeder
             ->toArray();
 
         $this->client->bulk(['body' => $body]);
+
+        return true;
     }
 
     protected function documentToCommand(array $document, int $id): array
