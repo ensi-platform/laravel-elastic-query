@@ -18,6 +18,11 @@ class ElasticTestCase extends TestCase
         ];
     }
 
+    protected function getEnvironmentSetUp($app)
+    {
+        config()->set('tests.recreate_index', env('RECREATE_INDEX', true));
+    }
+
     protected function tearDown(): void
     {
         ElasticQuery::disableQueryLog();
