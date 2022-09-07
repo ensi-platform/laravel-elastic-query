@@ -34,7 +34,7 @@ class ElasticClient
     {
         $this->client->indices()->create([
             'index' => $index,
-            'body' => $settings
+            'body' => $settings,
         ]);
     }
 
