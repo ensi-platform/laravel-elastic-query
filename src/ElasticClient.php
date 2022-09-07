@@ -25,6 +25,19 @@ class ElasticClient
         ]);
     }
 
+    public function indicesExists(string $index): bool
+    {
+        return $this->client->indices()->exists(['index' => $index]);
+    }
+
+    public function indicesCreate(string $index, array $settings): void
+    {
+        $this->client->indices()->create([
+            'index' => $index,
+            'body' => $settings
+        ]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
