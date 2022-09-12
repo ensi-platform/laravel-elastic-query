@@ -46,6 +46,14 @@ class ElasticClient
         ]);
     }
 
+    public function documentDelete(string $index, int $id): array
+    {
+        return $this->client->delete([
+            'index' => $index,
+            'id' => $id
+        ]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
