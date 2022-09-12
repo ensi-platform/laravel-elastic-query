@@ -42,6 +42,11 @@ trait InteractsWithIndex
         $this->resolveClient()->indicesCreate($this->indexName(), $this->settings());
     }
 
+    public function bulk(array $body): array
+    {
+        return $this->resolveClient()->bulk($this->indexName(), $body);
+    }
+
     public static function query(): SearchQuery
     {
         return new SearchQuery(new static());

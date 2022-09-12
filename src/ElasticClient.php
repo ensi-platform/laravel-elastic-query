@@ -38,6 +38,14 @@ class ElasticClient
         ]);
     }
 
+    public function bulk(string $index, array $body): array
+    {
+        return $this->client->bulk([
+            'index' => $index,
+            'body' => $body
+        ]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
