@@ -50,7 +50,7 @@ class ElasticClient
     {
         return $this->client->delete([
             'index' => $index,
-            'id' => $id
+            'id' => $id,
         ]);
     }
 
