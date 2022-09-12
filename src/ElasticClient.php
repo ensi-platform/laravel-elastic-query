@@ -42,7 +42,7 @@ class ElasticClient
     {
         return $this->client->bulk([
             'index' => $index,
-            'body' => $body
+            'body' => $body,
         ]);
     }
 
