@@ -25,6 +25,14 @@ class ElasticClient
         ]);
     }
 
+    public function get(string $indexName, $id): array
+    {
+        return $this->client->get([
+            'index' => $indexName,
+            'id' => $id,
+        ]);
+    }
+
     public function indicesExists(string $index): bool
     {
         return $this->client->indices()->exists(['index' => $index]);

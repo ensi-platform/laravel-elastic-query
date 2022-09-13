@@ -47,6 +47,11 @@ trait InteractsWithIndex
         return $this->resolveClient()->bulk($this->indexName(), $body);
     }
 
+    public function get($id): array
+    {
+        return $this->resolveClient()->get($this->indexName(), $id);
+    }
+
     public function documentDelete(int $id): array
     {
         return $this->resolveClient()->documentDelete($this->indexName(), $id);
