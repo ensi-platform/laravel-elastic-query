@@ -21,7 +21,7 @@ trait InteractsWithIndex
 
     protected function settings(): array
     {
-        throw new Exception("Необходимо переопределить метод");
+        throw new Exception("Need to redefine the method");
     }
 
     /**

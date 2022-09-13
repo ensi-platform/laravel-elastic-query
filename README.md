@@ -181,6 +181,18 @@ $aggQuery->composite(function (AggregationsBuilder $builder) {
 });
 ```
 
+## Additional methods
+
+```php
+$index = new ProductsIndex();
+
+$index->isCreated(); // Check if index are created 
+$index->create(); // Create index with structure from settings() method
+$index->bulk(); // Send bulk request
+$index->get(); // Send get request
+$index->documentDelete(); // Send documentDelete request
+```
+
 ## Query Log
 
 Just like Eloquent ElasticQuery has its own query log, but you need to enable it manually
