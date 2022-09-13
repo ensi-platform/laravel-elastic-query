@@ -25,6 +25,43 @@ class ElasticClient
         ]);
     }
 
+    public function get(string $indexName, $id): array
+    {
+        return $this->client->get([
+            'index' => $indexName,
+            'id' => $id,
+        ]);
+    }
+
+    public function indicesExists(string $index): bool
+    {
+        return $this->client->indices()->exists(['index' => $index]);
+    }
+
+    public function indicesCreate(string $index, array $settings): void
+    {
+        $this->client->indices()->create([
+            'index' => $index,
+            'body' => $settings,
+        ]);
+    }
+
+    public function bulk(string $index, array $body): array
+    {
+        return $this->client->bulk([
+            'index' => $index,
+            'body' => $body,
+        ]);
+    }
+
+    public function documentDelete(string $index, int $id): array
+    {
+        return $this->client->delete([
+            'index' => $index,
+            'id' => $id,
+        ]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();

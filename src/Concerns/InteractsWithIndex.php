@@ -6,6 +6,7 @@ use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\ElasticClient;
 use Ensi\LaravelElasticQuery\Search\SearchQuery;
+use Exception;
 
 trait InteractsWithIndex
 {
@@ -18,12 +19,42 @@ trait InteractsWithIndex
 
     abstract protected function indexName(): string;
 
+    protected function settings(): array
+    {
+        throw new Exception("Need to redefine the method");
+    }
+
     /**
      * @see SearchIndex::search()
      */
     public function search(array $dsl): array
     {
         return $this->resolveClient()->search($this->indexName(), $dsl);
+    }
+
+    public function isCreated(): bool
+    {
+        return $this->resolveClient()->indicesExists($this->indexName());
+    }
+
+    public function create(): void
+    {
+        $this->resolveClient()->indicesCreate($this->indexName(), $this->settings());
+    }
+
+    public function bulk(array $body): array
+    {
+        return $this->resolveClient()->bulk($this->indexName(), $body);
+    }
+
+    public function get($id): array
+    {
+        return $this->resolveClient()->get($this->indexName(), $id);
+    }
+
+    public function documentDelete(int $id): array
+    {
+        return $this->resolveClient()->documentDelete($this->indexName(), $id);
     }
 
     public static function query(): SearchQuery
