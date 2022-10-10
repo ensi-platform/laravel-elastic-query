@@ -32,6 +32,14 @@ trait InteractsWithIndex
         return $this->resolveClient()->search($this->indexName(), $dsl);
     }
 
+    /**
+     * @see SearchIndex::search()
+     */
+    public function deleteByQuery(array $dsl): array
+    {
+        return $this->resolveClient()->deleteByQuery($this->indexName(), $dsl);
+    }
+
     public function isCreated(): bool
     {
         return $this->resolveClient()->indicesExists($this->indexName());
