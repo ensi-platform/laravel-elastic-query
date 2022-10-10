@@ -191,6 +191,7 @@ $index->create(); // Create index with structure from settings() method
 $index->bulk(); // Send bulk request
 $index->get(); // Send get request
 $index->documentDelete(); // Send documentDelete request
+$index->deleteByQuery(); // Send deleteByQuery request
 ```
 
 ## Query Log
