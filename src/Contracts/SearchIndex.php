@@ -18,4 +18,12 @@ interface SearchIndex
      * @return array
      */
     public function search(array $dsl): array;
+
+    /**
+     * Perform delete by query.
+     *
+     * @param array $dsl
+     * @return array
+     */
+    public function deleteByQuery(array $dsl): array;
 }
