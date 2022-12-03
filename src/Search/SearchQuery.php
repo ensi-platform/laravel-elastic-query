@@ -141,9 +141,10 @@ class SearchQuery implements SortableQuery
     //endregion
 
     //region Customization
-    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null): static
+    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null, ?string $missingValues = null): static
     {
-        (new SortBuilder($this->sorts))->sortBy($field, $order, $mode);
+        (new SortBuilder($this->sorts))
+            ->sortBy($field, $order, $mode, $missingValues);
 
         return $this;
     }

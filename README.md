@@ -83,7 +83,7 @@ $searchQuery->whereMultiMatch([], 'query string');  // search by all text fields
 ### Sorting
 
 ```php
-$searchQuery->sortBy('field', 'desc', 'max'); // field is from main document
+$searchQuery->sortBy('field', SortOrder::DESC, SortMode::MAX, MissingValuesMode::FIRST); // field is from main document
 $searchQuery->sortByNested(
     'nested_field',
     fn(SortableQuery $subQuery) => $subQuery->where('field_in_nested', 'value')->sortBy('field')
@@ -134,6 +134,7 @@ $aggQuery = ProductsIndex::aggregate();
 $aggs = $aggQuery
             ->where('active', true)
             ->terms('codes', 'code')
+            ->count('product_count', 'product_id')
             ->nested(
                 'offers',
                 fn(AggregationsBuilder $builder) => $builder->where('seller_id', 10)->minmax('price', 'price')
@@ -153,7 +154,7 @@ Aggregate names must be unique for whole query.
 Get all variants of attribute values:
 
 ```php
-$aggQuery->terms('agg_name', 'field');
+$aggQuery->terms('agg_name', 'field', 25);
 ```
 
 Get min and max attribute values. E.g for date:
@@ -161,6 +162,13 @@ Get min and max attribute values. E.g for date:
 ```php
 $aggQuery->minmax('agg_name', 'field');
 ```
+
+Get count unique attribute values:
+
+```php
+$aggQuery->count('agg_name', 'field');
+```
+
 
 Aggregation plays nice with nested documents.
 

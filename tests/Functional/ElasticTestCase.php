@@ -11,6 +11,8 @@ use Orchestra\Testbench\TestCase;
 
 class ElasticTestCase extends TestCase
 {
+    const TOTAL_PRODUCTS = 6;
+
     protected function getPackageProviders($app): array
     {
         return [

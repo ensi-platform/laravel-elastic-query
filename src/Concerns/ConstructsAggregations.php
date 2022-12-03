@@ -8,6 +8,7 @@ use Ensi\LaravelElasticQuery\Aggregating\Bucket\NestedAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
+use Ensi\LaravelElasticQuery\Aggregating\Metrics\ValueCountAggregation;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 
 trait ConstructsAggregations
@@ -18,9 +19,9 @@ trait ConstructsAggregations
     protected AggregationCollection $aggregations;
     protected BoolQueryBuilder $boolQuery;
 
-    public function terms(string $name, string $field): static
+    public function terms(string $name, string $field, ?int $size = null): static
     {
-        $this->aggregations->add(new TermsAggregation($name, $this->absolutePath($field)));
+        $this->aggregations->add(new TermsAggregation($name, $this->absolutePath($field), $size));
 
         return $this;
     }
@@ -28,6 +29,13 @@ trait ConstructsAggregations
     public function minmax(string $name, string $field): static
     {
         $this->aggregations->add(new MinMaxAggregation($name, $this->absolutePath($field)));
+
+        return $this;
+    }
+
+    public function count(string $name, string $field): static
+    {
+        $this->aggregations->add(new ValueCountAggregation($name, $this->absolutePath($field)));
 
         return $this;
     }
