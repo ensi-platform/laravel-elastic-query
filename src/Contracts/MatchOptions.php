@@ -7,7 +7,7 @@ use Webmozart\Assert\Assert;
 
 class MatchOptions implements Arrayable
 {
-    public function __construct(private array $options)
+    public function __construct(private array $options = [])
     {
     }
 
