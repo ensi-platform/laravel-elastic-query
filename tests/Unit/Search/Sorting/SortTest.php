@@ -2,6 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Unit\Search\Sorting;
 
+use Ensi\LaravelElasticQuery\Contracts\MissingValuesMode;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Search\Sorting\NestedSort;
 use Ensi\LaravelElasticQuery\Search\Sorting\Sort;
@@ -17,7 +18,7 @@ class SortTest extends UnitTestCase
     public function testOrderDesc(): void
     {
         $this->assertEquals(
-            ['code' => ['order' => 'desc', 'missing' => '_first']],
+            ['code' => 'desc'],
             (new Sort('code', 'desc'))->toDSL()
         );
     }
@@ -27,6 +28,14 @@ class SortTest extends UnitTestCase
         $this->assertEquals(
             ['code' => ['order' => 'asc', 'mode' => 'min']],
             (new Sort('code', mode: 'min'))->toDSL()
+        );
+    }
+
+    public function testMissingValuesMode(): void
+    {
+        $this->assertEquals(
+            ['code' => ['order' => 'asc', 'missing' => '_first']],
+            (new Sort('code', missingValues: MissingValuesMode::FIRST))->toDSL()
         );
     }
 
@@ -44,7 +53,7 @@ class SortTest extends UnitTestCase
     {
         $testing = new Sort('code', 'desc');
 
-        $this->assertEquals(['code' => 'asc'], $testing->invert()->toDSL());
+        $this->assertEquals(['code' => ['order' => 'asc', 'missing' => '_first']], $testing->invert()->toDSL());
     }
 
     public function testInvertNested(): void

@@ -9,8 +9,6 @@ use Ensi\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
 
 class SearchTestCase extends ElasticTestCase
 {
-    const TOTAL_PRODUCTS = 6;
-
     protected SearchQuery $testing;
 
     protected function setUp(): void

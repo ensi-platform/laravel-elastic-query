@@ -6,7 +6,7 @@ use Closure;
 
 interface SortableQuery extends BoolQuery
 {
-    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null): static;
+    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null, ?string $missingValues = null): static;
 
     public function minSortBy(string $field, string $order = SortOrder::ASC): static;
 

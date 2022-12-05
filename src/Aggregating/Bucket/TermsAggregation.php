@@ -9,10 +9,11 @@ use Webmozart\Assert\Assert;
 
 class TermsAggregation implements Aggregation
 {
-    public function __construct(private string $name, private string $field)
+    public function __construct(private string $name, private string $field, private ?int $size = null)
     {
         Assert::stringNotEmpty(trim($name));
         Assert::stringNotEmpty(trim($field));
+        Assert::nullOrGreaterThan($this->size, 0);
     }
 
     public function name(): string
@@ -22,11 +23,15 @@ class TermsAggregation implements Aggregation
 
     public function toDSL(): array
     {
+        $body = ['field' => $this->field];
+
+        if ($this->size !== null) {
+            $body['size'] = $this->size;
+        }
+
         return [
             $this->name => [
-                'terms' => [
-                    'field' => $this->field,
-                ],
+                'terms' => $body,
             ],
         ];
     }

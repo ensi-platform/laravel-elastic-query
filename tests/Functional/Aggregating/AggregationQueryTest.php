@@ -26,6 +26,7 @@ class AggregationQueryTest extends ElasticTestCase
         $this->testing
             ->where('package', 'bottle')
             ->terms('codes', 'code')
+            ->count('product_count', 'product_id')
             ->nested(
                 'offers',
                 fn (AggregationsBuilder $builder) => $builder->where('seller_id', 10)->minmax('price', 'price')
@@ -37,7 +38,9 @@ class AggregationQueryTest extends ElasticTestCase
             ['voda-san-pellegrino-mineralnaya-gazirovannaya', 'water'],
             $results->get('codes')->pluck('key')->all()
         );
+
         $this->assertEquals(new MinMax(168.0, 611.0), $results->get('price'));
+        $this->assertEquals(2, $results->get('product_count'));
     }
 
     public function testComposite(): void
@@ -53,5 +56,25 @@ class AggregationQueryTest extends ElasticTestCase
             ['voda-san-pellegrino-mineralnaya-gazirovannaya', 'water'],
             $results->get('codes')->pluck('key')->all()
         );
+    }
+
+    public function testCountAll(): void
+    {
+        $this->testing->count('product_count', 'product_id');
+
+        $results = $this->testing->get();
+
+        $this->assertEquals(self::TOTAL_PRODUCTS, $results->get('product_count'));
+    }
+
+    public function testTermsSize(): void
+    {
+        $this->testing
+            ->where('package', 'bottle')
+            ->terms('codes', 'code', 1);
+
+        $results = $this->testing->get();
+
+        $this->assertCount(1, $results->get('codes'));
     }
 }

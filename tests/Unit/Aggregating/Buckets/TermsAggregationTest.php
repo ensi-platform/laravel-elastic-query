@@ -19,6 +19,13 @@ class TermsAggregationTest extends UnitTestCase
         $this->assertArrayStructure(['agg1' => ['terms' => ['field']]], $testing->toDSL());
     }
 
+    public function testToDSLWithSize(): void
+    {
+        $testing = new TermsAggregation('agg1', 'code', 24);
+
+        $this->assertArrayStructure(['agg1' => ['terms' => ['field', 'size']]], $testing->toDSL());
+    }
+
     public function testParseResults(): void
     {
         $result = $this->executeParseResults('agg1');
