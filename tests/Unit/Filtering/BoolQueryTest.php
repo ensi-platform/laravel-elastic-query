@@ -3,6 +3,9 @@
 namespace Ensi\LaravelElasticQuery\Tests\Unit\Filtering;
 
 use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchType;
+use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Tests\AssertsArray;
 use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
@@ -127,6 +130,55 @@ class BoolQueryTest extends UnitTestCase
             '>=' => ['>=', ['range' => ['rating' => ['gte' => 5]]]],
             '<' => ['<', ['range' => ['rating' => ['lt' => 5]]]],
             '<=' => ['<=', ['range' => ['rating' => ['lte' => 5]]]],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMatch
+     */
+    public function testMatch(string|MatchOptions $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->whereMatch('name', 'foo', $options)->toDSL();
+
+        $this->assertArrayFragment(array_merge(['query' => 'foo'], $expected), $dsl);
+    }
+
+    public function provideMatch(): array
+    {
+        return [
+            'operator' => ['and', ['operator' => 'and']],
+            'fuzziness' => [MatchOptions::make(fuzziness: 'AUTO'), ['fuzziness' => 'AUTO']],
+            'minimum_should_match' => [
+                MatchOptions::make(minimumShouldMatch: '50%'),
+                ['minimum_should_match' => '50%'],
+            ],
+            'many options' => [
+                MatchOptions::make(operator: 'or', fuzziness: '2', minimumShouldMatch: '30%'),
+                ['minimum_should_match' => '30%', 'fuzziness' => '2', 'operator' => 'or'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideMultiMatch
+     */
+    public function testMultiMatch(string|MultiMatchOptions|null $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->whereMultiMatch(['foo', 'bar'], 'baz', $options)->toDSL();
+
+        $this->assertArrayFragment(array_merge(['query' => 'baz', 'fields' => ['foo', 'bar']], $expected), $dsl);
+    }
+
+    public function provideMultiMatch(): array
+    {
+        return [
+            'type as string' => [MatchType::CROSS_FIELDS, ['type' => MatchType::CROSS_FIELDS]],
+            'type in options' => [MultiMatchOptions::make(MatchType::PHRASE), ['type' => MatchType::PHRASE]],
+            'fuzziness' => [MultiMatchOptions::make(fuzziness: 'AUTO'), ['fuzziness' => 'AUTO']],
+            'multiple options' => [
+                MultiMatchOptions::make(type: MatchType::MOST_FIELDS, fuzziness: '3', minimumShouldMatch: '30%'),
+                ['minimum_should_match' => '30%', 'fuzziness' => '3', 'type' => MatchType::MOST_FIELDS],
+            ],
         ];
     }
 }

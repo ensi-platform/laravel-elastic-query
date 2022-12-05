@@ -3,14 +3,12 @@
 namespace Ensi\LaravelElasticQuery\Filtering\Criterias;
 
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
-use Ensi\LaravelElasticQuery\Contracts\MatchType;
-use Webmozart\Assert\Assert;
+use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 
 class MultiMatch implements Criteria
 {
-    public function __construct(private array $fields, private string $query, private ?string $type = null)
+    public function __construct(private array $fields, private string $query, private MultiMatchOptions $options)
     {
-        Assert::nullOrOneOf($this->type, MatchType::cases());
     }
 
     public function toDSL(): array
@@ -21,10 +19,6 @@ class MultiMatch implements Criteria
             $dsl['fields'] = $this->fields;
         }
 
-        if ($this->type !== null) {
-            $dsl['type'] = $this->type;
-        }
-
-        return ['multi_match' => $dsl];
+        return ['multi_match' => array_merge($this->options->toArray(), $dsl)];
     }
 }
