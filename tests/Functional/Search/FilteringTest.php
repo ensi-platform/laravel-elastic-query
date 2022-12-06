@@ -3,6 +3,8 @@
 namespace Ensi\LaravelElasticQuery\Tests\Functional\Search;
 
 use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
+use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 
 class FilteringTest extends SearchTestCase
 {
@@ -61,11 +63,18 @@ class FilteringTest extends SearchTestCase
         $this->assertDocumentIds([319, 471]);
     }
 
-    public function whereMatchOperatorAnd(): void
+    public function testWhereMatchOperatorAnd(): void
     {
         $this->testing->whereMatch('search_name', 'leather gloves', 'and');
 
         $this->assertDocumentIds([319]);
+    }
+
+    public function testWhereMatchOptions(): void
+    {
+        $this->testing->whereMatch('search_name', 'leather glaves', MatchOptions::make(fuzziness: 'AUTO'));
+
+        $this->assertDocumentIds([319, 471]);
     }
 
     public function testWhereMultiMatch(): void
@@ -87,5 +96,16 @@ class FilteringTest extends SearchTestCase
         $this->testing->whereMultiMatch(['search_name^2', 'description'], 'water');
 
         $this->assertDocumentOrder([150, 405]);
+    }
+
+    public function testWhereMultiMatchOptions(): void
+    {
+        $this->testing->whereMultiMatch(
+            ['search_name', 'description'],
+            'nace gloves',
+            MultiMatchOptions::make(fuzziness: 'AUTO')
+        );
+
+        $this->assertDocumentIds([471, 328, 319]);
     }
 }

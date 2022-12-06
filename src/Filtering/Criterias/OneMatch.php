@@ -3,26 +3,23 @@
 namespace Ensi\LaravelElasticQuery\Filtering\Criterias;
 
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
 use Webmozart\Assert\Assert;
 
 class OneMatch implements Criteria
 {
-    public function __construct(private string $field, private string $query, private string $operator)
+    public function __construct(private string $field, private string $query, private MatchOptions $options)
     {
         Assert::stringNotEmpty(trim($field));
-        Assert::oneOf($operator, ['and', 'or']);
     }
 
     public function toDSL(): array
     {
-        $body = [
-            'query' => $this->query,
-            'operator' => $this->operator,
-        ];
+        $body = ['query' => $this->query];
 
         return [
             'match' => [
-                $this->field => $body,
+                $this->field => array_merge($this->options->toArray(), $body),
             ],
         ];
     }

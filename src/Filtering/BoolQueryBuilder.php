@@ -6,6 +6,8 @@ use Closure;
 use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
 use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
+use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
@@ -141,21 +143,24 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
-    public function whereMatch(string $field, string $query, string $operator = 'or'): static
+    public function whereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static
     {
-        $this->must->add(new OneMatch($this->absolutePath($field), $query, $operator));
+        $options = is_string($operator) ? MatchOptions::make($operator) : $operator;
+        $this->must->add(new OneMatch($this->absolutePath($field), $query, $options));
 
         return $this;
     }
 
-    public function whereMultiMatch(array $fields, string $query, ?string $type = null): static
+    public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
     {
+        $options = is_string($type) ? MultiMatchOptions::make($type) : $type;
+
         $fields = array_map(
             fn (string $field) => $this->absolutePath($field),
             $fields
         );
 
-        $this->must->add(new MultiMatch($fields, $query, $type));
+        $this->must->add(new MultiMatch($fields, $query, $options ?? new MultiMatchOptions()));
 
         return $this;
     }

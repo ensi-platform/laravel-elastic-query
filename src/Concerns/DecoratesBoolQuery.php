@@ -3,6 +3,8 @@
 namespace Ensi\LaravelElasticQuery\Concerns;
 
 use Closure;
+use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
@@ -69,14 +71,14 @@ trait DecoratesBoolQuery
         return $this;
     }
 
-    public function whereMatch(string $field, string $query, string $operator = 'or'): static
+    public function whereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
         return $this;
     }
 
-    public function whereMultiMatch(array $fields, string $query, ?string $type = null): static
+    public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 

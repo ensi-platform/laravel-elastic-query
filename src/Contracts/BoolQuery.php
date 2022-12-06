@@ -23,7 +23,7 @@ interface BoolQuery
 
     public function whereNotNull(string $field): static;
 
-    public function whereMatch(string $field, string $query, string $operator = 'or'): static;
+    public function whereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static;
 
-    public function whereMultiMatch(array $fields, string $query, ?string $type = null): static;
+    public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static;
 }
