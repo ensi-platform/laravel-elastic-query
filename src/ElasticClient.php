@@ -78,6 +78,7 @@ class ElasticClient
         if ($getFields) {
             $params['h'] = $getFields;
         }
+
         return $this->client->cat()->indices($params);
     }
 
