@@ -72,6 +72,20 @@ class ElasticClient
         ]);
     }
 
+    public function catIndices(string $indexName, ?array $getFields = null)
+    {
+        $params = ['index' => "$indexName*"];
+        if ($getFields) {
+            $params['h'] = $getFields;
+        }
+        return $this->client->cat()->indices($params);
+    }
+
+    public function indicesDelete(string $index)
+    {
+        return $this->client->indices()->delete(['index' => $index]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
