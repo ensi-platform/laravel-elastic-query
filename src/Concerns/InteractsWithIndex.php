@@ -65,6 +65,16 @@ trait InteractsWithIndex
         return $this->resolveClient()->documentDelete($this->indexName(), $id);
     }
 
+    public function catIndices(string $indexName, ?array $getFields = null)
+    {
+        return $this->resolveClient()->catIndices($indexName, $getFields);
+    }
+
+    public function indicesDelete(string $index)
+    {
+        return $this->resolveClient()->indicesDelete($index);
+    }
+
     public static function query(): SearchQuery
     {
         return new SearchQuery(new static());
