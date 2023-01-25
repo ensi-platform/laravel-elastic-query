@@ -55,12 +55,12 @@ trait InteractsWithIndex
         return $this->resolveClient()->bulk($this->indexName(), $body);
     }
 
-    public function get($id): array
+    public function get(int|string $id): array
     {
         return $this->resolveClient()->get($this->indexName(), $id);
     }
 
-    public function documentDelete(int $id): array
+    public function documentDelete(int|string $id): array
     {
         return $this->resolveClient()->documentDelete($this->indexName(), $id);
     }
