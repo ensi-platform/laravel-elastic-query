@@ -35,7 +35,7 @@ class ElasticClient
         ]);
     }
 
-    public function get(string $indexName, $id): array
+    public function get(string $indexName, int|string $id): array
     {
         return $this->client->get([
             'index' => $indexName,
@@ -64,7 +64,7 @@ class ElasticClient
         ]);
     }
 
-    public function documentDelete(string $index, int $id): array
+    public function documentDelete(string $index, int|string $id): array
     {
         return $this->client->delete([
             'index' => $index,
