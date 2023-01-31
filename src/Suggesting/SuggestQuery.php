@@ -12,7 +12,6 @@ class SuggestQuery
 {
     public function __construct(protected SearchIndex $index)
     {
-
     }
 
     //region Executing
