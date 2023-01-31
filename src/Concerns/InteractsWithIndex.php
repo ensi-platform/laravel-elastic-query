@@ -6,6 +6,7 @@ use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\ElasticClient;
 use Ensi\LaravelElasticQuery\Search\SearchQuery;
+use Ensi\LaravelElasticQuery\Suggesting\SuggestQuery;
 use Exception;
 
 trait InteractsWithIndex
@@ -83,6 +84,11 @@ trait InteractsWithIndex
     public static function aggregate(): AggregationsQuery
     {
         return new AggregationsQuery(new static());
+    }
+
+    public static function suggest(): SuggestQuery
+    {
+        return new SuggestQuery(new static());
     }
 
     protected function resolveClient(): ElasticClient
