@@ -7,6 +7,7 @@ use Ensi\LaravelElasticQuery\ElasticIndex;
 use Ensi\LaravelElasticQuery\ElasticQuery;
 use Ensi\LaravelElasticQuery\ElasticQueryServiceProvider;
 use Ensi\LaravelElasticQuery\Search\SearchQuery;
+use Ensi\LaravelElasticQuery\Suggesting\SuggestQuery;
 use Orchestra\Testbench\TestCase;
 
 class ElasticTestCase extends TestCase
@@ -46,5 +47,13 @@ class ElasticTestCase extends TestCase
     protected function makeAggregationsQuery(string $indexClass): AggregationsQuery
     {
         return $indexClass::aggregate();
+    }
+
+    /**
+     * @param string|ElasticIndex $indexClass
+     */
+    protected function makeSuggestQuery(string $indexClass): SuggestQuery
+    {
+        return $indexClass::suggest();
     }
 }

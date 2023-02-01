@@ -3,70 +3,63 @@
 namespace Ensi\LaravelElasticQuery\Suggesting;
 
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
-use Ensi\LaravelElasticQuery\Contracts\SortOrder;
-use Ensi\LaravelElasticQuery\Search\Sorting\SortBuilder;
-use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
+use Ensi\LaravelElasticQuery\Suggesting\Request\PhraseSuggester;
+use Ensi\LaravelElasticQuery\Suggesting\Request\TermSuggester;
 use Illuminate\Support\Collection;
 
 class SuggestQuery
 {
+    protected ?string $text = null;
+    protected SuggesterCollection $suggesters;
+
     public function __construct(protected SearchIndex $index)
     {
+        $this->suggesters = new SuggesterCollection();
+    }
+
+    public function newTermSuggester(string $name, string $field): TermSuggester
+    {
+        $suggester = new TermSuggester($name, $field);
+        $this->suggesters->add($suggester);
+
+        return $suggester;
+    }
+
+    public function newPhraseSuggester(string $name, string $field): PhraseSuggester
+    {
+        $suggester = new PhraseSuggester($name, $field);
+        $this->suggesters->add($suggester);
+
+        return $suggester;
     }
 
     //region Executing
     public function get(): Collection
     {
-        if ($this->size === 0) {
-            return new Collection();
-        }
+        $response = $this->execute();
 
-        $response = $this->execute(size: $this->size, from: $this->from);
-
-        return $this->parseHits($response);
+        return $this->suggesters->parseResults($response['suggest'] ?? []);
     }
 
-    protected function execute(
-        ?SortCollection $sorts = null,
-        ?int $size = null,
-        ?int $from = null,
-        bool $totals = false,
-        bool $source = true,
-        ?Cursor $cursor = null
-    ): array {
+    protected function execute(): array
+    {
         $dsl = [
-            'size' => $size,
-            'from' => $from,
-            'query' => $this->boolQuery->toDSL(),
-            'track_total_hits' => $totals,
-            '_source' => $source && !$this->fields,
-            'fields' => $source && $this->fields ? $this->fields : null,
+            'suggest' => $this->suggesters->toDSL(),
         ];
 
-        $sorts ??= $this->sorts;
-        if (!$sorts->isEmpty()) {
-            $dsl['sort'] = $sorts->toDSL();
-        }
-
-        if ($cursor !== null && !$cursor->isBOF()) {
-            $dsl['search_after'] = $cursor->toDSL();
+        if ($this->text) {
+            $dsl['suggest']['text'] = $this->text;
         }
 
         return $this->index->search(array_filter($dsl));
     }
 
-    protected function parseHits(array $response): Collection
-    {
-        return collect(data_get($response, 'hits.hits') ?? []);
-    }
-
     //endregion
 
     //region Customization
-    public function sortBy(string $field, string $order = SortOrder::ASC, ?string $mode = null, ?string $missingValues = null): static
+    public function globalText(string $text): static
     {
-        (new SortBuilder($this->sorts))
-            ->sortBy($field, $order, $mode, $missingValues);
+        $this->text = $text;
 
         return $this;
     }

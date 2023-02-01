@@ -123,7 +123,7 @@ $pageNext = $searchQuery->cursorPaginate(10, $page->next);
  `current`, `next`, `previous` is returned in this case instead of `total`, `size` and `offset`.
  You can check Laravel docs for more info about cursor pagination.
 
-## Aggregation
+## Suggester
 
 Aggregaction queries can be created like this
 
@@ -170,7 +170,7 @@ $aggQuery->count('agg_name', 'field');
 ```
 
 
-Aggregation plays nice with nested documents.
+Suggester plays nice with nested documents.
 
 ```php
 $aggQuery->nested('nested_field', function (AggregationsBuilder $builder) {
