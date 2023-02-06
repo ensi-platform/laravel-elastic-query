@@ -139,8 +139,6 @@ $aggs = $aggQuery
                 'offers',
                 fn(AggregationsBuilder $builder) => $builder->where('seller_id', 10)->minmax('price', 'price')
             );
-
-$aggs
             
 ```
 
@@ -189,6 +187,53 @@ $aggQuery->composite(function (AggregationsBuilder $builder) {
 });
 ```
 
+## Suggesting
+
+Suggest queries can be created like this
+
+```php
+$sugQuery = ProductsIndex::suggest();
+
+/** @var \Illuminate\Support\Collection $suggests */
+$suggests = $sugQuery->phrase('suggestName', 'name.trigram')
+    ->text('glves')
+    ->size(1)
+    ->shardSize(3)
+    ->get();
+            
+```
+
+### Global suggest text
+
+User can set global text like this
+
+```php
+$sugQuery = ProductsIndex::suggest()->text('glves');
+
+$sugQuery->phrase('suggestName1', 'name.trigram')->size(1)->shardSize(3);
+    
+$sugQuery->phrase('suggestName2', 'name.trigram');
+    
+/** @var \Illuminate\Support\Collection $suggests */
+$suggests = $sugQuery->get();
+            
+```
+
+
+### Suggester types
+
+Term suggester:
+
+```php
+$aggQuery->term('suggestName', 'name.trigram')->text('glves')->...->get();
+```
+
+Phrase Suggester:
+
+```php
+$aggQuery->phrase('suggestName', 'name.trigram')->text('glves')->...->get();
+```
+
 ## Additional methods
 
 ```php
@@ -200,6 +245,10 @@ $index->bulk(); // Send bulk request
 $index->get(); // Send get request
 $index->documentDelete(); // Send documentDelete request
 $index->deleteByQuery(); // Send deleteByQuery request
+
+$index->catIndices();
+$index->indicesDelete();
+$index->indicesRefresh();
 ```
 
 ## Query Log

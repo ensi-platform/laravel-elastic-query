@@ -17,7 +17,7 @@ class SuggestQuery
         $this->suggesters = new SuggesterCollection();
     }
 
-    public function newTermSuggester(string $name, string $field): TermSuggester
+    public function term(string $name, string $field): TermSuggester
     {
         $suggester = new TermSuggester($name, $field);
         $this->suggesters->add($suggester);
@@ -25,7 +25,7 @@ class SuggestQuery
         return $suggester;
     }
 
-    public function newPhraseSuggester(string $name, string $field): PhraseSuggester
+    public function phrase(string $name, string $field): PhraseSuggester
     {
         $suggester = new PhraseSuggester($name, $field);
         $this->suggesters->add($suggester);

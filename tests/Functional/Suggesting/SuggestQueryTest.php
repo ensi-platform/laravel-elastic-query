@@ -21,7 +21,7 @@ class SuggestQueryTest extends ElasticTestCase
 
     public function testPhraseSuggesterGet(): void
     {
-        $this->testing->newPhraseSuggester('s', 'name.trigram')->text('glves')->size(1)->shardSize(3);
+        $this->testing->phrase('s', 'name.trigram')->text('glves')->size(1)->shardSize(3);
         $results = $this->testing->get();
 
         $this->assertEquals('gloves', $results->get('s')?->first()?->options?->first()?->text);
@@ -29,7 +29,7 @@ class SuggestQueryTest extends ElasticTestCase
 
     public function testTermSuggesterGet(): void
     {
-        $this->testing->newTermSuggester('s', 'name.trigram')->text('glves')->size(1)->shardSize(3);
+        $this->testing->term('s', 'name.trigram')->text('glves')->size(1)->shardSize(3);
         $results = $this->testing->get();
 
         $this->assertEquals('gloves', $results->get('s')?->first()?->options?->first()?->text);
@@ -39,7 +39,7 @@ class SuggestQueryTest extends ElasticTestCase
     {
         $this->testing->globalText('glves');
 
-        $this->testing->newPhraseSuggester('s', 'name.trigram')->size(1)->shardSize(3);
+        $this->testing->phrase('s', 'name.trigram')->size(1)->shardSize(3);
         $results = $this->testing->get();
 
         $this->assertEquals('gloves', $results->get('s')?->first()?->options?->first()?->text);
