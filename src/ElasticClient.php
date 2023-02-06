@@ -82,9 +82,14 @@ class ElasticClient
         return $this->client->cat()->indices($params);
     }
 
-    public function indicesDelete(string $index)
+    public function indicesDelete(string $indexName)
     {
-        return $this->client->indices()->delete(['index' => $index]);
+        return $this->client->indices()->delete(['index' => $indexName]);
+    }
+
+    public function indicesRefresh(string $indexName)
+    {
+        return $this->client->indices()->refresh(['index' => $indexName]);
     }
 
     public function enableQueryLog(): void
