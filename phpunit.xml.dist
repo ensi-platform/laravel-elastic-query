@@ -23,7 +23,7 @@
     </testsuites>
 
     <php>
-        <server name="ELASTICSEARCH_HOSTS" value="http://elastic.ensi-cloud-search.127.0.0.1.nip.io:9200"/>
+        <server name="ELASTICSEARCH_HOSTS" value="http://127.0.0.1:9200"/>
         <server name="RECREATE_INDEX" value="true"/>
     </php>
 
