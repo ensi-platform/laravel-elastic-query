@@ -14,36 +14,10 @@ class ElasticQueryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*
-         * Optional methods to load your package assets
-         */
-        // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'elastic');
-        // $this->loadViewsFrom(__DIR__.'/../resources/views', 'elastic');
-        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
-        // $this->loadRoutesFrom(__DIR__.'/routes.php');
-
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/config.php' => config_path('laravel-elastic-query.php'),
             ], 'config');
-
-            // Publishing the views.
-            /*$this->publishes([
-                __DIR__.'/../resources/views' => resource_path('views/vendor/elastic'),
-            ], 'views');*/
-
-            // Publishing assets.
-            /*$this->publishes([
-                __DIR__.'/../resources/assets' => public_path('vendor/elastic'),
-            ], 'assets');*/
-
-            // Publishing the translation files.
-            /*$this->publishes([
-                __DIR__.'/../resources/lang' => resource_path('lang/vendor/elastic'),
-            ], 'lang');*/
-
-            // Registering package commands.
-            // $this->commands([]);
         }
     }
 
@@ -58,10 +32,78 @@ class ElasticQueryServiceProvider extends ServiceProvider
         $this->app->singleton(ElasticClient::class, fn (Application $app) => new ElasticClient($this->createClient($app)));
     }
 
+    /**
+     * Create the ElasticSearch client.
+     * @param Application $app
+     * @return Client
+     */
     protected function createClient(Application $app): Client
     {
         return (new ClientBuilder())
-            ->setHosts($app['config']['laravel-elastic-query.connection.hosts'])
+            ->setHosts($this->getClientHosts($app))
+            ->setRetries($this->getClientRetries($app))
+            ->setHandler($this->getClientHandler())
+            ->setBasicAuthentication($this->getClientUsername($app), $this->getClientPassword($app))
+            ->setSSLVerification($this->getClientSSLVerification($app))
             ->build();
+    }
+
+    /**
+     * Get an array of the elastic hosts from the configuration.
+     * @param Application $app
+     * @return array
+     */
+    protected function getClientHosts(Application $app): array
+    {
+        return $app['config']['laravel-elastic-query.connection.hosts'];
+    }
+
+    /**
+     * Get the number of retries for the elastic client from the configuration.
+     * @param Application $app
+     * @return int
+     */
+    protected function getClientRetries(Application $app): int
+    {
+        return $app['config']['laravel-elastic-query.connection.retries'];
+    }
+
+    /**
+     * Get the handler for the elastic client.
+     * @return string
+     */
+    protected function getClientHandler(): string
+    {
+        return ClientBuilder::multiHandler();
+    }
+
+    /**
+     * Get the username for the elastic client from the configuration.
+     * @param Application $app
+     * @return string
+     */
+    protected function getClientUsername(Application $app): string
+    {
+        return $app['config']['laravel-elastic-query.connection.credentials.username'];
+    }
+
+    /**
+     * Get the password for the elastic client from the configuration.
+     * @param Application $app
+     * @return string
+     */
+    protected function getClientPassword(Application $app): string
+    {
+        return $app['config']['laravel-elastic-query.connection.credentials.password'];
+    }
+
+    /**
+     * Get the SSL verification setting for the elastic client from the configuration.
+     * @param Application $app
+     * @return bool
+     */
+    protected function getClientSSLVerification(Application $app): bool
+    {
+        return $app['config']['laravel-elastic-query.connection.ssl_verification'];
     }
 }
