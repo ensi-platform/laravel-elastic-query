@@ -6,6 +6,7 @@ use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
+use GuzzleHttp\Ring\Client\CurlMultiHandler;
 
 class ElasticQueryServiceProvider extends ServiceProvider
 {
@@ -70,9 +71,9 @@ class ElasticQueryServiceProvider extends ServiceProvider
 
     /**
      * Get the handler for the elastic client.
-     * @return string
+     * @return CurlMultiHandler
      */
-    protected function getClientHandler(): string
+    protected function getClientHandler(): CurlMultiHandler
     {
         return ClientBuilder::multiHandler();
     }
