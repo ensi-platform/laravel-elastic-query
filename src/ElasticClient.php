@@ -92,6 +92,11 @@ class ElasticClient
         return $this->client->indices()->refresh(['index' => $indexName]);
     }
 
+    public function indicesSearchAnalyzers(string $indexName)
+    {
+        return $this->client->indices()->reloadSearchAnalyzers(['index' => $indexName]);
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
