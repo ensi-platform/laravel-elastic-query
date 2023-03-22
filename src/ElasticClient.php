@@ -92,7 +92,7 @@ class ElasticClient
         return $this->client->indices()->refresh(['index' => $indexName]);
     }
 
-    public function indicesSearchAnalyzers(string $indexName)
+    public function indicesReloadSearchAnalyzers(string $indexName)
     {
         return $this->client->indices()->reloadSearchAnalyzers(['index' => $indexName]);
     }

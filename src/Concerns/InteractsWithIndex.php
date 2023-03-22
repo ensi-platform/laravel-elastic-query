@@ -81,9 +81,9 @@ trait InteractsWithIndex
         return $this->resolveClient()->indicesRefresh($this->indexName());
     }
 
-    public function indicesSearchAnalyzers()
+    public function indicesReloadSearchAnalyzers()
     {
-        return $this->resolveClient()->indicesSearchAnalyzers($this->indexName());
+        return $this->resolveClient()->indicesReloadSearchAnalyzers($this->indexName());
     }
 
     public static function query(): SearchQuery
