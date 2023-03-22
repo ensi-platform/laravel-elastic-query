@@ -249,6 +249,7 @@ $index->deleteByQuery(); // Send deleteByQuery request
 $index->catIndices();
 $index->indicesDelete();
 $index->indicesRefresh();
+$index->indicesReloadSearchAnalyzers();
 ```
 
 ## Query Log

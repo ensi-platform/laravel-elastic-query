@@ -72,7 +72,7 @@ class ElasticClient
         ]);
     }
 
-    public function catIndices(string $indexName, ?array $getFields = null)
+    public function catIndices(string $indexName, ?array $getFields = null): array
     {
         $params = ['index' => "$indexName*"];
         if ($getFields) {
@@ -82,14 +82,19 @@ class ElasticClient
         return $this->client->cat()->indices($params);
     }
 
-    public function indicesDelete(string $indexName)
+    public function indicesDelete(string $indexName): array
     {
         return $this->client->indices()->delete(['index' => $indexName]);
     }
 
-    public function indicesRefresh(string $indexName)
+    public function indicesRefresh(string $indexName): array
     {
         return $this->client->indices()->refresh(['index' => $indexName]);
+    }
+
+    public function indicesReloadSearchAnalyzers(string $indexName): array
+    {
+        return $this->client->indices()->reloadSearchAnalyzers(['index' => $indexName]);
     }
 
     public function enableQueryLog(): void
