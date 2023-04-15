@@ -2,7 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 
 abstract class IndexSeeder
 {
@@ -49,7 +49,9 @@ abstract class IndexSeeder
 
     protected function isIndexExists(): bool
     {
-        return $this->client->indices()->exists(['index' => $this->indexName]);
+        return $this->client->indices()
+            ->exists(['index' => $this->indexName])
+            ->asBool();
     }
 
     protected function dropIndex(): void
