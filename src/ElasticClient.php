@@ -19,59 +19,82 @@ class ElasticClient
     {
         $this->queryLog?->log($indexName, $dsl);
 
-        return $this->adapter->search($indexName, $dsl);
+        return $this->adapter->search([
+            'index' => $indexName,
+            'body' => $dsl,
+        ]);
     }
 
     public function deleteByQuery(string $indexName, array $dsl): array
     {
         $this->queryLog?->log($indexName, $dsl);
 
-        return $this->adapter->deleteByQuery($indexName, $dsl);
+        return $this->adapter->deleteByQuery([
+            'index' => $indexName,
+            'body' => $dsl,
+        ]);
     }
 
     public function get(string $indexName, int|string $id): array
     {
-        return $this->adapter->get($indexName, $id);
+        return $this->adapter->get([
+            'index' => $indexName,
+            'id' => $id,
+        ]);
     }
 
     public function indicesExists(string $index): bool
     {
-        return $this->adapter->indicesExists($index);
+        return $this->adapter->indicesExists(['index' => $index]);
     }
 
     public function indicesCreate(string $index, array $settings): void
     {
-        $this->adapter->indicesCreate($index, $settings);
+        $this->adapter->indicesCreate([
+            'index' => $index,
+            'body' => $settings,
+        ]);
     }
 
     public function bulk(string $index, array $body): array
     {
-        return $this->adapter->bulk($index, $body);
+        return $this->adapter->bulk([
+            'index' => $index,
+            'body' => $body,
+        ]);
     }
 
     public function documentDelete(string $index, int|string $id): array
     {
-        return $this->adapter->documentDelete($index, $id);
+        return $this->adapter->documentDelete([
+            'index' => $index,
+            'id' => $id,
+        ]);
     }
 
     public function catIndices(string $indexName, ?array $getFields = null): array
     {
-        return $this->adapter->catIndices($indexName, $getFields);
+        $params = ['index' => "$indexName*"];
+        if ($getFields) {
+            $params['h'] = $getFields;
+        }
+
+        return $this->adapter->catIndices($params);
     }
 
     public function indicesDelete(string $indexName): array
     {
-        return $this->adapter->indicesDelete($indexName);
+        return $this->adapter->indicesDelete(['index' => $indexName]);
     }
 
     public function indicesRefresh(string $indexName): array
     {
-        return $this->adapter->indicesRefresh($indexName);
+        return $this->adapter->indicesRefresh(['index' => $indexName]);
     }
 
     public function indicesReloadSearchAnalyzers(string $indexName): array
     {
-        return $this->adapter->indicesReloadSearchAnalyzers($indexName);
+        return $this->adapter->indicesReloadSearchAnalyzers(['index' => $indexName]);
     }
 
     public function enableQueryLog(): void

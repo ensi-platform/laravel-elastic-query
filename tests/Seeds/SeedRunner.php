@@ -11,7 +11,7 @@ class SeedRunner
 
     private array $processed = [];
 
-    protected function __construct(private ClientAdapter $client)
+    protected function __construct(private ClientAdapter $adapter)
     {
     }
 
@@ -23,7 +23,7 @@ class SeedRunner
 
         /** @var IndexSeeder $seeder */
         $seeder = new $seedClass();
-        $seeder->setClient($this->client);
+        $seeder->setAdapter($this->adapter);
         $seeder->call();
 
         $this->processed[$seedClass] = true;

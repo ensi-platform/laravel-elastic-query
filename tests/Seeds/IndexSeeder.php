@@ -13,16 +13,16 @@ abstract class IndexSeeder
 
     protected bool $recreate;
 
-    protected ?ClientAdapter $client;
+    protected ?ClientAdapter $adapter;
 
     public function __construct()
     {
         $this->recreate = config('tests.recreate_index', true);
     }
 
-    public function setClient(ClientAdapter $client): void
+    public function setAdapter(ClientAdapter $adapter): void
     {
-        $this->client = $client;
+        $this->adapter = $adapter;
     }
 
     public static function run(): void
@@ -49,27 +49,27 @@ abstract class IndexSeeder
 
     protected function isIndexExists(): bool
     {
-        return $this->client->indicesExists($this->indexName);
+        return $this->adapter->indicesExists(['index' => $this->indexName]);
     }
 
     protected function dropIndex(): void
     {
-        $this->client->indicesDelete($this->indexName);
+        $this->adapter->indicesDelete(['index' => $this->indexName]);
     }
 
     protected function createIndex(): void
     {
-        $params = [];
+        $params = ['index' => $this->indexName];
 
         if (!empty($this->mappings)) {
-            $params['mappings'] = $this->mappings;
+            data_set($params, 'body.mappings', $this->mappings);
         }
 
         if (!empty($this->settings)) {
-            $params['settings'] = $this->settings;
+            data_set($params, 'body.settings', $this->settings);
         }
 
-        $this->client->indicesCreate($this->indexName, $params);
+        $this->adapter->indicesCreate($params);
     }
 
     protected function loadFixtures(): void
@@ -83,7 +83,7 @@ abstract class IndexSeeder
             );
 
         if ($hasChanges) {
-            $this->client->indicesRefresh($this->indexName);
+            $this->adapter->indicesRefresh(['index' => $this->indexName]);
         }
     }
 
@@ -99,7 +99,7 @@ abstract class IndexSeeder
             ->flatMap(fn (array $document, int $index) => $this->documentToCommand($document, $index))
             ->toArray();
 
-        $this->client->bulk($this->indexName, $body);
+        $this->adapter->bulk(['body' => $body]);
 
         return true;
     }

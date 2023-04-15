@@ -20,81 +20,68 @@ class ClientAdapterV8 implements ClientAdapter
             ->build();
     }
 
-    public function search(string $indexName, array $dsl): array
+    public function search(array $params): array
     {
-        return $this->client->search(['index' => $indexName, 'body' => $dsl])
-            ->asArray();
+        return $this->client->search($params)->asArray();
     }
 
-    public function deleteByQuery(string $indexName, array $dsl): array
+    public function deleteByQuery(array $params): array
     {
-        return $this->client->deleteByQuery(['index' => $indexName, 'body' => $dsl])
-            ->asArray();
+        return $this->client->deleteByQuery($params)->asArray();
     }
 
-    public function get(string $indexName, int|string $id): array
+    public function get(array $params): array
     {
-        return $this->client->get(['index' => $indexName, 'id' => $id])
-            ->asArray();
+        return $this->client->get($params)->asArray();
     }
 
-    public function indicesExists(string $index): bool
+    public function indicesExists(array $params): bool
     {
         return $this->client->indices()
-            ->exists(['index' => $index])
+            ->exists($params)
             ->asBool();
     }
 
-    public function indicesCreate(string $index, array $settings): void
+    public function indicesCreate(array $params): void
     {
-        $this->client->indices()->create([
-            'index' => $index,
-            'body' => $settings,
-        ]);
+        $this->client->indices()->create($params);
     }
 
-    public function bulk(string $index, array $body): array
+    public function bulk(array $params): array
     {
-        return $this->client->bulk(['index' => $index, 'body' => $body])
-            ->asArray();
+        return $this->client->bulk($params)->asArray();
     }
 
-    public function documentDelete(string $index, int|string $id): array
+    public function documentDelete(array $params): array
     {
-        return $this->client->delete(['index' => $index, 'id' => $id])
-            ->asArray();
+        return $this->client->delete($params)->asArray();
     }
 
-    public function catIndices(string $indexName, ?array $getFields = null): array
+    public function catIndices(array $params): array
     {
-        $params = ['index' => "$indexName*"];
-        if ($getFields) {
-            $params['h'] = $getFields;
-        }
-
         return $this->client->cat()
             ->indices($params)
             ->asArray();
     }
 
-    public function indicesDelete(string $indexName): array
+    public function indicesDelete(array $params): array
     {
         return $this->client->indices()
-            ->delete(['index' => $indexName])
+            ->delete($params)
             ->asArray();
     }
 
-    public function indicesRefresh(string $indexName): array
+    public function indicesRefresh(array $params): array
     {
         return $this->client->indices()
-            ->refresh(['index' => $indexName])
+            ->refresh($params)
             ->asArray();
     }
 
-    public function indicesReloadSearchAnalyzers(string $indexName): array
+    public function indicesReloadSearchAnalyzers(array $params): array
     {
         return $this->client->indices()
-            ->reloadSearchAnalyzers(['index' => $indexName])
+            ->reloadSearchAnalyzers($params)
             ->asArray();
     }
 }
