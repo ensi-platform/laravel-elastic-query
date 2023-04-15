@@ -2,7 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
-use Elastic\Elasticsearch\Client;
+use Ensi\LaravelElasticQuery\ClientAdapter;
 
 abstract class IndexSeeder
 {
@@ -13,14 +13,14 @@ abstract class IndexSeeder
 
     protected bool $recreate;
 
-    protected ?Client $client;
+    protected ?ClientAdapter $client;
 
     public function __construct()
     {
         $this->recreate = config('tests.recreate_index', true);
     }
 
-    public function setClient(Client $client): void
+    public function setClient(ClientAdapter $client): void
     {
         $this->client = $client;
     }
@@ -49,33 +49,27 @@ abstract class IndexSeeder
 
     protected function isIndexExists(): bool
     {
-        return $this->client->indices()
-            ->exists(['index' => $this->indexName])
-            ->asBool();
+        return $this->client->indicesExists($this->indexName);
     }
 
     protected function dropIndex(): void
     {
-        $this->client
-            ->indices()
-            ->delete(['index' => $this->indexName]);
+        $this->client->indicesDelete($this->indexName);
     }
 
     protected function createIndex(): void
     {
-        $params = ['index' => $this->indexName];
+        $params = [];
 
         if (!empty($this->mappings)) {
-            data_set($params, 'body.mappings', $this->mappings);
+            $params['mappings'] = $this->mappings;
         }
 
         if (!empty($this->settings)) {
-            data_set($params, 'body.settings', $this->settings);
+            $params['settings'] = $this->settings;
         }
 
-        $this->client
-            ->indices()
-            ->create($params);
+        $this->client->indicesCreate($this->indexName, $params);
     }
 
     protected function loadFixtures(): void
@@ -89,7 +83,7 @@ abstract class IndexSeeder
             );
 
         if ($hasChanges) {
-            $this->client->indices()->refresh(['index' => $this->indexName]);
+            $this->client->indicesRefresh($this->indexName);
         }
     }
 
@@ -105,7 +99,7 @@ abstract class IndexSeeder
             ->flatMap(fn (array $document, int $index) => $this->documentToCommand($document, $index))
             ->toArray();
 
-        $this->client->bulk(['body' => $body]);
+        $this->client->bulk($this->indexName, $body);
 
         return true;
     }

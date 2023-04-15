@@ -2,8 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery;
 
-use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\ClientBuilder;
+use Ensi\LaravelElasticQuery\Adapter\ClientConfig;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,13 +28,18 @@ class ElasticQueryServiceProvider extends ServiceProvider
         // Automatically apply the package configuration
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'laravel-elastic-query');
 
-        $this->app->singleton(ElasticClient::class, fn (Application $app) => new ElasticClient($this->createClient($app)));
+        $this->app->singleton(
+            ElasticClient::class,
+            fn (Application $app) => new ElasticClient($this->createAdapter($app))
+        );
     }
 
-    protected function createClient(Application $app): Client
+    protected function createAdapter(Application $app): ClientAdapter
     {
-        return (new ClientBuilder())
-            ->setHosts($app['config']['laravel-elastic-query.connection.hosts'])
-            ->build();
+        $config = new ClientConfig($app['config']['laravel-elastic-query.connection']);
+
+        return class_exists('Elastic\Elasticsearch\Client')
+            ? new Adapter\ClientAdapterV8($config)
+            : new Adapter\ClientAdapterV7($config);
     }
 }

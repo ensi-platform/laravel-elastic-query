@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "elasticsearch/elasticsearch": "^8.0",
+        "elasticsearch/elasticsearch": "^7.13||^8.0",
         "illuminate/support": "^8.0||^9.0",
         "webmozart/assert": "^1.11"
     },
