@@ -1,6 +1,6 @@
 <?php
 
-namespace Ensi\LaravelElasticQuery;
+namespace Ensi\LaravelElasticQuery\Contracts;
 
 interface ClientAdapter
 {

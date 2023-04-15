@@ -2,7 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
-use Ensi\LaravelElasticQuery\ClientAdapter;
+use Ensi\LaravelElasticQuery\Contracts\ClientAdapter;
 
 abstract class IndexSeeder
 {

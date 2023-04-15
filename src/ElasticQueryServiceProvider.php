@@ -3,6 +3,7 @@
 namespace Ensi\LaravelElasticQuery;
 
 use Ensi\LaravelElasticQuery\Adapter\ClientConfig;
+use Ensi\LaravelElasticQuery\Contracts\ClientAdapter;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 

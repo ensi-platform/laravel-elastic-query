@@ -2,6 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery;
 
+use Ensi\LaravelElasticQuery\Contracts\ClientAdapter;
 use Ensi\LaravelElasticQuery\Debug\QueryLog;
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
 use Illuminate\Support\Collection;

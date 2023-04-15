@@ -4,7 +4,7 @@ namespace Ensi\LaravelElasticQuery\Adapter;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
-use Ensi\LaravelElasticQuery\ClientAdapter;
+use Ensi\LaravelElasticQuery\Contracts\ClientAdapter;
 
 class ClientAdapterV8 implements ClientAdapter
 {

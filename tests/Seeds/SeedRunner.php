@@ -3,7 +3,7 @@
 namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
 use Ensi\LaravelElasticQuery\Adapter\ClientConfig;
-use Ensi\LaravelElasticQuery\ClientAdapter;
+use Ensi\LaravelElasticQuery\Contracts\ClientAdapter;
 
 class SeedRunner
 {
