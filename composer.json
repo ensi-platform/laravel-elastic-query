@@ -40,7 +40,6 @@
         "cs": "php-cs-fixer fix --config .php-cs-fixer.php",
         "test": "vendor/bin/phpunit",
         "test-coverage": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-html coverage"
-
     },
     "config": {
         "sort-packages": true,
