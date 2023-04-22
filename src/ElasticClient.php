@@ -3,6 +3,7 @@
 namespace Ensi\LaravelElasticQuery;
 
 use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Ensi\LaravelElasticQuery\Debug\QueryLog;
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
 use Illuminate\Support\Collection;
@@ -108,10 +109,22 @@ class ElasticClient
     }
 
     /**
-     * @return Collection|QueryLogRecord[]
+     * @return Collection<int,QueryLogRecord>
      */
     public function getQueryLog(): Collection
     {
         return $this->queryLog?->all() ?? new Collection();
+    }
+
+    public static function fromConfig(array $config): static
+    {
+        $client = (new ClientBuilder())
+            ->setHosts($config['hosts'])
+            ->setBasicAuthentication($config['username'] ?? '', $config['password'] ?? '')
+            ->setRetries($config['retries'] ?? 1)
+            ->setSSLVerification($config['ssl_verification'] ?? false)
+            ->build();
+
+        return new static($client);
     }
 }
