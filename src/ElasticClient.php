@@ -2,8 +2,8 @@
 
 namespace Ensi\LaravelElasticQuery;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Ensi\LaravelElasticQuery\Debug\QueryLog;
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
 use Illuminate\Support\Collection;
@@ -20,33 +20,33 @@ class ElasticClient
     {
         $this->queryLog?->log($indexName, $dsl);
 
-        return $this->client->search([
-            'index' => $indexName,
-            'body' => $dsl,
-        ]);
+        return $this->client
+            ->search(['index' => $indexName, 'body' => $dsl])
+            ->asArray();
     }
 
     public function deleteByQuery(string $indexName, array $dsl): array
     {
         $this->queryLog?->log($indexName, $dsl);
 
-        return $this->client->deleteByQuery([
-            'index' => $indexName,
-            'body' => $dsl,
-        ]);
+        return $this->client
+            ->deleteByQuery(['index' => $indexName, 'body' => $dsl])
+            ->asArray();
     }
 
     public function get(string $indexName, int|string $id): array
     {
-        return $this->client->get([
-            'index' => $indexName,
-            'id' => $id,
-        ]);
+        return $this->client
+            ->get(['index' => $indexName, 'id' => $id])
+            ->asArray();
     }
 
     public function indicesExists(string $index): bool
     {
-        return $this->client->indices()->exists(['index' => $index]);
+        return $this->client
+            ->indices()
+            ->exists(['index' => $index])
+            ->asBool();
     }
 
     public function indicesCreate(string $index, array $settings): void
@@ -59,18 +59,16 @@ class ElasticClient
 
     public function bulk(string $index, array $body): array
     {
-        return $this->client->bulk([
-            'index' => $index,
-            'body' => $body,
-        ]);
+        return $this->client
+            ->bulk(['index' => $index, 'body' => $body])
+            ->asArray();
     }
 
     public function documentDelete(string $index, int|string $id): array
     {
-        return $this->client->delete([
-            'index' => $index,
-            'id' => $id,
-        ]);
+        return $this->client
+            ->delete(['index' => $index, 'id' => $id])
+            ->asArray();
     }
 
     public function catIndices(string $indexName, ?array $getFields = null): array
@@ -80,22 +78,34 @@ class ElasticClient
             $params['h'] = $getFields;
         }
 
-        return $this->client->cat()->indices($params);
+        return $this->client
+            ->cat()
+            ->indices($params)
+            ->asArray();
     }
 
     public function indicesDelete(string $indexName): array
     {
-        return $this->client->indices()->delete(['index' => $indexName]);
+        return $this->client
+            ->indices()
+            ->delete(['index' => $indexName])
+            ->asArray();
     }
 
     public function indicesRefresh(string $indexName): array
     {
-        return $this->client->indices()->refresh(['index' => $indexName]);
+        return $this->client
+            ->indices()
+            ->refresh(['index' => $indexName])
+            ->asArray();
     }
 
     public function indicesReloadSearchAnalyzers(string $indexName): array
     {
-        return $this->client->indices()->reloadSearchAnalyzers(['index' => $indexName]);
+        return $this->client
+            ->indices()
+            ->reloadSearchAnalyzers(['index' => $indexName])
+            ->asArray();
     }
 
     public function enableQueryLog(): void
