@@ -2,8 +2,7 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Seeds;
 
-use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use Ensi\LaravelElasticQuery\ElasticClient;
 
 class SeedRunner
 {
@@ -11,7 +10,7 @@ class SeedRunner
 
     private array $processed = [];
 
-    protected function __construct(private Client $client)
+    protected function __construct(private ElasticClient $client)
     {
     }
 
@@ -38,9 +37,7 @@ class SeedRunner
 
     private static function createInstance(): self
     {
-        $client = ClientBuilder::create()
-            ->setHosts(config('laravel-elastic-query.connection.hosts'))
-            ->build();
+        $client = ElasticClient::fromConfig(config('laravel-elastic-query.connection'));
 
         return new self($client);
     }
