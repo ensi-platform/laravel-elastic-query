@@ -266,6 +266,18 @@ $records = ElasticQuery::getQueryLog();
 ElasticQuery::disableQueryLog();
 ```
 
+## Environment Variables
+Below see the environment variables that you can configure with the default values,
+Hosts should be comma seperated string of hosts with protocol prefix and port suffix, e.g. `http://localhost:9200,http://localhost:9201`
+
+```dotenv
+ ELASTICSEARCH_HOSTS=https://localhost:9200'
+ ELASTICSEARCH_RETRIES=2
+ ELASTICSEARCH_USERNAME=admin
+ ELASTICSEARCH_PASSWORD=admin
+ ELASTICSEARCH_SSL_VERIFICATION=true,
+```
+
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
