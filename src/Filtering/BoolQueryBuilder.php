@@ -8,6 +8,7 @@ use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
@@ -15,6 +16,7 @@ use Ensi\LaravelElasticQuery\Filtering\Criterias\OneMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\RangeBound;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Term;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Terms;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Wildcard;
 use Illuminate\Contracts\Support\Arrayable;
 use stdClass;
 
@@ -161,6 +163,13 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         );
 
         $this->must->add(new MultiMatch($fields, $query, $options ?? new MultiMatchOptions()));
+
+        return $this;
+    }
+
+    public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
+    {
+        $this->must->add(new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions()));
 
         return $this;
     }

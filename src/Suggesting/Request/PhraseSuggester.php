@@ -2,10 +2,13 @@
 
 namespace Ensi\LaravelElasticQuery\Suggesting\Request;
 
+use Ensi\LaravelElasticQuery\Suggesting\Request\Concerns\WithSize;
 use Webmozart\Assert\Assert;
 
 class PhraseSuggester implements Suggester
 {
+    use WithSize;
+
     // basic phrase suggest api parameters
     protected ?string $text = null;
     protected ?int $gramSize = null;
@@ -13,11 +16,11 @@ class PhraseSuggester implements Suggester
     protected ?float $confidence = null;
     protected ?float $maxErrors = null;
     protected ?string $separator = null;
-    protected ?int $size = null;
     protected ?string $analyzer = null;
     protected ?int $shardSize = null;
     protected ?string $highlightPreTag = null;
     protected ?string $highlightPostTag = null;
+    protected array $directGenerators = [];
 
     public function __construct(protected string $name, protected string $field)
     {
@@ -44,9 +47,9 @@ class PhraseSuggester implements Suggester
                     "pre_tag" => $this->highlightPreTag,
                     "post_tag" => $this->highlightPostTag,
                 ]) ?: null,
+                "direct_generator" => array_map(fn (DirectGenerator $g) => $g->toDSL(), $this->directGenerators),
                 // todo collate
                 // todo smoothing models
-                // todo direct_generator
             ]),
         ];
     }
@@ -56,7 +59,7 @@ class PhraseSuggester implements Suggester
         return $this->name;
     }
 
-    public function text(string $text): self
+    public function text(string $text): static
     {
         Assert::stringNotEmpty(trim($text));
 
@@ -65,66 +68,66 @@ class PhraseSuggester implements Suggester
         return $this;
     }
 
-    public function gramSize(int $gramSize): self
+    public function gramSize(int $gramSize): static
     {
         $this->gramSize = $gramSize;
 
         return $this;
     }
 
-    public function realWordErrorLikelihood(float $realWordErrorLikelihood): self
+    public function realWordErrorLikelihood(float $realWordErrorLikelihood): static
     {
         $this->realWordErrorLikelihood = $realWordErrorLikelihood;
 
         return $this;
     }
 
-    public function confidence(float $confidence): self
+    public function confidence(float $confidence): static
     {
         $this->confidence = $confidence;
 
         return $this;
     }
 
-    public function maxErrors(float $maxErrors): self
+    public function maxErrors(float $maxErrors): static
     {
         $this->maxErrors = $maxErrors;
 
         return $this;
     }
 
-    public function separator(string $separator): self
+    public function separator(string $separator): static
     {
         $this->separator = $separator;
 
         return $this;
     }
 
-    public function size(int $size): self
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    public function analyzer(string $analyzer): self
+    public function analyzer(string $analyzer): static
     {
         $this->analyzer = $analyzer;
 
         return $this;
     }
 
-    public function shardSize(int $shardSize): self
+    public function shardSize(int $shardSize): static
     {
         $this->shardSize = $shardSize;
 
         return $this;
     }
 
-    public function highlight(string $highlightPreTag, string $highlightPostTag): self
+    public function highlight(string $highlightPreTag, string $highlightPostTag): static
     {
         $this->highlightPreTag = $highlightPreTag;
         $this->highlightPostTag = $highlightPostTag;
+
+        return $this;
+    }
+
+    public function addDirectGenerator(DirectGenerator $directGenerator): static
+    {
+        $this->directGenerators[] = $directGenerator;
 
         return $this;
     }
