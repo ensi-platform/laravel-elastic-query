@@ -5,6 +5,7 @@ namespace Ensi\LaravelElasticQuery\Concerns;
 use Closure;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
@@ -79,6 +80,13 @@ trait DecoratesBoolQuery
     }
 
     public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
