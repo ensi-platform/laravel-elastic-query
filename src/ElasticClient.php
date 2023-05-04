@@ -118,13 +118,15 @@ class ElasticClient
 
     public static function fromConfig(array $config): static
     {
-        $client = (new ClientBuilder())
+        $builder = (new ClientBuilder())
             ->setHosts($config['hosts'])
-            ->setBasicAuthentication($config['username'] ?? '', $config['password'] ?? '')
             ->setRetries($config['retries'] ?? 1)
-            ->setSSLVerification($config['ssl_verification'] ?? false)
-            ->build();
+            ->setSSLVerification($config['ssl_verification'] ?? false);
 
-        return new static($client);
+        if (filled($config['username'] ?? null)) {
+            $builder->setBasicAuthentication($config['username'], $config['password'] ?? '');
+        }
+
+        return new static($builder->build());
     }
 }
