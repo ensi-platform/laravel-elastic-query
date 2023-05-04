@@ -6,6 +6,7 @@ use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\MatchType;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Tests\AssertsArray;
 use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
@@ -179,6 +180,25 @@ class BoolQueryTest extends UnitTestCase
                 MultiMatchOptions::make(type: MatchType::MOST_FIELDS, fuzziness: '3', minimumShouldMatch: '30%'),
                 ['minimum_should_match' => '30%', 'fuzziness' => '3', 'type' => MatchType::MOST_FIELDS],
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideWildcard
+     */
+    public function testWildcard(?WildcardOptions $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->whereWildcard('foo', '%value%', $options)->toDSL();
+
+        $this->assertArrayFragment(['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]], $dsl);
+    }
+
+    public function provideWildcard(): array
+    {
+        return [
+            'empty options' => [WildcardOptions::make(0, false), ['boost' => 0, 'case_insensitive' => false]],
+            'full options' => [WildcardOptions::make(0.5, true), ['boost' => 0.5, 'case_insensitive' => true]],
+            'rewrite options' => [WildcardOptions::make(rewrite: 'constant_score'), ['rewrite' => 'constant_score']],
         ];
     }
 }
