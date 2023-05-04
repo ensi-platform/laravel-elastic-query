@@ -23,6 +23,7 @@ class WildcardOptions
         if (!is_null($rewrite)) {
             $options['rewrite'] = $rewrite;
         }
+
         return new static($options);
     }
 

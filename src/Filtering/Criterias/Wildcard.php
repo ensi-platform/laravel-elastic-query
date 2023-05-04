@@ -16,7 +16,7 @@ class Wildcard implements Criteria
         return ['wildcard' => [
             $this->field => array_merge($this->options->toArray(), [
                 'value' => $this->query,
-            ])
+            ]),
         ]];
     }
 }
