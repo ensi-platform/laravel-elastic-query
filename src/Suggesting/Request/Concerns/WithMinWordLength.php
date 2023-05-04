@@ -12,5 +12,4 @@ trait WithMinWordLength
 
         return $this;
     }
-
 }

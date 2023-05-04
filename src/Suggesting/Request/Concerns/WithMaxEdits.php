@@ -16,5 +16,4 @@ trait WithMaxEdits
 
         return $this;
     }
-
 }
