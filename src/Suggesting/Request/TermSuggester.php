@@ -16,7 +16,14 @@ use Webmozart\Assert\Assert;
 
 class TermSuggester implements Suggester
 {
-    use WithSuggestMode, WithSize, WithMaxEdits, WithPrefixLength, WithMinWordLength, WithMaxInspections, WithMinDocFreq, WithMaxTermFreq;
+    use WithSuggestMode;
+    use WithSize;
+    use WithMaxEdits;
+    use WithPrefixLength;
+    use WithMinWordLength;
+    use WithMaxInspections;
+    use WithMinDocFreq;
+    use WithMaxTermFreq;
 
     // common suggest options
     protected ?string $text = null;

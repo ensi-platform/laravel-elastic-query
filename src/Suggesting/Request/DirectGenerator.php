@@ -13,7 +13,14 @@ use Ensi\LaravelElasticQuery\Suggesting\Request\Concerns\WithSuggestMode;
 
 class DirectGenerator
 {
-    use WithSuggestMode, WithSize, WithMaxEdits, WithPrefixLength, WithMinWordLength, WithMaxInspections, WithMinDocFreq, WithMaxTermFreq;
+    use WithSuggestMode;
+    use WithSize;
+    use WithMaxEdits;
+    use WithPrefixLength;
+    use WithMinWordLength;
+    use WithMaxInspections;
+    use WithMinDocFreq;
+    use WithMaxTermFreq;
     protected ?string $preFilter = null;
     protected ?string $postFilter = null;
 

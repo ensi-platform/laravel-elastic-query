@@ -47,7 +47,7 @@ class PhraseSuggester implements Suggester
                     "pre_tag" => $this->highlightPreTag,
                     "post_tag" => $this->highlightPostTag,
                 ]) ?: null,
-                "direct_generator" => array_map(fn(DirectGenerator $g) => $g->toDSL(), $this->directGenerators),
+                "direct_generator" => array_map(fn (DirectGenerator $g) => $g->toDSL(), $this->directGenerators),
                 // todo collate
                 // todo smoothing models
             ]),
