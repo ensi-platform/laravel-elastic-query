@@ -20,7 +20,6 @@ class Sort implements DSLAware
         Assert::stringNotEmpty(trim($field));
         Assert::oneOf($order, SortOrder::cases());
         Assert::nullOrOneOf($mode, SortMode::cases());
-        Assert::nullOrOneOf($missingValues, MissingValuesMode::cases());
     }
 
     public function field(): string
