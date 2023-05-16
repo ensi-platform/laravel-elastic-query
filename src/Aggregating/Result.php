@@ -9,9 +9,9 @@ class Result
         return self::parse($source, 'value');
     }
 
-    public static function parseBucket(array $source): Bucket
+    public static function parseBucket(array $source, array $compositeValues = []): Bucket
     {
-        return new Bucket(self::parse($source, 'key'), (int)($source['doc_count'] ?? 0));
+        return new Bucket(self::parse($source, 'key'), (int)($source['doc_count'] ?? 0), $compositeValues);
     }
 
     public static function parse(array $source, string $key): mixed
