@@ -9,7 +9,9 @@ use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\ValueCountAggregation;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Search\Sorting\Sort;
 
 trait ConstructsAggregations
 {
@@ -19,9 +21,14 @@ trait ConstructsAggregations
     protected AggregationCollection $aggregations;
     protected BoolQueryBuilder $boolQuery;
 
-    public function terms(string $name, string $field, ?int $size = null): static
-    {
-        $this->aggregations->add(new TermsAggregation($name, $this->absolutePath($field), $size));
+    public function terms(
+        string $name,
+        string $field,
+        ?int $size = null,
+        ?Sort $sort = null,
+        ?Aggregation $composite = null,
+    ): static {
+        $this->aggregations->add(new TermsAggregation($name, $this->absolutePath($field), $size, $sort, $composite));
 
         return $this;
     }
