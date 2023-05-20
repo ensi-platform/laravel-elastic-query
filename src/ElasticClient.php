@@ -148,6 +148,14 @@ class ElasticClient
             return [$config['username'], $config['password'] ?? ''];
         }
 
+        foreach ($config['hosts'] as $host) {
+            $components = parse_url($host);
+
+            if (filled($components['user'] ?? null)) {
+                return [$components['user'], $components['pass'] ?? ''];
+            }
+        }
+
         return ['', ''];
     }
 }

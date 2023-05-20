@@ -278,6 +278,14 @@ Hosts should be comma seperated string of hosts with protocol prefix and port su
  ELASTICSEARCH_SSL_VERIFICATION=true,
 ```
 
+## Elasticsearch 7 and 8 support.
+
+Due to the incompatibility of clients for Elasticsearch 7 and 8, separate releases will be created for these versions.
+Development for each version is carried out in the corresponding branch.
+
+To make changes to version 7, you need to create a task branch based on v7 and make a pull request to it.
+For version 8 it is similar, but based on the v8 branch.
+
 ## Contributing
 
 Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
