@@ -3,8 +3,11 @@
 namespace Ensi\LaravelElasticQuery\Tests\Functional\Aggregating;
 
 use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket;
+use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxScoreAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\MinMax;
 use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Search\Sorting\Sort;
 use Ensi\LaravelElasticQuery\Tests\Functional\ElasticTestCase;
 use Ensi\LaravelElasticQuery\Tests\Models\ProductsIndex;
 use Ensi\LaravelElasticQuery\Tests\Seeds\ProductIndexSeeder;
@@ -76,5 +79,31 @@ class AggregationQueryTest extends ElasticTestCase
         $results = $this->testing->get();
 
         $this->assertCount(1, $results->get('codes'));
+    }
+
+    public function testTermsWithSortByCompositeValue(): void
+    {
+        $sort = new Sort('score_max');
+        $composite = new MinMaxScoreAggregation();
+
+        $this->testing
+            ->whereMatch('description', 'water')
+            ->where('package', 'bottle')
+            ->terms(
+                name: 'codes',
+                field: 'code',
+                size: 2,
+                sort: $sort,
+                composite: $composite
+            );
+
+        $results = $this->testing->get();
+
+        $scores = $results->get('codes')->map(
+            fn (Bucket $bucket) => $bucket->getCompositeValue('score')->max
+        );
+
+        $this->assertCount(2, $results->get('codes'));
+        $this->assertGreaterThanOrEqual($scores->first(), $scores->last());
     }
 }
