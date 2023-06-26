@@ -6,6 +6,7 @@ use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Ensi\LaravelElasticQuery\Debug\QueryLog;
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
 class ElasticClient
@@ -73,15 +74,32 @@ class ElasticClient
 
     public function catIndices(string $indexName, ?array $getFields = null): array
     {
-        $params = ['index' => "$indexName*"];
-        if ($getFields) {
-            $params['h'] = $getFields;
+        $response = $this->client
+            ->indices()
+            ->stats(['index' => "$indexName*"])
+            ->asArray();
+
+        $results = [];
+        foreach ($response['indices'] as $indexName => $stat) {
+            $item = [
+                'index' => $indexName,
+                'health' => $stat['health'],
+                'status' => $stat['status'],
+                'uuid' => $stat['uuid'],
+                'pri' => Arr::get($stat, 'primaries.shard_stats.total_count'),
+                'rep' => Arr::get($stat, 'total.shard_stats.total_count'),
+                'docs.count' => Arr::get($stat, 'total.docs.count'),
+                'docs.deleted' => Arr::get($stat, 'total.docs.deleted'),
+                'store.size' => Arr::get($stat, 'total.store.size_in_bytes'),
+                'pri.store.size' => Arr::get($stat, 'primaries.store.size_in_bytes'),
+            ];
+
+            $results[] = !$getFields
+                ? $item
+                : Arr::only($item, $getFields);
         }
 
-        return $this->client
-            ->cat()
-            ->indices($params)
-            ->asArray();
+        return $results;
     }
 
     public function indicesDelete(string $indexName): array
