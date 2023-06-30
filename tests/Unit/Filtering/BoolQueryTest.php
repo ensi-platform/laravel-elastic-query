@@ -141,10 +141,36 @@ class BoolQueryTest extends UnitTestCase
     {
         $dsl = BoolQueryBuilder::make()->whereMatch('name', 'foo', $options)->toDSL();
 
-        $this->assertArrayFragment(array_merge(['query' => 'foo'], $expected), $dsl);
+        $this->assertArrayFragment(['must' => [["match" => ['name' => array_merge(['query' => 'foo'], $expected)]]]], $dsl);
     }
 
     public function provideMatch(): array
+    {
+        return [
+            'operator' => ['and', ['operator' => 'and']],
+            'fuzziness' => [MatchOptions::make(fuzziness: 'AUTO'), ['fuzziness' => 'AUTO']],
+            'minimum_should_match' => [
+                MatchOptions::make(minimumShouldMatch: '50%'),
+                ['minimum_should_match' => '50%'],
+            ],
+            'many options' => [
+                MatchOptions::make(operator: 'or', fuzziness: '2', minimumShouldMatch: '30%'),
+                ['minimum_should_match' => '30%', 'fuzziness' => '2', 'operator' => 'or'],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideOrMatch
+     */
+    public function testOrMatch(string|MatchOptions $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->orWhereMatch('name', 'foo', $options)->toDSL();
+
+        $this->assertArrayFragment(['should' => [["match" => ['name' => array_merge(['query' => 'foo'], $expected)]]]], $dsl);
+    }
+
+    public function provideOrMatch(): array
     {
         return [
             'operator' => ['and', ['operator' => 'and']],
@@ -190,7 +216,7 @@ class BoolQueryTest extends UnitTestCase
     {
         $dsl = BoolQueryBuilder::make()->whereWildcard('foo', '%value%', $options)->toDSL();
 
-        $this->assertArrayFragment(['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]], $dsl);
+        $this->assertArrayFragment(['must' => [['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]]]], $dsl);
     }
 
     public function provideWildcard(): array
@@ -200,5 +226,41 @@ class BoolQueryTest extends UnitTestCase
             'full options' => [WildcardOptions::make(0.5, true), ['boost' => 0.5, 'case_insensitive' => true]],
             'rewrite options' => [WildcardOptions::make(rewrite: 'constant_score'), ['rewrite' => 'constant_score']],
         ];
+    }
+
+    /**
+     * @dataProvider provideOrWildcard
+     */
+    public function testOrWildcard(?WildcardOptions $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->orWhereWildcard('foo', '%value%', $options)->toDSL();
+
+        $this->assertArrayFragment(['should' => [['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]]]], $dsl);
+    }
+
+    public function provideOrWildcard(): array
+    {
+        return [
+            'empty options' => [WildcardOptions::make(0, false), ['boost' => 0, 'case_insensitive' => false]],
+            'full options' => [WildcardOptions::make(0.5, true), ['boost' => 0.5, 'case_insensitive' => true]],
+            'rewrite options' => [WildcardOptions::make(rewrite: 'constant_score'), ['rewrite' => 'constant_score']],
+        ];
+    }
+
+    public function testAddMustBool(): void
+    {
+        $builder = BoolQueryBuilder::make();
+        $builder->where('mustName', 'value');
+        $builder->addMustBool()->orWhereWildcard('wildcardName', 'wildcardValue')->orWhereMatch('matchName', 'matchValue');
+
+        $dsl = $builder->toDSL();
+
+        $this->assertArrayFragment([
+            'filter' => [["term" => ['mustName' => 'value']]],
+            'must' => [["bool" => ['should' => [
+                ['wildcard' => ['wildcardName' => ['value' => 'wildcardValue']]],
+                ["match" => ['matchName' => ['query' => 'matchValue', 'operator' => 'or']]],
+            ]]]],
+        ], $dsl);
     }
 }

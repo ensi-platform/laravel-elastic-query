@@ -3,6 +3,7 @@
 namespace Ensi\LaravelElasticQuery\Concerns;
 
 use Closure;
+use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
@@ -107,7 +108,7 @@ trait DecoratesBoolQuery
         return $this;
     }
 
-    public function addMustBool(): BoolQueryBuilder
+    public function addMustBool(): BoolQuery
     {
         return $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
     }

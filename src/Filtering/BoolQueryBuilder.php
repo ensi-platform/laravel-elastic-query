@@ -202,7 +202,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions());
     }
 
-    public function addMustBool(): static
+    public function addMustBool(): BoolQueryBuilder
     {
         $boolCriteria = static::make();
         $this->must->add($boolCriteria);

@@ -25,5 +25,13 @@ interface BoolQuery
 
     public function whereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static;
 
+    public function orWhereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static;
+
     public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static;
+
+    public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static;
+
+    public function orWhereWildcard(string $field, string $query, ?WildcardOptions $options = null): static;
+
+    public function addMustBool(): BoolQuery;
 }
