@@ -202,12 +202,13 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions());
     }
 
-    public function addMustBool(): BoolQueryBuilder
+    public function addMustBool(callable $fn): static
     {
         $boolCriteria = static::make();
+        $fn($boolCriteria);
         $this->must->add($boolCriteria);
 
-        return $boolCriteria;
+        return $this;
     }
 
     protected function addNestedCriteria(string $nested, Closure $filter, CriteriaCollection $target): static

@@ -251,7 +251,7 @@ class BoolQueryTest extends UnitTestCase
     {
         $builder = BoolQueryBuilder::make();
         $builder->where('mustName', 'value');
-        $builder->addMustBool()->orWhereWildcard('wildcardName', 'wildcardValue')->orWhereMatch('matchName', 'matchValue');
+        $builder->addMustBool(fn (BoolQueryBuilder $builder) => $builder->orWhereWildcard('wildcardName', 'wildcardValue')->orWhereMatch('matchName', 'matchValue'));
 
         $dsl = $builder->toDSL();
 
