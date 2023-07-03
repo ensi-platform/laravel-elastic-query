@@ -33,5 +33,5 @@ interface BoolQuery
 
     public function orWhereWildcard(string $field, string $query, ?WildcardOptions $options = null): static;
 
-    public function addMustBool(): BoolQuery;
+    public function addMustBool(callable $fn): static;
 }
