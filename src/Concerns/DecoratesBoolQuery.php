@@ -109,6 +109,8 @@ trait DecoratesBoolQuery
 
     public function addMustBool(callable $fn): static
     {
-        return $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
     }
 }
