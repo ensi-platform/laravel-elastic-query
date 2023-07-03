@@ -25,12 +25,14 @@ class BoolQueryBuilder implements BoolQuery, Criteria
     use SupportsPath;
 
     protected CriteriaCollection $must;
+    protected CriteriaCollection $should;
     protected CriteriaCollection $filter;
     protected CriteriaCollection $mustNot;
 
     public function __construct(protected string $path = '', protected bool $emptyMatchAll = true)
     {
         $this->must = new CriteriaCollection();
+        $this->should = new CriteriaCollection();
         $this->filter = new CriteriaCollection();
         $this->mustNot = new CriteriaCollection();
     }
@@ -65,6 +67,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
         $body = array_merge(
             $this->criteriasToDSL('must', $this->must),
+            $this->criteriasToDSL('should', $this->should),
             $this->criteriasToDSL('filter', $this->filter),
             $this->criteriasToDSL('must_not', $this->mustNot),
         );
@@ -79,7 +82,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
     protected function criteriasCount(): int
     {
-        return $this->must->count() + $this->filter->count() + $this->mustNot->count();
+        return $this->must->count() + $this->should->count() + $this->filter->count() + $this->mustNot->count();
     }
 
     //endregion
@@ -147,10 +150,23 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
     public function whereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static
     {
-        $options = is_string($operator) ? MatchOptions::make($operator) : $operator;
-        $this->must->add(new OneMatch($this->absolutePath($field), $query, $options));
+        $this->must->add($this->makeMatch($field, $query, $operator));
 
         return $this;
+    }
+
+    public function orWhereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static
+    {
+        $this->should->add($this->makeMatch($field, $query, $operator));
+
+        return $this;
+    }
+
+    protected function makeMatch(string $field, string $query, string|MatchOptions $operator = 'or'): OneMatch
+    {
+        $options = is_string($operator) ? MatchOptions::make($operator) : $operator;
+
+        return new OneMatch($this->absolutePath($field), $query, $options);
     }
 
     public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
@@ -169,7 +185,28 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
     public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
     {
-        $this->must->add(new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions()));
+        $this->must->add($this->makeWildcard($field, $query, $options));
+
+        return $this;
+    }
+
+    public function orWhereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
+    {
+        $this->should->add($this->makeWildcard($field, $query, $options));
+
+        return $this;
+    }
+
+    public function makeWildcard(string $field, string $query, ?WildcardOptions $options = null): Wildcard
+    {
+        return new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions());
+    }
+
+    public function addMustBool(callable $fn): static
+    {
+        $boolCriteria = static::make();
+        $fn($boolCriteria);
+        $this->must->add($boolCriteria);
 
         return $this;
     }
