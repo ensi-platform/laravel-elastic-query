@@ -79,6 +79,13 @@ trait DecoratesBoolQuery
         return $this;
     }
 
+    public function orWhereMatch(string $field, string $query, string|MatchOptions $operator = 'or'): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
     public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
@@ -91,5 +98,17 @@ trait DecoratesBoolQuery
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
         return $this;
+    }
+
+    public function orWhereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function addMustBool(callable $fn): static
+    {
+        return $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
     }
 }
