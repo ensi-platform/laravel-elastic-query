@@ -204,9 +204,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
     public function addMustBool(callable $fn): static
     {
-        $boolCriteria = static::make();
-        $fn($boolCriteria);
-        $this->must->add($boolCriteria);
+        $this->must->add(static::make(builder: $fn));
 
         return $this;
     }
