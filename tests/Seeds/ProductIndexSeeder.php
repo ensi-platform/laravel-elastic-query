@@ -48,6 +48,7 @@ class ProductIndexSeeder extends IndexSeeder
             'tags' => ['type' => 'keyword'],
             'rating' => ['type' => 'integer'],
             'package' => ['type' => 'keyword'],
+            'vat' => ['type' => 'integer'],
 
             'offers' => [
                 'type' => 'nested',
