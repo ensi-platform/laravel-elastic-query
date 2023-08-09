@@ -68,4 +68,14 @@ class SearchQueryTest extends SearchTestCase
     }
 
     //endregion
+
+    //region Collapsing
+    public function testCollapse(): void
+    {
+        $results = $this->testing->collapse('vat')->get();
+
+        $this->assertCount(2, $results);
+    }
+
+    //endregion
 }
