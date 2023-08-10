@@ -7,7 +7,8 @@ use Webmozart\Assert\Assert;
 
 class Collapse implements DSLAware
 {
-    public function __construct(private string $field) {
+    public function __construct(private string $field)
+    {
         Assert::stringNotEmpty(trim($field));
     }
 
