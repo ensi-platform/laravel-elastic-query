@@ -5,23 +5,26 @@ namespace Ensi\LaravelElasticQuery\Search;
 use Closure;
 use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
 use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
+use Ensi\LaravelElasticQuery\Contracts\CollapsibleQuery;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Search\Collapsing\Collapse;
 use Ensi\LaravelElasticQuery\Search\Sorting\SortBuilder;
 use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
 use Webmozart\Assert\Assert;
 
-class SearchQuery implements SortableQuery
+class SearchQuery implements SortableQuery, CollapsibleQuery
 {
     use DecoratesBoolQuery;
     use ExtendsSort;
 
     protected BoolQueryBuilder $boolQuery;
     protected SortCollection $sorts;
+    protected ?Collapse $collapse = null;
     protected ?int $size = null;
     protected ?int $from = null;
     protected array $fields = [];
@@ -126,6 +129,10 @@ class SearchQuery implements SortableQuery
             $dsl['sort'] = $sorts->toDSL();
         }
 
+        if (!is_null($this->collapse)) {
+            $dsl['collapse'] = $this->collapse->toDSL();
+        }
+
         if ($cursor !== null && !$cursor->isBOF()) {
             $dsl['search_after'] = $cursor->toDSL();
         }
@@ -152,6 +159,13 @@ class SearchQuery implements SortableQuery
     public function sortByNested(string $field, Closure $callback): static
     {
         (new SortBuilder($this->sorts))->sortByNested($field, $callback);
+
+        return $this;
+    }
+
+    public function collapse(string $field): static
+    {
+        $this->collapse = new Collapse($field);
 
         return $this;
     }
