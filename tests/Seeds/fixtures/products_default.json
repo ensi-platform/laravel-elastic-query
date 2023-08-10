@@ -8,6 +8,7 @@
     "package": null,
     "description": "TV station description",
     "tags": ["video"],
+    "vat": 18,
     "offers": [
       {"seller_id": 10, "active": true, "price": 20000.0},
       {"seller_id": 15, "active": true, "price": 21000.0},
@@ -23,6 +24,7 @@
     "package": "bottle",
     "description": "TASSAY description water",
     "tags": ["drinks", "watter"],
+    "vat": 20,
     "offers": [
       {"seller_id": 10, "active": false, "price": 168.0},
       {"seller_id": 15, "active": true, "price": 210.0},
@@ -37,6 +39,7 @@
     "rating": 0,
     "description": "L gloves descriptions",
     "tags": ["clothes", "gloves"],
+    "vat": 20,
     "offers": [
       {"seller_id": 10, "active": false, "price": 980.0},
       {"seller_id": 15, "active": false, "price": 980.0},
@@ -52,6 +55,7 @@
     "package": null,
     "description": "Nice tv",
     "tags": ["video"],
+    "vat": 18,
     "offers": [
       {"seller_id": 90, "active": true, "price": 41999.0},
       {"seller_id": 20, "active": true, "price": 28990.0}
@@ -66,6 +70,7 @@
     "package": "bottle",
     "description": "S.Pellegrino from Dolomites. Pure water.",
     "tags": ["drinks", "water"],
+    "vat": 20,
     "offers": [
       {"seller_id": 10, "active": false, "price": 611.0},
       {"seller_id": 15, "active": false, "price": 620.0}
@@ -79,6 +84,7 @@
     "rating": 3,
     "description": "VITTOVAR description",
     "tags": ["clothes", "gloves"],
+    "vat": 18,
     "offers": [
     ]
   }
