@@ -24,7 +24,7 @@ class SearchQuery implements SortableQuery
     protected SortCollection $sorts;
     protected ?int $size = null;
     protected ?int $from = null;
-    protected array $fields = ["region_id"];
+    protected array $fields = [];
     protected array $include = [];
     protected array $exclude = [];
 
