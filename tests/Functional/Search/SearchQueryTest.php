@@ -49,6 +49,23 @@ class SearchQueryTest extends SearchTestCase
         $this->assertDocumentIds([1, 150, 319]);
     }
 
+    public function testSelect(): void
+    {
+        $this->testing->select(['product_id'])->take(1);
+        $result = $this->testing->get();
+
+        $this->assertEquals(1, $result[0]['_source']['product_id']);
+        $this->assertArrayNotHasKey('name', $result[0]['_source']);
+    }
+
+    public function testExclude(): void
+    {
+        $this->testing->exclude(['product_id'])->take(1);
+        $result = $this->testing->get();
+
+        $this->assertArrayNotHasKey('product_id', $result[0]['_source']);
+    }
+
     public function testSortByNested(): void
     {
         $filter = function (BoolQuery $query) {
