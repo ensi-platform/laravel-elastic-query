@@ -25,6 +25,8 @@ class SearchQuery implements SortableQuery
     protected ?int $size = null;
     protected ?int $from = null;
     protected array $fields = [];
+    protected array $include = [];
+    protected array $exclude = [];
 
     public function __construct(protected SearchIndex $index)
     {
@@ -117,7 +119,7 @@ class SearchQuery implements SortableQuery
             'from' => $from,
             'query' => $this->boolQuery->toDSL(),
             'track_total_hits' => $totals,
-            '_source' => $source && !$this->fields,
+            '_source' => $this->sourceToDSL($source),
             'fields' => $source && $this->fields ? $this->fields : null,
         ];
 
@@ -131,6 +133,16 @@ class SearchQuery implements SortableQuery
         }
 
         return $this->index->search(array_filter($dsl));
+    }
+
+    protected function sourceToDSL(bool $source): array | bool
+    {
+        return  $source && !$this->fields ?
+            [
+                'include' => $this->include,
+                'exclude' => $this->exclude,
+            ] :
+            false;
     }
 
     protected function parseHits(array $response): Collection
@@ -161,6 +173,24 @@ class SearchQuery implements SortableQuery
         Assert::greaterThanEq($count, 0);
 
         $this->size = $count;
+
+        return $this;
+    }
+
+    public function select(array $include): static
+    {
+        array_map(Assert::stringNotEmpty(...), $include);
+
+        $this->include = $include;
+
+        return $this;
+    }
+
+    public function exclude(array $exclude): static
+    {
+        array_map(Assert::stringNotEmpty(...), $exclude);
+
+        $this->exclude = $exclude;
 
         return $this;
     }
