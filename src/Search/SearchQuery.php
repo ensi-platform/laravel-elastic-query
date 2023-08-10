@@ -177,7 +177,7 @@ class SearchQuery implements SortableQuery
         return $this;
     }
 
-    public function include(array $include): static
+    public function select(array $include): static
     {
         array_map(Assert::stringNotEmpty(...), $include);
 
