@@ -127,6 +127,10 @@ class ElasticClient
             $builder->setBasicAuthentication($config['username'], $config['password'] ?? '');
         }
 
+        if (filled($config['handler'] ?? null)) {
+            $builder->setHandler(call_user_func_array($config['handler'], []));
+        }
+
         return new static($builder->build());
     }
 }
