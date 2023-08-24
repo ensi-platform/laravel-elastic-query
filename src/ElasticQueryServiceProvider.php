@@ -29,7 +29,12 @@ class ElasticQueryServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             ElasticClient::class,
-            fn (Application $app) => ElasticClient::fromConfig($app['config']['laravel-elastic-query.connection'])
+            fn (Application $app) => ElasticClient::fromConfig($app['config']['laravel-elastic-query.connection'], $this->getElasticClientHandler())
         );
+    }
+
+    protected function getElasticClientHandler(): ?callable
+    {
+        return null;
     }
 }
