@@ -11,5 +11,6 @@ return [
         'username' => env('ELASTICSEARCH_USERNAME', ''),
         'password' => env('ELASTICSEARCH_PASSWORD', ''),
         'ssl_verification' => env('ELASTICSEARCH_SSL_VERIFICATION', false),
+        'handler' => null, // for call_user_func_array
     ],
 ];
