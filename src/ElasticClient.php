@@ -116,7 +116,7 @@ class ElasticClient
         return $this->queryLog?->all() ?? new Collection();
     }
 
-    public static function fromConfig(array $config, mixed $handler = null): static
+    public static function fromConfig(array $config): static
     {
         $builder = (new ClientBuilder())
             ->setHosts($config['hosts'])
@@ -127,8 +127,8 @@ class ElasticClient
             $builder->setBasicAuthentication($config['username'], $config['password'] ?? '');
         }
 
-        if (!is_null($handler)) {
-            $builder->setHandler($handler);
+        if (filled($config['handler'] ?? null)) {
+            $builder->setHandler(call_user_func_array($config['handler'], []));
         }
 
         return new static($builder->build());
