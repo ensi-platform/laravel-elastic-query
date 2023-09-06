@@ -5,7 +5,7 @@ return [
         /*
          * Elasticsearch hosts in format http[s]://[user][:pass]@hostname[:9200]
          */
-        'hosts' => explode(',', env('ELASTICSEARCH_HOSTS')),
+        'hosts' => explode(',', env('ELASTICSEARCH_HOSTS', '')),
 
         'retries' => env('ELASTICSEARCH_RETRIES', 1),
         'username' => env('ELASTICSEARCH_USERNAME', ''),
