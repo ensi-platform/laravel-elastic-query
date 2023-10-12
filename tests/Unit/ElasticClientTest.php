@@ -14,7 +14,7 @@ class ElasticClientTest extends UnitTestCase
         $this->assertEquals($expected, ElasticClient::resolveBasicAuthData($config));
     }
 
-    public function provideBasicAuthData(): array
+    public static function provideBasicAuthData(): array
     {
         return [
             'separate username and password' => [

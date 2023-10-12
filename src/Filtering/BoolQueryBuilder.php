@@ -171,6 +171,20 @@ class BoolQueryBuilder implements BoolQuery, Criteria
 
     public function whereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
     {
+        $this->must->add($this->makeMultiMatch($fields, $query, $type));
+
+        return $this;
+    }
+
+    public function orWhereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
+    {
+        $this->should->add($this->makeMultiMatch($fields, $query, $type));
+
+        return $this;
+    }
+
+    protected function makeMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): MultiMatch
+    {
         $options = is_string($type) ? MultiMatchOptions::make($type) : $type;
 
         $fields = array_map(
@@ -178,9 +192,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
             $fields
         );
 
-        $this->must->add(new MultiMatch($fields, $query, $options ?? new MultiMatchOptions()));
-
-        return $this;
+        return new MultiMatch($fields, $query, $options ?? new MultiMatchOptions());
     }
 
     public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
@@ -197,7 +209,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
-    public function makeWildcard(string $field, string $query, ?WildcardOptions $options = null): Wildcard
+    protected function makeWildcard(string $field, string $query, ?WildcardOptions $options = null): Wildcard
     {
         return new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions());
     }
