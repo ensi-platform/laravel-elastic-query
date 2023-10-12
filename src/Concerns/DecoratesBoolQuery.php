@@ -93,6 +93,13 @@ trait DecoratesBoolQuery
         return $this;
     }
 
+    public function orWhereMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
     public function whereWildcard(string $field, string $query, ?WildcardOptions $options = null): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
