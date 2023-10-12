@@ -183,7 +183,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
-    public function makeMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): MultiMatch
+    protected function makeMultiMatch(array $fields, string $query, string|MultiMatchOptions|null $type = null): MultiMatch
     {
         $options = is_string($type) ? MultiMatchOptions::make($type) : $type;
 
@@ -209,7 +209,7 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
-    public function makeWildcard(string $field, string $query, ?WildcardOptions $options = null): Wildcard
+    protected function makeWildcard(string $field, string $query, ?WildcardOptions $options = null): Wildcard
     {
         return new Wildcard($this->absolutePath($field), $query, $options ?: new WildcardOptions());
     }
