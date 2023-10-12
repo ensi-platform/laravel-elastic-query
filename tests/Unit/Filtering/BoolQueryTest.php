@@ -24,7 +24,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayStructure(['bool' => ['filter' => [$expected]]], $query->toDSL());
     }
 
-    public function provideFilter(): array
+    public static function provideFilter(): array
     {
         return [
             'term' => [
@@ -53,7 +53,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayStructure(['bool' => ['must_not' => [$expected]]], $query->toDSL());
     }
 
-    public function provideMustNot(): array
+    public static function provideMustNot(): array
     {
         return [
             'term' => [BoolQueryBuilder::make()->whereNot('name', 'Product'), ['term']],
@@ -76,7 +76,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(['match_all' => new stdClass()], $query->toDSL());
     }
 
-    public function provideEmpty(): array
+    public static function provideEmpty(): array
     {
         return [
             'empty' => [BoolQueryBuilder::make()],
@@ -122,7 +122,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment($expected, $dsl);
     }
 
-    public function provideWhereOperators(): array
+    public static function provideWhereOperators(): array
     {
         return [
             '=' => ['=', ['term' => ['rating' => 5]]],
@@ -144,7 +144,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(['must' => [["match" => ['name' => array_merge(['query' => 'foo'], $expected)]]]], $dsl);
     }
 
-    public function provideMatch(): array
+    public static function provideMatch(): array
     {
         return [
             'operator' => ['and', ['operator' => 'and']],
@@ -170,7 +170,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(['should' => [["match" => ['name' => array_merge(['query' => 'foo'], $expected)]]]], $dsl);
     }
 
-    public function provideOrMatch(): array
+    public static function provideOrMatch(): array
     {
         return [
             'operator' => ['and', ['operator' => 'and']],
@@ -196,7 +196,30 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(array_merge(['query' => 'baz', 'fields' => ['foo', 'bar']], $expected), $dsl);
     }
 
-    public function provideMultiMatch(): array
+    public static function provideMultiMatch(): array
+    {
+        return [
+            'type as string' => [MatchType::CROSS_FIELDS, ['type' => MatchType::CROSS_FIELDS]],
+            'type in options' => [MultiMatchOptions::make(MatchType::PHRASE), ['type' => MatchType::PHRASE]],
+            'fuzziness' => [MultiMatchOptions::make(fuzziness: 'AUTO'), ['fuzziness' => 'AUTO']],
+            'multiple options' => [
+                MultiMatchOptions::make(type: MatchType::MOST_FIELDS, fuzziness: '3', minimumShouldMatch: '30%'),
+                ['minimum_should_match' => '30%', 'fuzziness' => '3', 'type' => MatchType::MOST_FIELDS],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideOrMultiMatch
+     */
+    public function testOrMultiMatch(string|MultiMatchOptions|null $options, array $expected): void
+    {
+        $dsl = BoolQueryBuilder::make()->OrWhereMultiMatch(['foo', 'bar'], 'baz', $options)->toDSL();
+
+        $this->assertArrayFragment(array_merge(['query' => 'baz', 'fields' => ['foo', 'bar']], $expected), $dsl);
+    }
+
+    public static function provideOrMultiMatch(): array
     {
         return [
             'type as string' => [MatchType::CROSS_FIELDS, ['type' => MatchType::CROSS_FIELDS]],
@@ -219,7 +242,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(['must' => [['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]]]], $dsl);
     }
 
-    public function provideWildcard(): array
+    public static function provideWildcard(): array
     {
         return [
             'empty options' => [WildcardOptions::make(0, false), ['boost' => 0, 'case_insensitive' => false]],
@@ -238,7 +261,7 @@ class BoolQueryTest extends UnitTestCase
         $this->assertArrayFragment(['should' => [['wildcard' => ['foo' => array_merge(['value' => '%value%'], $expected)]]]], $dsl);
     }
 
-    public function provideOrWildcard(): array
+    public static function provideOrWildcard(): array
     {
         return [
             'empty options' => [WildcardOptions::make(0, false), ['boost' => 0, 'case_insensitive' => false]],

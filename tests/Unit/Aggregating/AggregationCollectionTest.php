@@ -8,6 +8,7 @@ use Ensi\LaravelElasticQuery\Tests\AssertsArray;
 use Ensi\LaravelElasticQuery\Tests\Unit\UnitTestCase;
 use InvalidArgumentException;
 use Mockery;
+use Mockery\MockInterface;
 
 class AggregationCollectionTest extends UnitTestCase
 {
@@ -55,13 +56,13 @@ class AggregationCollectionTest extends UnitTestCase
         $this->assertEquals($expected, $target->generateUniqueName($name));
     }
 
-    public function provideGenerateUniqueName(): array
+    public static function provideGenerateUniqueName(): array
     {
         return [
             'no items no name' => [new AggregationCollection(), ' ', 'agg_1'],
             'no items with name' => [new AggregationCollection(), 'agg_2', 'agg_2_1'],
             'has items' => [
-                AggregationCollection::fromAggregation($this->mockAggregation('agg_1')),
+                AggregationCollection::fromAggregation(static::mockAggregation('agg_1')),
                 '',
                 'agg_2',
             ],
@@ -96,7 +97,7 @@ class AggregationCollectionTest extends UnitTestCase
         $this->assertEquals(['foo' => 'result', 'bar' => [20]], $testing->parseResults([])->all());
     }
 
-    private function mockAggregation(string $name, ?array $dsl = null, ?array $results = null): Aggregation
+    private static function mockAggregation(string $name, ?array $dsl = null, ?array $results = null): Aggregation|MockInterface
     {
         $agg = Mockery::mock(Aggregation::class);
         $agg->allows('name')->andReturn($name);
