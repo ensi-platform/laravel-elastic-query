@@ -4,12 +4,14 @@ namespace Ensi\LaravelElasticQuery\Concerns;
 
 use Closure;
 use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
+use Ensi\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Bucket\NestedAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\ValueCountAggregation;
 use Ensi\LaravelElasticQuery\Contracts\Aggregation;
+use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Search\Sorting\Sort;
 
@@ -29,6 +31,13 @@ trait ConstructsAggregations
         ?Aggregation $composite = null,
     ): static {
         $this->aggregations->add(new TermsAggregation($name, $this->absolutePath($field), $size, $sort, $composite));
+
+        return $this;
+    }
+
+    public function filter(string $name, Criteria $criteria, AggregationCollection $children): static
+    {
+        $this->aggregations->add(new FilterAggregation($name, $criteria, $children));
 
         return $this;
     }
