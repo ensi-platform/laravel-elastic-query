@@ -27,11 +27,11 @@ class CardinalityAggregation implements Aggregation
     public function toDSL(): array
     {
         return [
-                $this->name => [
-                        'cardinality' => [
-                                'field' => $this->field,
-                        ],
+            $this->name => [
+                'cardinality' => [
+                        'field' => $this->field,
                 ],
+            ],
         ];
     }
 }
