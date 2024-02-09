@@ -61,6 +61,16 @@ class AggregationQueryTest extends ElasticTestCase
         );
     }
 
+    public function testCardinality(): void
+    {
+        $this->testing->cardinality('cardinality', 'active');
+
+        $results = $this->testing->get();
+
+        // true and false
+        $this->assertEquals(2, $results->get('cardinality'));
+    }
+
     public function testCountAll(): void
     {
         $this->testing->count('product_count', 'product_id');

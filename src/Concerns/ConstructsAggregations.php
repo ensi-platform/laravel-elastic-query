@@ -8,6 +8,7 @@ use Ensi\LaravelElasticQuery\Aggregating\Bucket\FilterAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Bucket\NestedAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Bucket\TermsAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\CompositeAggregationBuilder;
+use Ensi\LaravelElasticQuery\Aggregating\Metrics\CardinalityAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\MinMaxAggregation;
 use Ensi\LaravelElasticQuery\Aggregating\Metrics\ValueCountAggregation;
 use Ensi\LaravelElasticQuery\Contracts\Aggregation;
@@ -52,6 +53,13 @@ trait ConstructsAggregations
     public function count(string $name, string $field): static
     {
         $this->aggregations->add(new ValueCountAggregation($name, $this->absolutePath($field)));
+
+        return $this;
+    }
+
+    public function cardinality(string $name, string $field): static
+    {
+        $this->aggregations->add(new CardinalityAggregation($name, $this->absolutePath($field)));
 
         return $this;
     }
