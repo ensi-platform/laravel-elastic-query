@@ -3,8 +3,10 @@
 namespace Ensi\LaravelElasticQuery\Search;
 
 use Closure;
+use Ensi\LaravelElasticQuery\Aggregating\AggregationCollection;
 use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
 use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
+use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Ensi\LaravelElasticQuery\Contracts\CollapsibleQuery;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
@@ -25,6 +27,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
     protected BoolQueryBuilder $boolQuery;
     protected SortCollection $sorts;
     protected ?Collapse $collapse = null;
+    protected ?AggregationCollection $aggregations = null;
     protected ?int $size = null;
     protected ?int $from = null;
     protected array $fields = [];
@@ -60,6 +63,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
         return new Page(
             $size,
             $hits,
+            aggs: $this->aggregations?->parseResults($response['aggregations'] ?? []),
             offset: $offset,
             total: data_get($response, 'hits.total.value', 0)
         );
@@ -82,6 +86,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
         return new CursorPage(
             $size,
             $hits,
+            aggs: $this->aggregations?->parseResults($response['aggregations'] ?? []),
             current: $current->encode(),
             next: $this->findNextCursor($sorts, $size, $hits),
             previous: $this->findPreviousCursor($sorts, $size, $current)
@@ -131,6 +136,10 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
             $dsl['sort'] = $sorts->toDSL();
         }
 
+        if (!is_null($this->aggregations)) {
+            $dsl['aggs'] = $this->aggregations->toDSL();
+        }
+
         if (!is_null($this->collapse)) {
             $dsl['collapse'] = $this->collapse->toDSL();
         }
@@ -175,9 +184,17 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
         return $this;
     }
 
-    public function collapse(string $field): static
+    public function collapse(string $field, array $innerHits = []): static
     {
-        $this->collapse = new Collapse($field);
+        $this->collapse = new Collapse($field, $innerHits);
+
+        return $this;
+    }
+
+    public function addAggregations(Aggregation $aggregation): static
+    {
+        $this->aggregations ??= new AggregationCollection();
+        $this->aggregations->add($aggregation);
 
         return $this;
     }
