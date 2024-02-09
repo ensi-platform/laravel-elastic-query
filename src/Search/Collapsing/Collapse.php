@@ -12,8 +12,8 @@ use Webmozart\Assert\Assert;
 class Collapse implements DSLAware
 {
     public function __construct(
-            private string $field,
-            private array $innerHits = [],
+        private string $field,
+        private array $innerHits = [],
     ) {
         Assert::stringNotEmpty(trim($field));
     }
