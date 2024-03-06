@@ -3,6 +3,7 @@
 namespace Ensi\LaravelElasticQuery\Contracts;
 
 use Closure;
+use Ensi\LaravelElasticQuery\Scripts\Script;
 
 interface SortableQuery extends BoolQuery
 {
@@ -19,4 +20,8 @@ interface SortableQuery extends BoolQuery
     public function medianSortBy(string $field, string $order = SortOrder::ASC): static;
 
     public function sortByNested(string $field, Closure $callback): static;
+
+    public function sortByScript(Script $script, string $type = ScriptSortType::NUMBER, string $order = SortOrder::ASC): static;
+
+    public function sortByCustomArray(string $field, array $items): static;
 }
