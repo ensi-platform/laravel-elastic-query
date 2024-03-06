@@ -6,9 +6,11 @@ use Closure;
 use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
 use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
 use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
+use Ensi\LaravelElasticQuery\Contracts\ScriptSortType;
 use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Scripts\Script;
 use Illuminate\Support\Collection;
 
 class SortBuilder implements SortableQuery
@@ -36,6 +38,20 @@ class SortBuilder implements SortableQuery
             $mode === null ? $mode : strtolower($mode),
             $this->buildNested(),
             $missingValues
+        );
+
+        $this->sorts->add($sort);
+
+        return $this;
+    }
+
+    public function sortByScript(Script $script, string $type = ScriptSortType::NUMBER, string $order = SortOrder::ASC): static
+    {
+        $sort = new Sort(
+            field: '_script',
+            order: $order,
+            type: $type,
+            script: $script,
         );
 
         $this->sorts->add($sort);
