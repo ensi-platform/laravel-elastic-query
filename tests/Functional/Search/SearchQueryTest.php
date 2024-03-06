@@ -49,6 +49,26 @@ class SearchQueryTest extends SearchTestCase
         $this->assertDocumentIds([1, 150, 319]);
     }
 
+    /**
+     * @dataProvider providerSortByCustomArray
+     */
+    public function testSortByCustomArray(array $items, array $documents): void
+    {
+        $this->testing->sortByCustomArray('product_id', $items)->take(3);
+
+        $this->assertDocumentIds($documents);
+    }
+
+    public static function providerSortByCustomArray(): array
+    {
+        return [
+            'all_first' => [[150, 1, 319], [150, 1, 319]],
+            'all_second' => [[319, 150, 1], [319, 150, 1]],
+            'extra' => [[319, 150, 1, 328], [319, 150, 1]],
+            'mixed' => [[123456789, 319, 150], [319, 150, 1]],
+        ];
+    }
+
     public function testSelect(): void
     {
         $this->testing->select(['product_id'])->take(1);

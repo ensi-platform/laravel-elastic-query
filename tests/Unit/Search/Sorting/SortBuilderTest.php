@@ -32,6 +32,14 @@ class SortBuilderTest extends UnitTestCase
         $this->assertArrayStructure([['code'], ['name']], $this->buildDSL());
     }
 
+    public function testSortByCustomArray(): void
+    {
+        $this->testing
+            ->sortByCustomArray('product_id', [2, 3, 1]);
+
+        $this->assertArrayStructure([['_script' => ['type', 'script', 'order']]], $this->buildDSL());
+    }
+
     public function testSortByNested(): void
     {
         $this->testing
