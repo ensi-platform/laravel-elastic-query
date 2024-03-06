@@ -15,7 +15,9 @@ class Sort implements DSLAware
         private string $order = SortOrder::ASC,
         private ?string $mode = null,
         private ?NestedSort $nested = null,
-        private ?string $missingValues = null
+        private ?string $missingValues = null,
+        private ?string $type = null,
+        private ?Script $script = null,
     ) {
         Assert::stringNotEmpty(trim($field));
         Assert::oneOf($order, SortOrder::cases());
@@ -41,6 +43,14 @@ class Sort implements DSLAware
 
         if ($this->missingValues !== null) {
             $details['missing'] = $this->missingValues;
+        }
+
+        if ($this->type !== null) {
+            $details['type'] = $this->type;
+        }
+
+        if ($this->script !== null) {
+            $details['script'] = $this->script->toDSL();
         }
 
         if (!$details) {
