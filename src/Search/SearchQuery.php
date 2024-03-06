@@ -8,10 +8,12 @@ use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
 use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
 use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Ensi\LaravelElasticQuery\Contracts\CollapsibleQuery;
+use Ensi\LaravelElasticQuery\Contracts\ScriptSortType;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Scripts\Script;
 use Ensi\LaravelElasticQuery\Search\Collapsing\Collapse;
 use Ensi\LaravelElasticQuery\Search\Sorting\SortBuilder;
 use Ensi\LaravelElasticQuery\Search\Sorting\SortCollection;
@@ -173,6 +175,14 @@ class SearchQuery implements SortableQuery, CollapsibleQuery
     {
         (new SortBuilder($this->sorts))
             ->sortBy($field, $order, $mode, $missingValues);
+
+        return $this;
+    }
+
+    public function sortByScript(Script $script, string $type = ScriptSortType::NUMBER, string $order = SortOrder::ASC): static
+    {
+        (new SortBuilder($this->sorts))
+            ->sortByScript($script, $type, $order);
 
         return $this;
     }
