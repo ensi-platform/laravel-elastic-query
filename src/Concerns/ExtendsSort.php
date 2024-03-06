@@ -41,8 +41,8 @@ trait ExtendsSort
     public function sortByCustomArray(string $field, array $items): static
     {
         $script = new Script(
-                params: ['items' => $items],
-                source: "
+            params: ['items' => $items],
+            source: "
               int index = params['items'].length;
               for (int i = 0; i < params['items'].length; i++) {
                   if (params['items'][i] == doc['{$field}'].value) {
