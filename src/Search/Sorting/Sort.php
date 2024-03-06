@@ -6,6 +6,7 @@ use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Ensi\LaravelElasticQuery\Contracts\MissingValuesMode;
 use Ensi\LaravelElasticQuery\Contracts\SortMode;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
+use Ensi\LaravelElasticQuery\Scripts\Script;
 use Webmozart\Assert\Assert;
 
 class Sort implements DSLAware
