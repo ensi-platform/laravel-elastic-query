@@ -43,15 +43,13 @@ trait ExtendsSort
         $script = new Script(
             params: ['items' => $items],
             source: "
-              int index = params['items'].length;
               for (int i = 0; i < params['items'].length; i++) {
                   if (params['items'][i] == doc['{$field}'].value) {
-                      index = i;
-                      break;
+                      return i;
                   }
               }
               
-              return index;
+              return params['items'].length;
             ",
         );
 
