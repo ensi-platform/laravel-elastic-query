@@ -13,6 +13,8 @@ interface BoolQuery
 
     public function whereIn(string $field, array|Arrayable $values): static;
 
+    public function orWhereIn(string $field, array|Arrayable $values): static;
+
     public function whereNotIn(string $field, array|Arrayable $values): static;
 
     public function whereHas(string $nested, Closure $filter): static;

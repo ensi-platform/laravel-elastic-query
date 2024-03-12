@@ -117,6 +117,13 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         return $this;
     }
 
+    public function orWhereIn(string $field, array|Arrayable $values): static
+    {
+        $this->should->add(new Terms($this->absolutePath($field), $values));
+
+        return $this;
+    }
+
     public function whereNotIn(string $field, array|Arrayable $values): static
     {
         $this->mustNot->add(new Terms($this->absolutePath($field), $values));
