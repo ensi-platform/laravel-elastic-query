@@ -304,6 +304,7 @@ Hosts should be comma seperated string of hosts with protocol prefix and port su
  ELASTICSEARCH_USERNAME=admin
  ELASTICSEARCH_PASSWORD=admin
  ELASTICSEARCH_SSL_VERIFICATION=true,
+ ELASTICSEARCH_API_KEY=
 ```
 
 ## Async Usage

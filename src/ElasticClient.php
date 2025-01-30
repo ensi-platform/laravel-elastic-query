@@ -205,6 +205,10 @@ class ElasticClient
             $builder->setBasicAuthentication($username, $password);
         }
 
+        if (filled($config['api_key']) ?? null) {
+            $builder->setApiKey($config['api_key']);
+        }
+
         if (filled($config['http_client_logger'] ?? null)) {
             $logger = call_user_func_array($config['http_client_logger'], []);
 
