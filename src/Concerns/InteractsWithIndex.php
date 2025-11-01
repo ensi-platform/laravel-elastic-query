@@ -90,9 +90,9 @@ trait InteractsWithIndex
         );
     }
 
-    public function indicesDelete(string $index): array|Promise
+    public function indicesDelete(string $index, array $params = []): array|Promise
     {
-        return $this->resolveClient()->indicesDelete($index);
+        return $this->resolveClient()->indicesDelete($index, $params);
     }
 
     public function indicesRefresh(): array|Promise

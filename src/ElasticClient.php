@@ -153,10 +153,10 @@ class ElasticClient
         );
     }
 
-    public function indicesDelete(string $indexName): array|Promise
+    public function indicesDelete(string $indexName, array $params = []): array|Promise
     {
         return Response::array(
-            $this->client->indices()->delete(['index' => $indexName])
+            $this->client->indices()->delete(array_merge($params, ['index' => $indexName]))
         );
     }
 
