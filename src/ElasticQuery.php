@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array|Promise documentDelete(string $index, int|string $id)
  * @method static array|Promise catIndices(string $indexName, array|null $getFields = null)
  * @method static array|Promise indicesInfo(array|null $indices = [], array $columns = ['i'], array $sort = [], string|null $health = null)
- * @method static array|Promise indicesDelete(string $indexName)
+ * @method static array|Promise indicesDelete(string $indexName, array $params = [])
  * @method static array|Promise indicesRefresh(string $indexName)
  * @method static array|Promise indicesReloadSearchAnalyzers(string $indexName)
  * @method static void enableQueryLog()
