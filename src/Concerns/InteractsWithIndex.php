@@ -88,9 +88,9 @@ trait InteractsWithIndex
         return $this->resolveClient()->catIndices($indexName, $getFields);
     }
 
-    public function indicesDelete(string $index): array
+    public function indicesDelete(string $index, array $params = []): array
     {
-        return $this->resolveClient()->indicesDelete($index);
+        return $this->resolveClient()->indicesDelete($index, $params);
     }
 
     public function indicesRefresh(): array

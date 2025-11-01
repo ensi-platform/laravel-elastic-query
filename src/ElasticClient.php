@@ -114,9 +114,9 @@ class ElasticClient
         return $this->client->cat()->indices($params);
     }
 
-    public function indicesDelete(string $indexName): array
+    public function indicesDelete(string $indexName, array $params = []): array
     {
-        return $this->client->indices()->delete(['index' => $indexName]);
+        return $this->client->indices()->delete(array_merge($params, ['index' => $indexName]));
     }
 
     public function indicesRefresh(string $indexName): array

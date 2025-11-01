@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array bulk(?string $index, array $body)
  * @method static array documentDelete(string $index, int|string $id)
  * @method static array catIndices(string $indexName, array|null $getFields = null)
- * @method static array indicesDelete(string $indexName)
+ * @method static array indicesDelete(string $indexName, array $params = [])
  * @method static array indicesRefresh(string $indexName)
  * @method static array indicesReloadSearchAnalyzers(string $indexName)
  * @method static void enableQueryLog()
