@@ -2,7 +2,6 @@
 
 namespace Ensi\LaravelElasticQuery\Tests\Data\Models;
 
-
 class CapturingProductsIndex extends ProductsIndex
 {
     public array $lastDsl = [];
