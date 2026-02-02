@@ -16,7 +16,6 @@ use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Boosting;
-use Ensi\LaravelElasticQuery\Response;
 use Ensi\LaravelElasticQuery\Scripts\Script;
 use Ensi\LaravelElasticQuery\Search\Collapsing\Collapse;
 use Ensi\LaravelElasticQuery\Search\Highlight\Highlight;
