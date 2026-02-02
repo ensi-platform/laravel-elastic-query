@@ -8,12 +8,14 @@ use Ensi\LaravelElasticQuery\Concerns\DecoratesBoolQuery;
 use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
 use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Ensi\LaravelElasticQuery\Contracts\CollapsibleQuery;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Ensi\LaravelElasticQuery\Contracts\HighlightingQuery;
 use Ensi\LaravelElasticQuery\Contracts\ScriptSortType;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Boosting;
 use Ensi\LaravelElasticQuery\Response;
 use Ensi\LaravelElasticQuery\Scripts\Script;
 use Ensi\LaravelElasticQuery\Search\Collapsing\Collapse;
@@ -31,6 +33,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
     use ExtendsSort;
 
     protected BoolQueryBuilder $boolQuery;
+    protected DSLAware $rootQuery;
     protected ?BoolQueryBuilder $postFilter = null;
     protected SortCollection $sorts;
     protected ?Collapse $collapse = null;
@@ -46,6 +49,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
     public function __construct(protected SearchIndex $index)
     {
         $this->boolQuery = $this->createBoolQuery();
+        $this->rootQuery = $this->boolQuery;
         $this->sorts = new SortCollection();
     }
 
@@ -62,6 +66,20 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
                 return $this->parseHits($response);
             }
         );
+    }
+
+    public function boosting(DSLAware $negativeQuery, float $negativeBoost): static
+    {
+        $this->rootQuery = new Boosting($this->boolQuery, $negativeQuery, $negativeBoost);
+
+        return $this;
+    }
+
+    public function disableBoosting(): static
+    {
+        $this->rootQuery = $this->boolQuery;
+
+        return $this;
     }
 
     public function paginate(int $size, int $offset = 0): Page|Promise
@@ -149,7 +167,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
         $dsl = [
             'size' => $size,
             'from' => $from,
-            'query' => $this->boolQuery->toDSL(),
+            'query' => $this->rootQuery->toDSL(),
             'track_total_hits' => $totals,
             '_source' => $this->sourceToDSL($source),
             'fields' => $source && $this->fields ? $this->fields : null,
