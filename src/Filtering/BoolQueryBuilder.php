@@ -20,6 +20,7 @@ use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\OneMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Pinned;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Prefix;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\RangeBound;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Term;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Terms;
@@ -295,6 +296,20 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         if (!$boolQuery->isEmpty()) {
             $target->add(new Nested($path, $boolQuery));
         }
+
+        return $this;
+    }
+
+    public function prefix(Prefix $prefix): static
+    {
+        $this->must->add($prefix);
+
+        return $this;
+    }
+
+    public function orPrefix(Prefix $prefix): static
+    {
+        $this->should->add($prefix);
 
         return $this;
     }
