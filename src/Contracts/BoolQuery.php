@@ -4,6 +4,7 @@ namespace Ensi\LaravelElasticQuery\Contracts;
 
 use Closure;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Prefix;
 use Illuminate\Contracts\Support\Arrayable;
 
 interface BoolQuery
@@ -49,6 +50,10 @@ interface BoolQuery
     public function whereBetween(string $field, mixed $from, mixed $to): static;
 
     public function orFunctionScore(FunctionScore $functionScore): static;
+
+    public function prefix(Prefix $prefix): static;
+
+    public function orPrefix(Prefix $prefix): static;
 
     public function pinned(array $ids, ?DSLAware $query = null): static;
 }

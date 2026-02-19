@@ -6,6 +6,7 @@ use Ensi\LaravelElasticQuery\Contracts\MatchType;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Prefix;
 use Ensi\LaravelElasticQuery\Tests\UnitTestCase;
 
 use function PHPUnit\Framework\assertEquals;
@@ -196,6 +197,41 @@ test('bool query or wildcard', function (?WildcardOptions $options, array $expec
     'empty options' => [WildcardOptions::make(0, false), ['boost' => 0, 'case_insensitive' => false]],
     'full options' => [WildcardOptions::make(0.5, true), ['boost' => 0.5, 'case_insensitive' => true]],
     'rewrite options' => [WildcardOptions::make(rewrite: 'constant_score'), ['rewrite' => 'constant_score']],
+]);
+
+test('bool query prefix', function (Prefix $prefix, array $expected) {
+    /** @var UnitTestCase $this */
+    $dsl = BoolQueryBuilder::make()->prefix($prefix)->toDSL();
+
+    assertArrayFragment(['must' => [['prefix' => $expected]]], $dsl);
+})->with([
+    'default' => [new Prefix(field: 'foo', value: 'bar'), ['foo' => ['value' => 'bar']]],
+    'rewrite' => [
+        new Prefix(field: 'foo', value: 'bar', rewrite: 'constant_score_blended'),
+        ['foo' => ['value' => 'bar', 'rewrite' => 'constant_score_blended']],
+    ],
+    'case_insensitive' => [
+        new Prefix(field: 'foo', value: 'bar', caseInsensitive: true),
+        ['foo' => ['value' => 'bar', 'case_insensitive' => true]],
+    ],
+]);
+
+test('bool query or prefix', function (Prefix $prefix, array $expected) {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()->orPrefix($prefix)->toDSL();
+
+    assertArrayFragment(['should' => [['prefix' => $expected]]], $dsl);
+})->with([
+    'default' => [new Prefix(field: 'foo', value: 'bar'), ['foo' => ['value' => 'bar']]],
+    'rewrite' => [
+        new Prefix(field: 'foo', value: 'bar', rewrite: 'constant_score_blended'),
+        ['foo' => ['value' => 'bar', 'rewrite' => 'constant_score_blended']],
+    ],
+    'case_insensitive' => [
+        new Prefix(field: 'foo', value: 'bar', caseInsensitive: true),
+        ['foo' => ['value' => 'bar', 'case_insensitive' => true]],
+    ],
 ]);
 
 test('bool query add must bool', function () {
