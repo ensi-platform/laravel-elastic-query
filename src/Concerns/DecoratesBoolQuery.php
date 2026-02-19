@@ -11,6 +11,7 @@ use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\Prefix;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Traits\ForwardsCalls;
 
@@ -168,6 +169,20 @@ trait DecoratesBoolQuery
     }
 
     public function pinned(array $ids, ?DSLAware $query = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function prefix(Prefix $prefix): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function orPrefix(Prefix $prefix): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
