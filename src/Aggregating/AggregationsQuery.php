@@ -5,8 +5,12 @@ namespace Ensi\LaravelElasticQuery\Aggregating;
 use Closure;
 use Ensi\LaravelElasticQuery\Concerns\ConstructsAggregations;
 use Ensi\LaravelElasticQuery\Contracts\AggregationsBuilder;
+use Ensi\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\FunctionScoreOptions;
+use Ensi\LaravelElasticQuery\Contracts\FunctionScoreScript;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
 use GuzzleHttp\Ring\Future\FutureArray;
 use Illuminate\Support\Collection;
 
@@ -14,10 +18,38 @@ class AggregationsQuery implements AggregationsBuilder
 {
     use ConstructsAggregations;
 
+    protected DSLAware $rootQuery;
+
     public function __construct(protected SearchIndex $index)
     {
         $this->aggregations = new AggregationCollection();
         $this->boolQuery = new BoolQueryBuilder();
+
+        $this->rootQuery = $this->boolQuery;
+    }
+
+    public function functionScore(
+        array $functions,
+        ?FunctionScoreOptions $options = null,
+        ?FunctionScoreScript $scriptScore = null,
+        ?float $weight = null,
+    ): static {
+        $this->rootQuery = new FunctionScore(
+            query: $this->rootQuery,
+            options: $options,
+            functions: $functions,
+            scriptScore: $scriptScore,
+            weight: $weight,
+        );
+
+        return $this;
+    }
+
+    public function disableFunctionScore(): static
+    {
+        $this->rootQuery = $this->boolQuery;
+
+        return $this;
     }
 
     public function composite(Closure $callback): static
@@ -57,7 +89,7 @@ class AggregationsQuery implements AggregationsBuilder
         $dsl = [
             'size' => 0,
             'track_total_hits' => false,
-            'query' => $this->boolQuery->toDSL(),
+            'query' => $this->rootQuery->toDSL(),
             'aggs' => $this->aggregations->toDSL(),
         ];
 
