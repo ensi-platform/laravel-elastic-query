@@ -7,7 +7,7 @@ use Illuminate\Contracts\Support\Arrayable;
 class FunctionScoreItem implements Arrayable
 {
     public function __construct(
-        protected int $weight,
+        protected float $weight,
         protected Criteria $filter,
     ) {
     }

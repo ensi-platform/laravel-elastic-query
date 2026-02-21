@@ -9,6 +9,8 @@ use Ensi\LaravelElasticQuery\Concerns\ExtendsSort;
 use Ensi\LaravelElasticQuery\Contracts\Aggregation;
 use Ensi\LaravelElasticQuery\Contracts\CollapsibleQuery;
 use Ensi\LaravelElasticQuery\Contracts\DSLAware;
+use Ensi\LaravelElasticQuery\Contracts\FunctionScoreOptions;
+use Ensi\LaravelElasticQuery\Contracts\FunctionScoreScript;
 use Ensi\LaravelElasticQuery\Contracts\HighlightingQuery;
 use Ensi\LaravelElasticQuery\Contracts\ScriptSortType;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
@@ -16,6 +18,7 @@ use Ensi\LaravelElasticQuery\Contracts\SortableQuery;
 use Ensi\LaravelElasticQuery\Contracts\SortOrder;
 use Ensi\LaravelElasticQuery\Filtering\BoolQueryBuilder;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Boosting;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
 use Ensi\LaravelElasticQuery\Scripts\Script;
 use Ensi\LaravelElasticQuery\Search\Collapsing\Collapse;
 use Ensi\LaravelElasticQuery\Search\Highlight\Highlight;
@@ -72,6 +75,30 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
     }
 
     public function disableBoosting(): static
+    {
+        $this->rootQuery = $this->boolQuery;
+
+        return $this;
+    }
+
+    public function functionScore(
+        array $functions,
+        ?FunctionScoreOptions $options = null,
+        ?FunctionScoreScript $scriptScore = null,
+        ?float $weight = null,
+    ): static {
+        $this->rootQuery = new FunctionScore(
+            query: $this->rootQuery,
+            options: $options,
+            functions: $functions,
+            scriptScore: $scriptScore,
+            weight: $weight,
+        );
+
+        return $this;
+    }
+
+    public function disableFunctionScore(): static
     {
         $this->rootQuery = $this->boolQuery;
 
