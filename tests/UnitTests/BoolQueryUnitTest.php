@@ -251,3 +251,72 @@ test('bool query add must bool', function () {
         ]]]],
     ], $dsl);
 });
+
+test('bool query dis_max in must', function () {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()
+        ->whereDisMax(function ($dm) {
+            $dm->match('name', 'foo', MatchOptions::make('and'));
+            $dm->add(new Prefix(field: 'name.keyword', value: 'foo'));
+        }, tieBreaker: 0.05)
+        ->toDSL();
+
+    assertArrayFragment([
+        'bool' => [
+            'must' => [[
+               'dis_max' => [
+                   'tie_breaker' => 0.05,
+                   'queries' => [
+                       ['match' => ['name' => ['query' => 'foo', 'operator' => 'and']]],
+                       ['prefix' => ['name.keyword' => ['value' => 'foo']]],
+                   ],
+               ],
+           ]],
+        ],
+    ], $dsl);
+});
+
+test('bool query dis_max in should', function () {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()
+        ->orWhereDisMax(function ($dm) {
+            $dm->match('name', 'foo');
+        })
+        ->toDSL();
+
+    assertArrayFragment([
+        'bool' => [
+            'should' => [[
+                'dis_max' => [
+                    'queries' => [
+                        ['match' => ['name' => ['query' => 'foo', 'operator' => 'or']]],
+                    ],
+                ],
+            ]],
+        ],
+    ], $dsl);
+});
+
+test('bool query dis_max respects path', function () {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make('offers')
+        ->whereDisMax(function ($dm) {
+            $dm->match('seller_id', '10');
+        })
+        ->toDSL();
+
+    assertArrayFragment(['match' => ['offers.seller_id' => ['operator' => 'or', 'query' => '10']]], $dsl);
+});
+
+test('bool query dis_max empty builder does nothing', function () {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()
+        ->whereDisMax(fn () => null)
+        ->toDSL();
+
+    assertArrayFragment(['match_all' => new stdClass()], $dsl);
+});
