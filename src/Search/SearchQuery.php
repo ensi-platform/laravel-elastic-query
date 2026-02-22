@@ -47,6 +47,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
     protected array $include = [];
     protected array $exclude = [];
     protected ?string $searchType = null;
+    protected ?float $minScore = null;
 
     public function __construct(protected SearchIndex $index)
     {
@@ -198,6 +199,7 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
             'track_total_hits' => $totals,
             '_source' => $this->sourceToDSL($source),
             'fields' => $source && $this->fields ? $this->fields : null,
+            'min_score' => $this->minScore,
         ];
 
         $sorts ??= $this->sorts;
@@ -296,6 +298,15 @@ class SearchQuery implements SortableQuery, CollapsibleQuery, HighlightingQuery
     {
         $this->aggregations ??= new AggregationCollection();
         $this->aggregations->add($aggregation);
+
+        return $this;
+    }
+
+    public function minScore(float $minScore): static
+    {
+        Assert::greaterThanEq($minScore, 0);
+
+        $this->minScore = $minScore;
 
         return $this;
     }
