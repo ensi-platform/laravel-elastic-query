@@ -12,15 +12,17 @@ test('search query forwards whereDisMax to bool query', function () {
     $index = new CapturingProductsIndex();
     $query = new SearchQuery($index);
 
-    $query->whereDisMax(function ($dm) {
-        $dm->match('name', 'foo');
-    }, tieBreaker: 0.05)->get();
+    $query->whereDisMax(fn ($dm) => $dm->match('name', 'foo'), tieBreaker: 0.05)->get();
 
-    assertArrayFragment([
-        'query' => [
+    assertArrayFragment(
+        [
             'dis_max' => [
+                'queries' => [
+                    ['match' => ['name' => ['operator' => 'or', 'query' => 'foo']]],
+                ],
                 'tie_breaker' => 0.05,
             ],
         ],
-    ], $index->lastDsl['query']['bool']['must'][0]);
+        $index->lastDsl['query']['bool']['must'][0]
+    );
 });
