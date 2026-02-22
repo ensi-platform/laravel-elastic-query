@@ -56,4 +56,8 @@ interface BoolQuery
     public function orPrefix(Prefix $prefix): static;
 
     public function pinned(array $ids, ?DSLAware $query = null): static;
+
+    public function whereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static;
+
+    public function orWhereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static;
 }
