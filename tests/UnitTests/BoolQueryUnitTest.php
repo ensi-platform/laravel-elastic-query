@@ -308,10 +308,7 @@ test('bool query dis_max respects path', function () {
         })
         ->toDSL();
 
-    assertArrayFragment(
-        ['match' => ['offers.seller_id' => ['query' => '10']]],
-        $dsl
-    );
+    assertArrayFragment(['match' => ['offers.seller_id' => ['operator' => 'or', 'query' => '10']]], $dsl);
 });
 
 test('bool query dis_max empty builder does nothing', function () {
