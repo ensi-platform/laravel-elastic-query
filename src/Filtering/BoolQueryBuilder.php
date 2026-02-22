@@ -13,6 +13,7 @@ use Ensi\LaravelElasticQuery\Contracts\MoreLikeThis;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Between;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\DisMax;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MoreLike;
@@ -310,6 +311,30 @@ class BoolQueryBuilder implements BoolQuery, Criteria
     public function orPrefix(Prefix $prefix): static
     {
         $this->should->add($prefix);
+
+        return $this;
+    }
+
+    public function whereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static
+    {
+        $dm = new DisMaxBuilder($this->basePath());
+        $builder($dm);
+
+        if (!$dm->isEmpty()) {
+            $this->must->add(new DisMax($dm->queries(), $tieBreaker, $boost));
+        }
+
+        return $this;
+    }
+
+    public function orWhereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static
+    {
+        $dm = new DisMaxBuilder($this->basePath());
+        $builder($dm);
+
+        if (!$dm->isEmpty()) {
+            $this->should->add(new DisMax($dm->queries(), $tieBreaker, $boost));
+        }
 
         return $this;
     }
