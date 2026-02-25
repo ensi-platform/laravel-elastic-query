@@ -5,8 +5,12 @@ namespace Ensi\LaravelElasticQuery\Filtering;
 use Ensi\LaravelElasticQuery\Concerns\SupportsPath;
 use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhraseOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhrasePrefixOptions;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\MatchPhrase;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\MatchPhrasePrefix;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\OneMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Prefix;
@@ -53,6 +57,34 @@ class DisMaxBuilder
     public function functionScore(FunctionScore $functionScore): static
     {
         return $this->add($functionScore);
+    }
+
+    public function matchPhrase(
+        string $field,
+        string $query,
+        ?MatchPhraseOptions $options = null,
+        ?float $boost = null,
+    ): static {
+        return $this->add(new MatchPhrase(
+            field: $this->absolutePath($field),
+            query: $query,
+            options: $options,
+            boost: $boost
+        ));
+    }
+
+    public function matchPhrasePrefix(
+        string $field,
+        string $query,
+        ?MatchPhrasePrefixOptions $options = null,
+        ?float $boost = null,
+    ): static {
+        return $this->add(new MatchPhrasePrefix(
+            field: $this->absolutePath($field),
+            query: $query,
+            options: $options,
+            boost: $boost
+        ));
     }
 
     /**

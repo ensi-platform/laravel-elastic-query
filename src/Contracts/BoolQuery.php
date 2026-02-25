@@ -60,4 +60,12 @@ interface BoolQuery
     public function whereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static;
 
     public function orWhereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static;
+
+    public function whereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static;
+
+    public function orWhereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static;
+
+    public function whereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static;
+
+    public function orWhereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static;
 }
