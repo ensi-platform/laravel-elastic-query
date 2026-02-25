@@ -2,6 +2,8 @@
 
 use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhraseOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhrasePrefixOptions;
 use Ensi\LaravelElasticQuery\Contracts\MatchType;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
 use Ensi\LaravelElasticQuery\Contracts\WildcardOptions;
@@ -258,6 +260,8 @@ test('bool query dis_max in must', function () {
     $dsl = BoolQueryBuilder::make()
         ->whereDisMax(function ($dm) {
             $dm->match('name', 'foo', MatchOptions::make('and'));
+            $dm->matchPhrase('name', 'foo', MatchPhraseOptions::make(slop: 0));
+            $dm->matchPhrasePrefix('name', 'fo', MatchPhrasePrefixOptions::make(maxExpansions: 10));
             $dm->add(new Prefix(field: 'name.keyword', value: 'foo'));
         }, tieBreaker: 0.05)
         ->toDSL();
@@ -269,6 +273,8 @@ test('bool query dis_max in must', function () {
                    'tie_breaker' => 0.05,
                    'queries' => [
                        ['match' => ['name' => ['query' => 'foo', 'operator' => 'and']]],
+                       ['match_phrase' => ['name' => ['query' => 'foo', 'slop' => 0]]],
+                       ['match_phrase_prefix' => ['name' => ['query' => 'fo', 'max_expansions' => 10]]],
                        ['prefix' => ['name.keyword' => ['value' => 'foo']]],
                    ],
                ],
@@ -320,3 +326,79 @@ test('bool query dis_max empty builder does nothing', function () {
 
     assertArrayFragment(['match_all' => new stdClass()], $dsl);
 });
+
+test('bool query match phrase', function (?MatchPhraseOptions $options, ?float $boost, array $expected) {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()->whereMatchPhrase('name', 'foo', $options, $boost)->toDSL();
+
+    assertArrayFragment([
+        'must' => [[
+                       'match_phrase' => [
+                           'name' => array_merge(['query' => 'foo'], $expected),
+                       ],
+                   ]],
+    ], $dsl);
+})->with([
+    'no options' => [null, null, []],
+    'slop' => [MatchPhraseOptions::make(slop: 2), null, ['slop' => 2]],
+    'analyzer' => [MatchPhraseOptions::make(analyzer: 'synonym_analyzer'), null, ['analyzer' => 'synonym_analyzer']],
+    'boost' => [null, 1.5, ['boost' => 1.5]],
+]);
+
+test('bool query or match phrase', function (?MatchPhraseOptions $options, ?float $boost, array $expected) {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()->orWhereMatchPhrase('name', 'foo', $options, $boost)->toDSL();
+
+    assertArrayFragment([
+        'should' => [[
+                         'match_phrase' => [
+                             'name' => array_merge(['query' => 'foo'], $expected),
+                         ],
+                     ]],
+    ], $dsl);
+})->with([
+    'no options' => [null, null, []],
+    'slop' => [MatchPhraseOptions::make(slop: 2), null, ['slop' => 2]],
+    'analyzer' => [MatchPhraseOptions::make(analyzer: 'synonym_analyzer'), null, ['analyzer' => 'synonym_analyzer']],
+    'boost' => [null, 1.5, ['boost' => 1.5]],
+]);
+
+test('bool query match phrase prefix', function (?MatchPhrasePrefixOptions $options, ?float $boost, array $expected) {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()->whereMatchPhrasePrefix('name', 'foo', $options, $boost)->toDSL();
+
+    assertArrayFragment([
+        'must' => [[
+                       'match_phrase_prefix' => [
+                           'name' => array_merge(['query' => 'foo'], $expected),
+                       ],
+                   ]],
+    ], $dsl);
+})->with([
+    'no options' => [null, null, []],
+    'max_expansions' => [MatchPhrasePrefixOptions::make(maxExpansions: 10), null, ['max_expansions' => 10]],
+    'analyzer' => [MatchPhrasePrefixOptions::make(analyzer: 'synonym_analyzer'), null, ['analyzer' => 'synonym_analyzer']],
+    'boost' => [null, 2.0, ['boost' => 2.0]],
+]);
+
+test('bool query or match phrase prefix', function (?MatchPhrasePrefixOptions $options, ?float $boost, array $expected) {
+    /** @var UnitTestCase $this */
+
+    $dsl = BoolQueryBuilder::make()->orWhereMatchPhrasePrefix('name', 'foo', $options, $boost)->toDSL();
+
+    assertArrayFragment([
+        'should' => [[
+                         'match_phrase_prefix' => [
+                             'name' => array_merge(['query' => 'foo'], $expected),
+                         ],
+                     ]],
+    ], $dsl);
+})->with([
+    'no options' => [null, null, []],
+    'max_expansions' => [MatchPhrasePrefixOptions::make(maxExpansions: 10), null, ['max_expansions' => 10]],
+    'analyzer' => [MatchPhrasePrefixOptions::make(analyzer: 'synonym_analyzer'), null, ['analyzer' => 'synonym_analyzer']],
+    'boost' => [null, 2.0, ['boost' => 2.0]],
+]);

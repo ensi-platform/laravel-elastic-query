@@ -8,6 +8,8 @@ use Ensi\LaravelElasticQuery\Contracts\BoolQuery;
 use Ensi\LaravelElasticQuery\Contracts\Criteria;
 use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhraseOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhrasePrefixOptions;
 use Ensi\LaravelElasticQuery\Contracts\MoreLikeOptions;
 use Ensi\LaravelElasticQuery\Contracts\MoreLikeThis;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
@@ -16,6 +18,8 @@ use Ensi\LaravelElasticQuery\Filtering\Criterias\Between;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\DisMax;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Exists;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\FunctionScore;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\MatchPhrase;
+use Ensi\LaravelElasticQuery\Filtering\Criterias\MatchPhrasePrefix;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MoreLike;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\MultiMatch;
 use Ensi\LaravelElasticQuery\Filtering\Criterias\Nested;
@@ -335,6 +339,34 @@ class BoolQueryBuilder implements BoolQuery, Criteria
         if (!$dm->isEmpty()) {
             $this->should->add(new DisMax($dm->queries(), $tieBreaker, $boost));
         }
+
+        return $this;
+    }
+
+    public function whereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static
+    {
+        $this->must->add(new MatchPhrase($this->absolutePath($field), $query, $options, $boost));
+
+        return $this;
+    }
+
+    public function orWhereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static
+    {
+        $this->should->add(new MatchPhrase($this->absolutePath($field), $query, $options, $boost));
+
+        return $this;
+    }
+
+    public function whereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static
+    {
+        $this->must->add(new MatchPhrasePrefix($this->absolutePath($field), $query, $options, $boost));
+
+        return $this;
+    }
+
+    public function orWhereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static
+    {
+        $this->should->add(new MatchPhrasePrefix($this->absolutePath($field), $query, $options, $boost));
 
         return $this;
     }

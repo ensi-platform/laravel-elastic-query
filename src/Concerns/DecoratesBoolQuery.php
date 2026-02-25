@@ -5,6 +5,8 @@ namespace Ensi\LaravelElasticQuery\Concerns;
 use Closure;
 use Ensi\LaravelElasticQuery\Contracts\DSLAware;
 use Ensi\LaravelElasticQuery\Contracts\MatchOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhraseOptions;
+use Ensi\LaravelElasticQuery\Contracts\MatchPhrasePrefixOptions;
 use Ensi\LaravelElasticQuery\Contracts\MoreLikeOptions;
 use Ensi\LaravelElasticQuery\Contracts\MoreLikeThis;
 use Ensi\LaravelElasticQuery\Contracts\MultiMatchOptions;
@@ -197,6 +199,34 @@ trait DecoratesBoolQuery
     }
 
     public function orWhereDisMax(Closure $builder, float $tieBreaker = 0.0, ?float $boost = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function orWhereMatchPhrase(string $field, string $query, ?MatchPhraseOptions $options = null, ?float $boost = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function whereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static
+    {
+        $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
+
+        return $this;
+    }
+
+    public function orWhereMatchPhrasePrefix(string $field, string $query, ?MatchPhrasePrefixOptions $options = null, ?float $boost = null): static
     {
         $this->forwardCallTo($this->boolQuery(), __FUNCTION__, func_get_args());
 
