@@ -46,4 +46,12 @@ interface SearchIndex
      * @return array
      */
     public function termvectors(array $dsl): array;
+
+    /**
+     * POST /{index}/_analyze
+     *
+     * @param array $dsl
+     * @return array
+     */
+    public function analyze(array $dsl): array;
 }

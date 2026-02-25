@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array indicesDelete(string $indexName, array $params = [])
  * @method static array indicesRefresh(string $indexName)
  * @method static array indicesReloadSearchAnalyzers(string $indexName)
+ * @method static array analyze(string $indexName, array $dsl)
  * @method static void enableQueryLog()
  * @method static void disableQueryLog()
  * @method static Collection|QueryLogRecord[] getQueryLog()

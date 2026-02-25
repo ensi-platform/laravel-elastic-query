@@ -67,6 +67,16 @@ class ElasticClient
         ]);
     }
 
+    public function analyze(string $indexName, array $dsl): array
+    {
+        $this->queryLog?->log($indexName, $dsl);
+
+        return $this->client->indices()->analyze([
+            'index' => $indexName,
+            'body' => $dsl,
+        ]);
+    }
+
     public function get(string $indexName, int|string $id): array
     {
         return $this->client->get([
