@@ -3,6 +3,7 @@
 namespace Ensi\LaravelElasticQuery\Concerns;
 
 use Ensi\LaravelElasticQuery\Aggregating\AggregationsQuery;
+use Ensi\LaravelElasticQuery\Analyzing\AnalyzeQuery;
 use Ensi\LaravelElasticQuery\Contracts\SearchIndex;
 use Ensi\LaravelElasticQuery\ElasticClient;
 use Ensi\LaravelElasticQuery\Search\SearchQuery;
@@ -105,6 +106,11 @@ trait InteractsWithIndex
         return $this->resolveClient()->indicesReloadSearchAnalyzers($this->indexName());
     }
 
+    public function analyze(array $dsl): array|Promise
+    {
+        return $this->resolveClient()->analyze($this->indexName(), $dsl);
+    }
+
     public static function query(): SearchQuery
     {
         return new SearchQuery(new static());
@@ -118,6 +124,11 @@ trait InteractsWithIndex
     public static function suggest(): SuggestQuery
     {
         return new SuggestQuery(new static());
+    }
+
+    public static function analyzeText(): AnalyzeQuery
+    {
+        return new AnalyzeQuery(new static());
     }
 
     protected function resolveClient(): ElasticClient

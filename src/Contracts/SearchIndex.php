@@ -37,4 +37,12 @@ interface SearchIndex
      * @return array|Promise
      */
     public function termvectors(array $dsl): array|Promise;
+
+    /**
+     * Analyze text using analyzer/tokenizer/filters in index scope.
+     *
+     * @param array $dsl
+     * @return array|Promise
+     */
+    public function analyze(array $dsl): array|Promise;
 }

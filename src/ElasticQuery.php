@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array|Promise indicesDelete(string $indexName, array $params = [])
  * @method static array|Promise indicesRefresh(string $indexName)
  * @method static array|Promise indicesReloadSearchAnalyzers(string $indexName)
+ * @method static array|Promise analyze(string $indexName, array $dsl)
  * @method static void enableQueryLog()
  * @method static void disableQueryLog()
  * @method static Collection|QueryLogRecord[] getQueryLog()

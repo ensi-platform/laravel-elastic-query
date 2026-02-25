@@ -49,6 +49,18 @@ class ElasticClient
         );
     }
 
+    public function analyze(string $indexName, array $dsl): array|Promise
+    {
+        $this->queryLog?->log($indexName, $dsl);
+
+        return Response::array(
+            $this->client->indices()->analyze([
+                'index' => $indexName,
+                'body' => $dsl,
+            ])
+        );
+    }
+
     public function deleteByQuery(string $indexName, array $dsl): array|Promise
     {
         $this->queryLog?->log($indexName, $dsl);
