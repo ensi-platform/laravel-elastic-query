@@ -186,6 +186,79 @@ class ElasticClient
         );
     }
 
+    public function getSynonymsSets(?int $from = null, ?int $size = null): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->getSynonymsSets(array_filter([
+                'from' => $from,
+                'size' => $size,
+            ], fn (mixed $value) => !is_null($value)))
+        );
+    }
+
+    public function getSynonymSet(string $id, ?int $from = null, ?int $size = null): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->getSynonym(array_filter([
+                'id' => $id,
+            ]))
+        );
+    }
+
+    public function putSynonymSet(string $id, array $synonymsSet): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->putSynonym([
+                'id' => $id,
+                'body' => [
+                    'synonyms_set' => $synonymsSet,
+                ],
+            ])
+        );
+    }
+
+    public function deleteSynonymSet(string $id): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->deleteSynonym([
+                'id' => $id,
+            ])
+        );
+    }
+
+    public function getSynonymRule(string $setId, string $ruleId): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->getSynonymRule([
+                'set_id' => $setId,
+                'rule_id' => $ruleId,
+            ])
+        );
+    }
+
+    public function putSynonymRule(string $setId, string $ruleId, string $synonyms): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->putSynonymRule([
+                'set_id' => $setId,
+                'rule_id' => $ruleId,
+                'body' => [
+                    'synonyms' => $synonyms,
+                ],
+            ])
+        );
+    }
+
+    public function deleteSynonymRule(string $setId, string $ruleId): array|Promise
+    {
+        return Response::array(
+            $this->client->synonyms()->deleteSynonymRule([
+                'set_id' => $setId,
+                'rule_id' => $ruleId,
+            ])
+        );
+    }
+
     public function enableQueryLog(): void
     {
         $this->queryLog ??= new QueryLog();
