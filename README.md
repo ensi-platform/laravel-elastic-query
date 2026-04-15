@@ -14,6 +14,8 @@ You can install the package via composer:
 composer require ensi/laravel-elastic-query
 ```
 
+**Attention: Synonyms API methods require Elasticsearch 8.10+**
+
 Publish config file like this:
 
 ```bash
@@ -36,6 +38,7 @@ Set `ELASTICSEARCH_HOSTS` in your `.env` file. `,` can be used as a delimeter.
 | ^8.0.23                                                                              | ^8.0 \|\| ^9.0 \|\| ^10.0 \|\| ^11.0  | ^8.0 | 8.*           |
 | ^8.1.0                                                                               | ^9.0 \|\| ^10.0 \|\| ^11.0            | ^8.1 | 8.*           |
 | ^8.2.3                                                                               | ^9.0 \|\| ^10.0 \|\| ^11.0 \|\| ^12.0 | ^8.1 | 8.*           |
+| ^8.2.13                                                                              | ^9.0 \|\| ^10.0 \|\| ^11.0 \|\| ^12.0 | ^8.1 | 8.10+         |
 
 ## Basic usage
 
@@ -287,6 +290,69 @@ $index->catIndices();
 $index->indicesDelete();
 $index->indicesRefresh();
 $index->indicesReloadSearchAnalyzers();
+```
+
+## Synonyms API
+
+Synonyms API methods are available through the `ElasticQuery` facade.
+
+> These methods require Elasticsearch 8.10+.
+
+### Get all synonym sets
+
+```php
+$sets = ElasticQuery::getSynonymsSets();
+
+$sets = ElasticQuery::getSynonymsSets(from: 0, size: 20);
+```
+
+### Get a synonym set
+
+```php
+$set = ElasticQuery::getSynonymSet('products-synonyms');
+```
+
+### Create or update a synonym set
+
+```php
+$result = ElasticQuery::putSynonymSet('products-synonyms', [
+    [
+        'id' => 'brand-rule',
+        'synonyms' => 'iphone, i-phone',
+    ],
+    [
+        'id' => 'tv-rule',
+        'synonyms' => 'tv, television',
+    ],
+]);
+```
+
+### Delete a synonym set
+
+```php
+$result = ElasticQuery::deleteSynonymSet('products-synonyms');
+```
+
+### Get a synonym rule
+
+```php
+$rule = ElasticQuery::getSynonymRule('products-synonyms', 'brand-rule');
+```
+
+### Create or update a synonym rule
+
+```php
+$result = ElasticQuery::putSynonymRule(
+    'products-synonyms',
+    'brand-rule',
+    'iphone, i-phone'
+);
+```
+
+### Delete a synonym rule
+
+```php
+$result = ElasticQuery::deleteSynonymRule('products-synonyms', 'brand-rule');
 ```
 
 ## Query Log
