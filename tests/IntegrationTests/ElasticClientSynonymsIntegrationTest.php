@@ -45,7 +45,7 @@ test('elastic client can manage synonym set lifecycle', function () {
             ->and($listResponse)->toHaveKey('count')
             ->and($listResponse)->toHaveKey('results')
             ->and(collect($listResponse['results'])->contains(
-                fn(array $item) => ($item['synonyms_set'] ?? null) === $setId
+                fn (array $item) => ($item['synonyms_set'] ?? null) === $setId
             ))->toBeTrue();
 
     } finally {
