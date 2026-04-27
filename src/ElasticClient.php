@@ -4,6 +4,9 @@ namespace Ensi\LaravelElasticQuery;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\MissingParameterException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
 use Ensi\LaravelElasticQuery\Debug\QueryLog;
 use Ensi\LaravelElasticQuery\Debug\QueryLogRecord;
@@ -186,6 +189,13 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param int|null $from
+     * @param int|null $size
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     */
     public function getSynonymsSets(?int $from = null, ?int $size = null): array|Promise
     {
         return Response::array(
@@ -196,15 +206,34 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param string $id
+     * @param int|null $from
+     * @param int|null $size
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function getSynonymSet(string $id, ?int $from = null, ?int $size = null): array|Promise
     {
         return Response::array(
             $this->client->synonyms()->getSynonym(array_filter([
                 'id' => $id,
+                'from' => $from,
+                'size' => $size,
             ]))
         );
     }
 
+    /**
+     * @param string $id
+     * @param array $synonymsSet
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function putSynonymSet(string $id, array $synonymsSet): array|Promise
     {
         return Response::array(
@@ -217,6 +246,13 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param string $id
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function deleteSynonymSet(string $id): array|Promise
     {
         return Response::array(
@@ -226,6 +262,14 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param string $setId
+     * @param string $ruleId
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function getSynonymRule(string $setId, string $ruleId): array|Promise
     {
         return Response::array(
@@ -236,6 +280,15 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param string $setId
+     * @param string $ruleId
+     * @param string $synonyms
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function putSynonymRule(string $setId, string $ruleId, string $synonyms): array|Promise
     {
         return Response::array(
@@ -249,6 +302,14 @@ class ElasticClient
         );
     }
 
+    /**
+     * @param string $setId
+     * @param string $ruleId
+     * @return array|Promise
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     * @throws ServerResponseException
+     */
     public function deleteSynonymRule(string $setId, string $ruleId): array|Promise
     {
         return Response::array(
