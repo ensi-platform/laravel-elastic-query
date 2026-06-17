@@ -61,9 +61,14 @@ trait InteractsWithIndex
         return $this->resolveClient()->indicesCreate($this->indexName(), $this->settings());
     }
 
-    public function bulk(array $body): array|Promise
+    public function bulk(array $body, array $params = []): array|Promise
     {
-        return $this->resolveClient()->bulk($this->indexName(), $body);
+        return $this->resolveClient()->bulk($this->indexName(), $body, $params);
+    }
+
+    public function safeBulk(iterable $body, int $chunkSize = 500, array $params = []): array
+    {
+        return $this->resolveClient()->safeBulk($this->indexName(), $body, $chunkSize, $params);
     }
 
     public function get(int|string $id): array|Promise

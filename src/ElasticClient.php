@@ -97,11 +97,99 @@ class ElasticClient
         );
     }
 
-    public function bulk(?string $index, array $body): array|Promise
+    public function bulk(?string $index, array $body, array $params = []): array|Promise
     {
         return Response::array(
-            $this->client->bulk(array_filter(['index' => $index, 'body' => $body]))
+            $this->client->bulk(array_filter(array_merge($params, [
+                'index' => $index,
+                'body' => $body,
+            ])))
         );
+    }
+
+    public function safeBulk(?string $index, iterable $body, int $chunkSize = 500, array $params = []): array
+    {
+        $result = [
+            'chunks' => 0,
+            'operations' => 0,
+            'successful' => null,
+            'failed' => null,
+            'errors' => false,
+            'items' => [],
+        ];
+
+        $chunk = [];
+        $chunkSize = max(1, $chunkSize);
+        $chunkOperations = 0;
+
+        foreach ($body as $line) {
+            if ($this->isBulkOperationStartLine($line) && $chunkOperations >= $chunkSize) {
+                $this->sendSafeBulkChunk($index, $chunk, $params, $result);
+
+                $chunk = [];
+                $chunkOperations = 0;
+
+                gc_collect_cycles();
+            }
+
+            $chunk[] = $line;
+
+            if ($this->isBulkOperationStartLine($line)) {
+                $chunkOperations++;
+                $result['operations']++;
+            }
+        }
+
+        if (!empty($chunk)) {
+            $this->sendSafeBulkChunk($index, $chunk, $params, $result);
+        }
+
+        unset($chunk);
+
+        if (!$result['errors']) {
+            $result['successful'] = $result['operations'];
+            $result['failed'] = 0;
+        }
+
+        return $result;
+    }
+
+    protected function sendSafeBulkChunk(?string $index, array $body, array $params, array &$result): void
+    {
+        $response = $this->bulk($index, $body, array_merge(['filter_path' => 'errors'], $params));
+
+        $result['chunks']++;
+        $result['errors'] = $result['errors'] || ($response['errors'] ?? false);
+
+        foreach ($response['items'] ?? [] as $item) {
+            foreach ($item as $operation => $operationResult) {
+                $error = $operationResult['error'] ?? null;
+
+                if (!$error) {
+                    continue;
+                }
+
+                $result['failed']++;
+
+                $result['items'][] = [
+                    'operation' => $operation,
+                    '_index' => $operationResult['_index'] ?? null,
+                    '_id' => $operationResult['_id'] ?? null,
+                    'error' => $error,
+                ];
+            }
+        }
+
+        unset($response);
+    }
+
+    protected function isBulkOperationStartLine(array $line): bool
+    {
+        if (count($line) !== 1) {
+            return false;
+        }
+
+        return in_array(array_key_first($line), ['index', 'create', 'update', 'delete'], true);
     }
 
     public function documentDelete(string $index, int|string $id): array|Promise
